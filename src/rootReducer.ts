@@ -1,5 +1,5 @@
 
-import itemReducer from './containers/Newitems/reducer';
+import itemReducer from './Containers/Newitems/reducer';
 
 
 export default Object.assign(
