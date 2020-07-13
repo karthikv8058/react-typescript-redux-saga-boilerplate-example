@@ -5,25 +5,19 @@ import {itemStates} from './types';
 import { addItems } from './action';
 import Button from '../../Components/Button';
 
-type newitemsProps = {
+type loginProps = {
     props: any,
-  }
+}
 
-const Newitems : FunctionComponent<newitemsProps> = (props:newitemsProps) =>{
-
-    // console.log('Props :',props);
-    
+const Login : FunctionComponent<loginProps> = (props:loginProps) => {
   const items = useSelector<itemStates,itemStates['items']>((state)=>state.items);
   const itemsArr = useSelector<itemStates,itemStates['itemsArr']>((state)=>state.itemsArr);
   const isloading = useSelector<itemStates,itemStates['isloading']>((state)=>state.isloading);
   
   const dispatch = useDispatch();
-
-  console.log('Home itemsArr :',itemsArr);
   const onAddItem = (item:string) => {
     dispatch(addItems(item));
   }
-
     return(
         <div className="w-100">
           <div className="jumbotron w-50 border border-primary rounded-0 mx-auto">
@@ -44,12 +38,9 @@ const Newitems : FunctionComponent<newitemsProps> = (props:newitemsProps) =>{
                   })
               }
           </div>
-
       </div>
-        
     );
 }
-
-export default Newitems;
+export default Login;
 
 
