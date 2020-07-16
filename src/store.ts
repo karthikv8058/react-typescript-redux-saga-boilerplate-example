@@ -1,13 +1,32 @@
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './rootSaga';
-import rootReducer from './rootReducer';
 
-const sagaMiddleware = createSagaMiddleware()
-const store = createStore(
-  rootReducer,
-  applyMiddleware(sagaMiddleware)
-)
+import { createStore,applyMiddleware,compose } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import createSagaMiddleware from 'redux-saga';
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+
+import rootSaga from './rootSaga';
+import rootReducer, { RootState } from './rootReducer';
+
+
+const config = {
+ key: 'root',
+ storage: storage,
+ //blacklist:['itemReducer']
+};
+
+const middleware = [];
+const sagaMiddleware = createSagaMiddleware();
+
+middleware.push(sagaMiddleware);
+
+const persistedReducer = persistReducer<RootState>(config, rootReducer);
+const enhancers = [applyMiddleware(...middleware)];
+const persistConfig: any = { enhancers };
+const store: any = createStore(persistedReducer, undefined, compose(...enhancers));
+const persistor = persistStore(store, persistConfig, () => {
+      console.log('Test', store.getState());
+});
+
 sagaMiddleware.run(rootSaga);
 
-export default store;
+export {store,persistor}

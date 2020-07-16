@@ -1,16 +1,19 @@
 import React from 'react';
-import { Route, Switch } from "react-router-dom";
-import { Router } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Newitems from '../Containers/Newitems';
-import history from './history';
+import Adminview from '../Containers/Adminview';
+import Loginview from '../Containers/Loginview';
+// import history from './history';
 
 const Routes = () => {
  return (
-   <Router history={history}>
+   <BrowserRouter>
       <Switch>
-          <Route exact path="/" component={Newitems} />
+          <Route exact path="/" component={Loginview} />
+          <Route exact path="/items" component={Newitems} />
+          <Route exact path="/admin" component={Adminview} />
       </Switch>
-   </Router>
+   </BrowserRouter>
  );
 }
 

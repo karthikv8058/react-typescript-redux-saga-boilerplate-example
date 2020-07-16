@@ -1,0 +1,56 @@
+/*==================== google fonts =================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@200&family=Oswald:wght@300&display=swap');
+
+/*==================== web colors ===================*/
+
+// 
+$wc-2:#1bc47d;
+$wc-1:#0C7560;
+$black:#000;
+$white:#fff;
+.bg-theme-2 {
+    background-color: $wc-2!important;
+}
+
+.text-theme-2 {
+    color: $wc-2!important;
+}
+
+.text-theme {
+    color: $wc-1!important;
+}
+
+.bg-theme {
+    background-color: $wc-1!important;
+}
+
+
+/*==================== fonts ===================*/
+
+$font-para:'Barlow Semi Condensed',
+sans-serif;
+$font-head:'Oswald',
+sans-serif;
+
+/*===================== font sizes ================*/
+
+$font-size: ( h1: ( lg:3rem!important, md:2.5rem!important, sm:2rem!important, xs:2rem!important, ),
+h2: ( lg:2.25rem!important, md:2rem!important, sm:1.65rem!important, xs:1.65rem!important, ),
+h3: ( lg:1.75rem!important, md:1.5rem!important, sm:1.375rem!important, xs:1.375rem!important, ),
+h4: ( lg:1.5rem!important, md:1.5rem!important, sm:1.2rem!important, xs:1.2rem!important, ),
+h5: ( lg:1.3rem!important, md:1.3rem!important, sm:1.125rem!important, xs:1.125rem!important, ),
+);
+
+/*=================== screen sizes ================*/
+
+$lg:1199.98px;
+$md:991.98px;
+$sm:767.98px;
+$xs:575.98px;
+
+/*==================== image path =================*/
+
+$img-path:'../img/';
+
+/*===================== others ======================*/

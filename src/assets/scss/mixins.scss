@@ -1,0 +1,64 @@
+
+@mixin get-heading($head,$device)
+{
+	font-size:map-get(map-get($font-size,$head),$device);
+}
+@mixin transition($d-1,$d-2)
+{
+	-webkit-transition: all $d-1 ease-out $d-2;
+    -moz-transition: all $d-1 ease-out $d-2;
+    -o-transition: all $d-1 ease-out $d-2;
+    transition: all $d-1 ease-out $d-2;
+}
+@mixin transition-item($item,$d-1,$d-2)
+{
+	-webkit-transition: $item $d-1 ease-out $d-2;
+    -moz-transition: $item $d-1 ease-out $d-2;
+    -o-transition: $item $d-1 ease-out $d-2;
+    transition: $item $d-1 ease-out $d-2;
+}
+@mixin screen-to($media)
+{
+	@if $media==lg
+	{
+		@media (max-width:$lg)
+		{
+			@content;
+		}
+	}
+	@else if $media==md
+	{
+		@media (max-width:$md)
+		{
+			@content;
+		}
+	}
+	@else if $media==sm
+	{
+		@media (max-width:$sm)
+		{
+			@content;
+		}
+	}
+	@else
+	{
+		@media (max-width:$xs)
+		{
+			@content;
+		}
+	}
+}
+
+@mixin screen-font($font,$lg,$md,$sm)
+{
+	@include get-heading($font,$lg);
+
+			@include screen-to($md)
+			{
+				@include get-heading($font,$md);
+			}
+			@include screen-to($sm)
+			{
+				@include get-heading($font,$sm);
+			}
+}

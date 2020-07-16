@@ -2,17 +2,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import {persistor,store} from './store';
 
-import store from './store'
 
-import './index.css'
+
 
 const render = () => {
   const App = require('./App').default
 
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>,
     document.getElementById('root')
   )
