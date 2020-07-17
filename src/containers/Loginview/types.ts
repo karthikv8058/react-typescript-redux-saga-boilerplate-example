@@ -10,6 +10,7 @@ export interface loginStates{
     refreshToken:string,
     tokenType:string,
     isLoading:boolean,
+    loginStatus:boolean,
 }
 
 /* --- ACTIONS --- */

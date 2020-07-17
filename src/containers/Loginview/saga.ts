@@ -30,7 +30,7 @@ export function* getLoginResponse(action:any) {
     try {
       const response = yield call(fetchFromApi);
       console.log('response from axios :',response);
-      if(response.status==200&&!response.data.error)
+      if(response.status===200&&!response.data.error)
       {
         console.log('response data from axios no error :',response.data);
         yield put(loginResponseAction(response.data));

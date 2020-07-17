@@ -1,8 +1,12 @@
 import React, { FunctionComponent,useState, useEffect, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {loginStates} from './types';
-import { loginRequestAction,fetchStatesAction } from './action';
-import { clearStatesAction } from '../Newitems/action';
+import { 
+  loginRequestAction,
+  fetchStatesAction,
+  clearLoginStatesAction,
+} from './action';
+import { clearItemStatesAction } from '../Newitems/action';
 import { connect } from 'react-redux';
 import { Link, withRouter,useHistory } from 'react-router-dom';
 
@@ -15,7 +19,7 @@ import loginReducer from './reducer';
 
 const LoginView = (props:any) =>{
 
-    console.log('Props from login page :', props);
+    // console.log('Props from login page :', props);
     
 
     const history = useHistory();
@@ -99,38 +103,35 @@ const LoginView = (props:any) =>{
       setPasswordError('Password is required');
       setIsPasswordError(true);
     }
-    if(usernameRef.current?.value!='' && passwordRef.current?.value!=''){
+    if(usernameRef.current?.value!=='' && passwordRef.current?.value!==''){
 
       const params:object = {     
         "grant_type" :"password",
         'username':username,
         'password':password,
       }
-      const finalParams:object={
+      const finalParams:object = {
         params,
         loginNav:()=>history.push('/admin')
       }
       dispatch(loginRequestAction(finalParams));
-      //history.push('/items');
-      // if(!props.isLoginError){
-      //   console.log('loaded');
-      //   history.push('/admin');
-      // }
     }
        
   }
 
     const { match } = props;
+
       window.history.pushState(null, document.title, window.location.href);
       window.addEventListener('popstate', function (event){
          window.history.pushState(null, document.title,  window.location.href);
       }); 
 
       useEffect(()=>{
-        if(match.url=='/'){
+        if(match.url==='/'){
           //alert('Home page')
           history.push('/');
-          dispatch(clearStatesAction());
+          dispatch(clearItemStatesAction());
+          dispatch(clearLoginStatesAction());
         }  
        },[])
 

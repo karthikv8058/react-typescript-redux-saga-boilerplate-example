@@ -1,3 +1,6 @@
+@import '../../../../assets/scss/variables.scss';
+@import '../../../../assets/scss/mixins.scss';
+@import '../../../../assets/scss/reset.scss';
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 $font-all:'Nunito',
 sans-serif;
@@ -17,6 +20,18 @@ body {
     list-style: none;
     height: 100vh;
     overflow-y: scroll;
+    padding: 30px;
+    @include screen-to(sm) {
+        // width: 0%important;
+        // padding: 0!important;
+        // overflow: hidden!important;
+        background: red!important;
+    }
+    @media (max-width:991px) {
+        width: 0%!important;
+        padding: 0%!important;
+        overflow: hidden!important;
+    }
     ul {
         width: 100%;
         li {
@@ -26,6 +41,9 @@ body {
                         display: none;
                     }
                 }
+            }
+            &:hover {
+                cursor: pointer;
             }
             a {
                 span {
