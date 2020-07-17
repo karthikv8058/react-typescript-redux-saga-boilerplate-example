@@ -11,6 +11,7 @@ export const initialState ={
 const itemReducer = (state:itemStates = initialState,action:ContainerActions) => {
     switch(action.type){
         case ActionTypes.ADD_ITEM:
+            console.log('ADD_ITEM reducer', action.payload);
             return{
                 ...state,
                 items:[...state.items,action.payload],
@@ -22,6 +23,15 @@ const itemReducer = (state:itemStates = initialState,action:ContainerActions) =>
             return{
                 ...state,
                 itemsArr:action.payload,
+                isloading:false,
+            }
+        case ActionTypes.CLEAR_STATES:
+            console.log('CLEAR_STATES');
+            
+            return{
+                ...state,
+                items:[],
+                itemsArr:[],
                 isloading:false,
             }
             default:

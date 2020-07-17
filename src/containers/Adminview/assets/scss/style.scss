@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+$font-all:'Nunito',
+sans-serif;
+body {
+    font-family: $font-all!important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.admin-menu {
+    width: 20rem;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    height: 100vh;
+    overflow-y: scroll;
+    ul {
+        width: 100%;
+        li {
+            &:first-child {
+                a {
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+            a {
+                span {
+                    font-size: .8rem!important;
+                }
+            }
+            .drop-menu {
+                display: block;
+                position: relative;
+                font-size: .8rem!important;
+                cursor: pointer;
+                &.active {
+                    &::after {
+                        display: block;
+                        content: '\f107';
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: 1rem;
+                        text-align: center;
+                        float: right;
+                        border: 0;
+                        font-weight: 900;
+                        // content: '\f105';
+                        font-family: 'Font Awesome 5 Free';
+                    }
+                }
+                &::after {
+                    display: block;
+                    // content: '\f105';
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    width: 1rem;
+                    text-align: center;
+                    float: right;
+                    border: 0;
+                    font-weight: 900;
+                    content: '\f105';
+                    font-family: 'Font Awesome 5 Free';
+                }
+            }
+        }
+    }
+}
+
+.admin-view {
+    background-color: #f7f8fa;
+    .bg-search {
+        background-color: #efeef3;
+    }
+}
