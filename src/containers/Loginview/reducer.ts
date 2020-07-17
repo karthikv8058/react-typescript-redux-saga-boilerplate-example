@@ -11,33 +11,51 @@ export const initialState ={
     expiresIn:0,
     refreshToken:'',
     tokenType:'',
+    loginStatus:false,
 
 }
 console.log('in reducer file');
 
 const loginReducer = (state:loginStates = initialState,action:ContainerActions) => {
-    //console.log('hello from login reducer');
     switch(action.type){
-        case ActionTypes.LOGIN_REQUEST:
-            console.log('LOGIN_REQUEST',action.payload);         
-            return{
+        case ActionTypes.LOGIN_REQUEST:        
+            return {
                 ...state,
                 isLoading:true,
+                isLoginError:false,
+                loginStatus:false,
             }
         case ActionTypes.LOGIN_RESPONSE:
-            console.log('LOGIN_RESPONSE :',action.payload.error);
-            return{
+            //console.log('LOGIN_RESPONSE :',action.payload.error);
+            return {
                 ...state,
-                responseData:action.payload,
+                accessToken:action.payload.access_token,
+                expiresIn:action.payload.expires_in,
+                tokenType:action.payload.token_type,
+                refreshToken:action.payload.refresh_token,
                 isLoginError:false,
                 isLoading:false,
+                loginStatus:true,
             }
          case ActionTypes.LOGIN_ERROR:
-             return{
+             return {
                 ...state,
                 isLoginError:true,
-                isLoading:false
+                isLoading:false,
+                loginStatus:false,
              }
+        case ActionTypes.CLEAR_STATES:
+            return {
+                errorData:'',
+                responseData:'',
+                isLoading:false,
+                isLoginError:false,
+                accessToken:'',
+                expiresIn:0,
+                refreshToken:'',
+                tokenType:'',
+                loginStatus:false,
+            }
             default:
                 return state;
     }
