@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-
 import profile_pic from '../assets/img/img_avatar.png';
 
 const Navbar = (props:any) => {
@@ -33,5 +31,6 @@ const mapStateToProps: any = (state: any) => {
     };
   };
   
-  export default connect(
-    mapStateToProps)(withRouter(Navbar));
+export default connect(
+  mapStateToProps)(withRouter(Navbar)
+);
