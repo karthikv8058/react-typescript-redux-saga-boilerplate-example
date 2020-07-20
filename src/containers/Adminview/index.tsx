@@ -1,8 +1,7 @@
 import React, { FunctionComponent,useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import {itemStates} from './types';
-import { addItems } from './action';
+// import {adminStates} from './types';
 import Button from '../../Components/Button';
 
 import { connect } from 'react-redux';

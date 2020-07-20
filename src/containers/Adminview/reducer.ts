@@ -1,32 +1,41 @@
 import ActionTypes from './constants';
-import {ContainerActions,itemStates} from './types';
+import {ContainerActions,adminStates} from './types';
  
 
 export const initialState ={
-    items:[],
-    itemsArr:[],
-    isloading:false,
+    userList:[],
+    profileImages:'',
+    storyMedia:''
 }
  
-const itemReducer = (state:itemStates = initialState,action:ContainerActions) => {
+const adminReducer = (state:adminStates = initialState,action:ContainerActions) => {
     switch(action.type){
-        case ActionTypes.ADD_ITEM:
+        case ActionTypes.USER_LIST_REQUEST:
+            console.log('USER_LIST_REQUEST'); 
             return{
                 ...state,
-                items:[...state.items,action.payload],
-                isloading:true,
             }
-        case ActionTypes.ADD_ITEM_RESPONSE:
-            console.log('ADD_ITEM_RESPONSE :',action.payload);
-            
+        case ActionTypes.USER_LIST_RESPONSE:
+            console.log('USER_LIST_RESPONSE :',action.payload);    
             return{
                 ...state,
-                itemsArr:action.payload,
-                isloading:false,
+                userList:action.payload.data,
             }
+        case ActionTypes.GEN_CONFIG_REQUEST:
+                console.log('GEN_CONFIG_REQUEST'); 
+                return{
+                    ...state,
+                }
+        case ActionTypes.GEN_CONFIG_RESPONSE:
+                console.log('GEN_CONFIG_RESPONSE',action.payload.data.profileImages); 
+                return{
+                    ...state,
+                    profileImages:action.payload.data.profileImages,
+                    storyMedia:action.payload.data.storyMedia,
+                }
             default:
                 return state;
     }
 }
 
-export default itemReducer;
+export default adminReducer;

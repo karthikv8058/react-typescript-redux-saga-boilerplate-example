@@ -1,10 +1,29 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect} from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-
+import {
+  userListRequestAction,
+  genConfigRequestAction
+} from '../action'
 
 const Userlist = (props:any) => {
+
+  console.log('Props from userlist :',props);
+  
+
+  const dispatch = useDispatch();
+
+  let params:object = {
+    accessToken:props.accessToken,
+    tokenType:props.tokenType
+  }
+
+    useEffect(()=>{
+      dispatch(userListRequestAction(params));
+      dispatch(genConfigRequestAction(params));
+    },[]);
+
     return (
         <section className="userlist p-0">
                   <div>
@@ -16,27 +35,26 @@ const Userlist = (props:any) => {
                             <th>Last Name</th>
                             <th>Profile Image</th>
                           </tr>
-                          <tr>
-                            <td>Samual123</td>
-                            <td>Samual123@host.in</td>
-                            <td>Samual</td>
-                            <td>Donmenic</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td>Samual123</td>
-                            <td>Samual123@host.in</td>
-                            <td>Samual</td>
-                            <td>Donmenic</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td>Samual123</td>
-                            <td>Samual123@host.in</td>
-                            <td>Samual</td>
-                            <td>Donmenic</td>
-                            <td></td>
-                          </tr>
+                         
+                          {
+                            props.userList.length > 0 && props.userList.map((item:any)=>{
+                              return   <tr key={item.id}>
+                                  <td> {item.username}</td>
+                                  <td> {item.email}</td>
+                                  <td> {item.firstName}</td>
+                                  <td> {item.lastName}</td>
+                                  <td> 
+                                    {/* {item.profileImage} */}
+                                      <img src={props.profileImages+item.profileImage} width={50} height={50} alt="No Image"/>
+                                      {
+                                        console.log('img path:',props.profileImages+item.profileImage)
+                                        
+                                      }
+                                  </td>
+                              </tr>
+                            })
+                          }
+                         
                       </table>
                   </div>
              </section>
@@ -45,7 +63,10 @@ const Userlist = (props:any) => {
 
 const mapStateToProps: any = (state: any) => {
   return {
-    loginStatus:state.loginReducer.loginStatus,
+    accessToken:state.loginReducer.accessToken,
+    tokenType:state.loginReducer.tokenType,
+    userList:state.adminReducer.userList,
+    profileImages:state.adminReducer.profileImages,
   };
 };
 

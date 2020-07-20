@@ -1,16 +1,16 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './action';
 
-export interface itemStates{
-    items:string[],
-    itemsArr:any,
-    isloading:boolean,
+export interface adminStates{
+   userList:any,
+   storyMedia:any,
+   profileImages:any,
 }
 
 /* --- ACTIONS --- */
-type TestpageActions = ActionType<typeof actions>;
+type AdminpageActions = ActionType<typeof actions>;
 
 
-export type ContainerActions = TestpageActions;
+export type ContainerActions = AdminpageActions;
 
 // export default ContainerActions;
