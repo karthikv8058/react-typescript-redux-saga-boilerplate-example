@@ -1,8 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect} from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { amouletListRequestAction, genConfigRequestAction } from '../action'
 
 const Amouletlist = (props:any) => {
+    const dispatch = useDispatch();
+    let params:object = {
+      accessToken: props.accessToken,
+      tokenType: props.tokenType
+    }
+    useEffect(() => {
+      dispatch(amouletListRequestAction(params));
+      dispatch(genConfigRequestAction(params));
+    },[]);
     return (
         <section className="userlist p-0">
                     <div>
@@ -43,7 +53,11 @@ const Amouletlist = (props:any) => {
 
 const mapStateToProps: any = (state: any) => {
   return {
-    loginStatus:state.loginReducer.loginStatus,
+    accessToken:state.loginReducer.accessToken,
+    tokenType:state.loginReducer.tokenType,
+    userList:state.adminReducer.userList,
+    amouletList:state.adminReducer.amouletList,
+    profileImages:state.adminReducer.profileImages,
   };
 };
 

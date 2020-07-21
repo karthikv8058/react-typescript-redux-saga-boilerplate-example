@@ -30,7 +30,7 @@ const Dashboard = (props:any) => {
                             <div className="h5 mb-0 font-weight-bold text-gray-800">{props.loginStatus&&'$40,000'}</div>
                           </div>
                           <div className="col-auto">
-                            <i className="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                            <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
                           </div>
                         </div>
                       </div>

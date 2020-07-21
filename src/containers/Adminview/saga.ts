@@ -69,9 +69,24 @@ export function* getUserlistRepos(action:any) {
       //yield put(testDataErrorAction(err));
     }
   }
+
+  export function* getAmouletList(action :any) {
+    function fetchFromApi() {
+      return axios.get(ApiConstants.BASE_URL + ApiConstants.AMOULET_LIST, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
+    }
+    try {
+      const response = yield call(fetchFromApi);
+      if(response.data.error === false){
+        yield put(genConfigResponseAction(response.data));
+      }
+    } catch (err) {
+      console.log('error in amoulet list api:', err);
+    }
+  }
   
   export default function* adminPageSaga() {
     // See example in containers/HomePage/saga.js
     yield takeLatest(ActionTypes.USER_LIST_REQUEST, getUserlistRepos);
     yield takeLatest(ActionTypes.GEN_CONFIG_REQUEST, getGenConfig);
+    yield takeLatest(ActionTypes.AMOULET_LIST_REQUEST, getAmouletList);
   }
