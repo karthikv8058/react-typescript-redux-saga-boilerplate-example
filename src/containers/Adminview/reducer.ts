@@ -3,13 +3,14 @@ import {ContainerActions,adminStates} from './types';
  
 
 export const initialState ={
-    userList:[],
-    profileImages:'',
-    storyMedia:''
+    userList: [],
+    amouletList: [],
+    profileImages: '',
+    storyMedia: ''
 }
  
 const adminReducer = (state:adminStates = initialState,action:ContainerActions) => {
-    switch(action.type){
+    switch(action.type) {
         case ActionTypes.USER_LIST_REQUEST:
             console.log('USER_LIST_REQUEST'); 
             return{
@@ -28,13 +29,18 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
                 }
         case ActionTypes.GEN_CONFIG_RESPONSE:
                 console.log('GEN_CONFIG_RESPONSE',action.payload.data.profileImages); 
-                return{
+                return {
                     ...state,
                     profileImages:action.payload.data.profileImages,
                     storyMedia:action.payload.data.storyMedia,
                 }
-            default:
-                return state;
+        case ActionTypes.AMOULET_LIST_REQUEST:
+            console.log('AMOULET_LIST_REQUEST', ActionTypes.AMOULET_LIST_REQUEST);
+            return {
+                ...state,
+            }
+        default:
+            return state;
     }
 }
 
