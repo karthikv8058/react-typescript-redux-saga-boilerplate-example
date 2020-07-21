@@ -1,23 +1,14 @@
-// import { combineReducers } from 'redux';
-
-// import itemReducer from './Containers/Newitems/reducer';
-// import loginReducer from './Containers/Loginview/reducer';
-
-
-// export default combineReducers({
-//   item:itemReducer,
-//   login:loginReducer,
-// })
-
 
 import { combineReducers } from '@reduxjs/toolkit';
 
 import itemReducer from './Containers/Newitems/reducer';
 import loginReducer from './Containers/Loginview/reducer';
+import adminReducer from './Containers/Adminview/reducer';
 
 const rootReducer = combineReducers({
   itemReducer,
-  loginReducer
+  loginReducer,
+  adminReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

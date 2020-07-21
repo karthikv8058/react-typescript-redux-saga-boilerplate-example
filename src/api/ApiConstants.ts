@@ -7,6 +7,7 @@ const ApiConstants = {
     AUTH_LOGIN:'api/1.0/user/auth_login',
     USER_LIST:'api/1.0/user/details',
     AMOULET_LIST:'api/1.0/user/details',
+    GEN_CONFIG:'api/1.0/general/configuration',
 };
    
 export default ApiConstants;
