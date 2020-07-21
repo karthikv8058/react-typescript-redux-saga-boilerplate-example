@@ -15,7 +15,7 @@ import './assets/css/all.css';
 import './assets/scss/style.scss';
 
 import Dashborad from './AdminComponents/dashboard';
-import Navbar from './AdminComponents/navbar';
+import Navbartop from './AdminComponents/navbar';
 import Userlist from './AdminComponents/userlist';
 import Amouletlist from './AdminComponents/amouletlist';
 
@@ -28,13 +28,14 @@ const Adminview  = (props:any) => {
   const [isAmouletlistOpen, setIsAmouletlistOpen] = useState(false);
 
   const handleUserlist = () => {
-    setIsUserlistOpen(true);
+    
+    props.loginStatus&&setIsUserlistOpen(true);
     setIsDashboardOpen(false);
     setIsAmouletlistOpen(false);
   }
 
   const handleDashboard = () => {
-    setIsDashboardOpen(true);
+    props.loginStatus&&setIsDashboardOpen(true);
     setIsUserlistOpen(false);
     setIsAmouletlistOpen(false);
   }
@@ -42,7 +43,7 @@ const Adminview  = (props:any) => {
   const handleAmouletlist = () => {
     setIsDashboardOpen(false);
     setIsUserlistOpen(false);
-    setIsAmouletlistOpen(true);
+    props.loginStatus&&setIsAmouletlistOpen(true);
   }
 
   const dispatch = useDispatch();
@@ -100,13 +101,13 @@ const Adminview  = (props:any) => {
           </div>
           <div className="d-flex flex-column admin-view w-100 p-3">
               
-              <Navbar />
+              <Navbartop />
               <div className="w-100 mt-3">
                 {
-                  isDashboardOpen && <Dashborad/>
+                  isDashboardOpen && props.loginStatus && <Dashborad/>
                 }
                 {
-                  isUserlistOpen && <Userlist/>
+                  isUserlistOpen&&<Userlist/>
                 }
                 {
                   isAmouletlistOpen && <Amouletlist/>

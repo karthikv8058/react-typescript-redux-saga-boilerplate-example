@@ -27,7 +27,7 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
                     ...state,
                 }
         case ActionTypes.GEN_CONFIG_RESPONSE:
-                console.log('GEN_CONFIG_RESPONSE',action.payload.data.profileImages); 
+                console.log('GEN_CONFIG_RESPONSE',action.payload); 
                 return{
                     ...state,
                     profileImages:action.payload.data.profileImages,
