@@ -17,6 +17,7 @@ import './assets/css/all.css';
 import './assets/scss/style.scss';
 import loginReducer from './reducer';
 
+
 const LoginView = (props:any) =>{
 
     // console.log('Props from login page :', props);
@@ -25,13 +26,21 @@ const LoginView = (props:any) =>{
     const history = useHistory();
     const usernameRef:React.RefObject<HTMLInputElement> = createRef();
     const passwordRef:React.RefObject<HTMLInputElement> = createRef();
+    const forgotPasswordRef:React.RefObject<HTMLInputElement> = createRef();
 
     const [username, setUsername] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [isusernameError, setIsUsernameError] = useState(false);
+    
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [ispasswordError, setIsPasswordError] = useState(false);
+
+    const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+    const [forgotPasswordEmailError, setForgotPasswordEmailError] = useState('');
+    const [isForgotPasswordEmailError, setIsForgotPasswordEmailError] = useState(false);
+
+    const [isForgotpassword, setIsForgotPassword] = useState(false);
     const [errCount, setErrCount] = useState(0);
 
 
@@ -41,6 +50,8 @@ const LoginView = (props:any) =>{
 
   const handleOnchanage = (e:any) => {
 
+    let regexmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
+
     if(e.target.name==='username'){
       if(e.target.value===''){
         setUsernameError('Username is required');
@@ -48,6 +59,20 @@ const LoginView = (props:any) =>{
       }else{
         setUsername(e.target.value);
         setIsUsernameError(false);
+      }
+    }
+
+    if(e.target.name==='forgotPassword'){
+      if(e.target.value===''){
+        setForgotPasswordEmailError('Email is required');
+        setIsForgotPasswordEmailError(true);
+      }else if(!regexmail.test(e.target.value)){
+        setForgotPasswordEmailError('Invail Email ID');
+        setIsForgotPasswordEmailError(true);
+      } 
+      else{
+        setForgotPasswordEmail(e.target.value);
+        setIsForgotPasswordEmailError(false);
       }
     }
 
@@ -72,6 +97,16 @@ const LoginView = (props:any) =>{
       }else{
         setUsername(e.target.value);
         setIsUsernameError(false);
+      }
+    }
+
+    if(e.target.name==='forgotPassword'){
+      if(e.target.value===''){
+        setForgotPasswordEmailError('Email is required');
+        setIsForgotPasswordEmailError(true);
+      }else{
+        setForgotPasswordEmail(e.target.value);
+        setIsForgotPasswordEmailError(false);
       }
     }
 
@@ -135,9 +170,21 @@ const LoginView = (props:any) =>{
         }  
        },[])
 
+       const handleForgotPassword = (e:any,forgotPasswordEmail:any) => {
+        e.preventDefault();
+       }
+
+       const handleGoBack = (e:any) => {
+        e.preventDefault();
+        setIsForgotPassword(!isForgotpassword);
+       }
+
     return(
         <div className="d-flex justify-content-center bg-color login-view" style={{height:'100vh'}}>
-          <div className="d-flex bg-white align-self-center max-width shadow jumbotron login-cover">
+          {
+            isForgotpassword ? <div></div>
+            :
+            <div className="d-flex bg-white align-self-center max-width shadow jumbotron login-cover">
             <div className="icon-cover">
                     <div className="middle">
                       <i className="fas fa-graduation-cap fa-2x"></i>
@@ -178,7 +225,7 @@ const LoginView = (props:any) =>{
                           </span>
                         }
                   </div>
-                  <div className="text-center">
+                  <div className="form-group text-center">
                   <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleSubmit(username,password,e)}}>
                       Sign in
                   </button>
@@ -188,10 +235,58 @@ const LoginView = (props:any) =>{
                        <span>Invalid Username or Password</span>
                      </div>
                    }
-                        
+                    <div className="mt-2 px-3">
+                      <a href="" className="small" onClick={handleGoBack}>Forgot password ?</a> 
+                    </div>   
                   </div>
               </form>
           </div>
+          }
+          {
+            isForgotpassword&&<div className="d-flex bg-white align-self-center max-width shadow jumbotron login-cover">
+                <div className="icon-cover">
+                        <div className="middle">
+                        <i className="fas fa-key fa-2x"></i>
+                        </div>
+                </div>
+                  <form className="w-100">
+                      <div className="form-group text-center">
+                          <h5 className="text-capitalize text-theme pb-0 mb-0">Forgot your password ?
+                            <small style={{fontSize:'12px'}} className="d-block mt-1 text-muted">No worries! Enter your email and we will send you a request</small>
+                          </h5>
+                      </div>
+                      <div className="form-group relative">
+                      <label htmlFor="" className="text-left text-dark"></label>
+                          <input 
+                            type="email"
+                            name="forgotPassword"
+                            ref={forgotPasswordRef} 
+                            onChange={(e)=>{handleOnchanage(e)}} 
+                            onBlur={(e)=>{handleOnBlur(e)}} 
+                            className="form-control" 
+                            placeholder="Email"
+                            />
+                            {
+                              isForgotPasswordEmailError&&<span className="badge badge-danger px-3 error-label py-1 font-weight-lighter">
+                                {forgotPasswordEmailError}
+                              </span>
+                            }
+                      </div>
+                      
+                      <div className="form-group text-center">
+                      <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleForgotPassword(forgotPasswordEmail,e)}}>
+                          Send Request
+                      </button>
+                          
+                      </div>
+                      <div className="text-center">
+                      <span onClick={handleGoBack} className="px-3 small" style={{cursor:'pointer'}}>Go Back</span>
+                      </div>
+                  </form>
+
+                  
+          </div>
+          }
           {
             props.isLoading&&
             <div className="loader-waiting d-flex justify-content-center">

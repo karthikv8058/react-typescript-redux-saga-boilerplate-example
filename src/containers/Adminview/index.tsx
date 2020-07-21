@@ -27,12 +27,13 @@ const Adminview  = (props:any) =>{
   const [isUserlistOpen, setIsUserlistOpen] = useState(false);
 
   const handleUserlist = () => {
-    setIsUserlistOpen(true);
+    
+    props.loginStatus&&setIsUserlistOpen(true);
     setIsDashboardOpen(false);
   }
 
   const handleDashboard = () => {
-    setIsDashboardOpen(true);
+    props.loginStatus&&setIsDashboardOpen(true);
     setIsUserlistOpen(false);
   }
 
@@ -95,7 +96,7 @@ const Adminview  = (props:any) =>{
               <Navbar />
               <div className="w-100 mt-3">
               {
-                isDashboardOpen&&<Dashborad/>
+                isDashboardOpen && props.loginStatus && <Dashborad/>
               }
               {
                 isUserlistOpen&&<Userlist/>

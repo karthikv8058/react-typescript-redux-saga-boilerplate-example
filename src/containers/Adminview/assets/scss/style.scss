@@ -11,6 +11,17 @@ body {
     line-height: 1.5;
 }
 
+.nav-link {
+    display: block;
+    padding: .5rem 1rem;
+    color: rgb(92, 92, 92);
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background: transparent!important;
+}
+
 .admin-menu {
     width: 20rem;
     display: flex;

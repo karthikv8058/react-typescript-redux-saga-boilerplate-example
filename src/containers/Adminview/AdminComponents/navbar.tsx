@@ -1,63 +1,82 @@
-import React from 'react';
+import React,{createRef, RefObject} from 'react';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter,useHistory } from 'react-router-dom';
 
 import profile_pic from '../assets/img/img_avatar.png';
 import '../assets/scss/style.scss';
 
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+import {Navbar,Nav,NavDropdown,Form,Button,FormControl}  from 'react-bootstrap';
 
 
-const handleOnNavClick = (e:any) => {
-  
-}
+const Navbartop = (props:any) => {
 
-const Navbar = (props:any) => {
+  const history = useHistory();
+  const MySwal = withReactContent(Swal);
+
+  const notificationRef:RefObject<HTMLInputElement> = createRef();
+  const profileRef:RefObject<HTMLInputElement> = createRef();
+
+  const handleLogout = () => {
+
+      Swal.fire({
+        title: 'Are you leaving?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#96bd2a',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.value) {
+          console.log('logout');
+          history.push('/');
+        }
+      })
+  }
+
+
     return (
-        <nav className="navbar navbar-light bg-light">
-        <form className="form-inline">
-          <input className="form-control mr-sm-2 rounded-pill bg-search border-0" type="search" placeholder="Search" aria-label="Search"/>
-        </form>
-        <div>
-          <div className="d-inline-block nav border-black border-right px-3 relative" onClick={(e)=>{handleOnNavClick(e)}}>
-            <span>
-              <i className="fas fa-bell pr-1"></i>
-              Notifications
-            </span>
-            <div className="nav-drop-menu">
-                <ul className="list-unstyled">
-                  <li><a href="">Profile</a></li>
-                  <li><a href="">Forgot Password  ?</a></li>
-                  <li><a href="">Settings</a></li>
-                </ul>
-            </div>
-          </div>
-          <div className="d-inline-block nav border-black border-right px-3 relative" onClick={(e)=>{handleOnNavClick(e)}}>
-            <span>
-              <i className="fas fa-bell pr-1"></i>
-              Notifications
-            </span>
-            <div className="nav-drop-menu">
-                <ul className="list-unstyled">
-                  <li><a href="">Profile</a></li>
-                  <li><a href="">Forgot Password  ?</a></li>
-                  <li><a href="">Settings</a></li>
-                </ul>
-            </div>
-          </div>
-          <div className="d-inline-block nav relative" onClick={(e)=>{handleOnNavClick(e)}}>
-            <span className="px-3">{props.loginStatus&&'Admin'}</span>
-            <img src={profile_pic} className="img-fluid rounded-circle" width={25} height={25} alt=""/>
-            <div className="nav-drop-menu">
-                <ul className="list-unstyled">
-                  <li><a href="">Profile</a></li>
-                  <li><a href="">Forgot Password  ?</a></li>
-                  <li><a href="">Settings</a></li>
-                </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
+      
+      <Nav className="ml-auto">
+      {/* <Nav.Item>
+        <Nav.Link eventKey="1" href="#/home">
+          NavLink 1 content
+        </Nav.Link>
+      </Nav.Item> */}
+      <NavDropdown title={
+        <span>
+          <i className="fas fa-bell mr-2"></i>
+          Notifications
+          </span>
+      } id="nav-dropdown">
+        <NavDropdown.Item eventKey="4.1">Notification 1</NavDropdown.Item>
+        <NavDropdown.Item eventKey="4.2">Notification 2</NavDropdown.Item>
+        <NavDropdown.Item eventKey="4.3">Notification 3</NavDropdown.Item>
+      </NavDropdown>
+      <NavDropdown title={
+        <span>
+          <i className="fas fa-user mr-2"></i>
+          {props.loginStatus&&'Admin'}
+        </span>
+      } id="nav-dropdown">
+        <NavDropdown.Item eventKey="4.1">Profile</NavDropdown.Item>
+        <NavDropdown.Item eventKey="4.2">Settings</NavDropdown.Item>
+        <NavDropdown.Item eventKey="4.3">Forgot Password ?</NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item eventKey="4.4">
+          <Nav.Item>
+            <Nav.Link /*as={Link} to="/"*/ onClick={handleLogout}>
+              <i className="fas fa-power-off mr-2 text-danger"></i>Logout
+            </Nav.Link>
+          </Nav.Item>
+        </NavDropdown.Item>
+      </NavDropdown>
+    </Nav>
     )
 }
 
@@ -68,4 +87,4 @@ const mapStateToProps: any = (state: any) => {
   };
   
   export default connect(
-    mapStateToProps)(withRouter(Navbar));
+    mapStateToProps)(withRouter(Navbartop));
