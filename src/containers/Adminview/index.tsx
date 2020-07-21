@@ -15,30 +15,38 @@ import './assets/css/all.css';
 import './assets/scss/style.scss';
 
 import Dashborad from './AdminComponents/dashboard';
-import Navbar from './AdminComponents/navbar';
+import Navbartop from './AdminComponents/navbar';
 import Userlist from './AdminComponents/userlist';
-import userlist from './AdminComponents/userlist';
+import Amouletlist from './AdminComponents/amouletlist';
 
 
-const Adminview  = (props:any) =>{
+const Adminview  = (props:any) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
   const [isUserlistOpen, setIsUserlistOpen] = useState(false);
+  const [isAmouletlistOpen, setIsAmouletlistOpen] = useState(false);
 
   const handleUserlist = () => {
     
     props.loginStatus&&setIsUserlistOpen(true);
     setIsDashboardOpen(false);
+    setIsAmouletlistOpen(false);
   }
 
   const handleDashboard = () => {
     props.loginStatus&&setIsDashboardOpen(true);
     setIsUserlistOpen(false);
+    setIsAmouletlistOpen(false);
+  }
+
+  const handleAmouletlist = () => {
+    setIsDashboardOpen(false);
+    setIsUserlistOpen(false);
+    props.loginStatus&&setIsAmouletlistOpen(true);
   }
 
   const dispatch = useDispatch();
-
 
   const { match } = props;
   window.history.pushState(null, document.title, window.location.href);
@@ -76,10 +84,10 @@ const Adminview  = (props:any) =>{
                       <span className={isUserlistOpen?"ml-3 text-theme":"ml-3"}>User list</span>
                     </span>
                   </li>
-                  <li className="my-2 my-md-3">
+                  <li className="my-2 my-md-3" onClick={handleAmouletlist}>
                     <span className="block text-decoration-none text-dark font-weight-bolder w-100">
                     <i className="fas fa-gem"></i>
-                      <span className="ml-3">Amoulet list</span>
+                      <span className={isAmouletlistOpen ? "ml-3 text-theme" : "ml-3"}>Amoulet list</span>
                     </span>
                   </li>
                   <li className="my-2 my-md-3">
@@ -93,15 +101,17 @@ const Adminview  = (props:any) =>{
           </div>
           <div className="d-flex flex-column admin-view w-100 p-3">
               
-              <Navbar />
+              <Navbartop />
               <div className="w-100 mt-3">
-              {
-                isDashboardOpen && props.loginStatus && <Dashborad/>
-              }
-              {
-                isUserlistOpen&&<Userlist/>
-              }
-              
+                {
+                  isDashboardOpen && props.loginStatus && <Dashborad/>
+                }
+                {
+                  isUserlistOpen&&<Userlist/>
+                }
+                {
+                  isAmouletlistOpen && <Amouletlist/>
+                }
               </div>
           </div>
         </div>

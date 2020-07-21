@@ -53,8 +53,13 @@ const Userlist = (props:any) => {
                                   </td>
                               </tr>
                             })
+
+                            
+                            
                           }
-                         
+                          {
+                            console.log('userList',props.userList)
+                          }
                       </table>
                   </div>
              </section>

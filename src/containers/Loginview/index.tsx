@@ -21,8 +21,6 @@ import loginReducer from './reducer';
 const LoginView = (props:any) =>{
 
     // console.log('Props from login page :', props);
-    
-
     const history = useHistory();
     const usernameRef:React.RefObject<HTMLInputElement> = createRef();
     const passwordRef:React.RefObject<HTMLInputElement> = createRef();
@@ -43,8 +41,8 @@ const LoginView = (props:any) =>{
     const [isForgotpassword, setIsForgotPassword] = useState(false);
     const [errCount, setErrCount] = useState(0);
 
-
     const dispatch = useDispatch();
+   
 
  
 
@@ -56,7 +54,7 @@ const LoginView = (props:any) =>{
       if(e.target.value===''){
         setUsernameError('Username is required');
         setIsUsernameError(true);
-      }else{
+      } else {
         setUsername(e.target.value);
         setIsUsernameError(false);
       }
@@ -80,12 +78,11 @@ const LoginView = (props:any) =>{
       if(e.target.value===''){
         setPasswordError('Password is required');
         setIsPasswordError(true);
-      }else{
+      } else {
         setPassword(e.target.value);
         setIsPasswordError(false);
       }
     }    
-
   }
 
   const handleOnBlur = (e:any) => {
@@ -123,47 +120,38 @@ const LoginView = (props:any) =>{
   }
 
   const handleSubmit = (username:string,password:string,e:any) => {
-
     e.preventDefault();
-    
     console.log('username :',usernameRef.current?.value);
-    
-    if(usernameRef.current?.value===''){
+    if(usernameRef.current?.value === '') {
       setUsernameError('Username is required');
       setIsUsernameError(true);
-      
     }
-    if (passwordRef.current?.value==='')
-    {
+    if (passwordRef.current?.value==='') {
       setPasswordError('Password is required');
       setIsPasswordError(true);
     }
-    if(usernameRef.current?.value!=='' && passwordRef.current?.value!==''){
-
+    if(usernameRef.current?.value !== '' && passwordRef.current?.value !== ''){
       const params:object = {     
-        "grant_type" :"password",
-        'username':username,
-        'password':password,
+        "grant_type": "password",
+        'username': username,
+        'password': password,
       }
       const finalParams:object = {
         params,
-        loginNav:()=>history.push('/admin')
+        loginNav:() => history.push('/admin')
       }
       dispatch(loginRequestAction(finalParams));
     }
-       
   }
 
-    const { match } = props;
-
+  const { match } = props;
       window.history.pushState(null, document.title, window.location.href);
       window.addEventListener('popstate', function (event){
          window.history.pushState(null, document.title,  window.location.href);
       }); 
 
-      useEffect(()=>{
+      useEffect(()=> {
         if(match.url==='/'){
-          //alert('Home page')
           history.push('/');
           dispatch(clearItemStatesAction());
           dispatch(clearLoginStatesAction());
@@ -229,7 +217,6 @@ const LoginView = (props:any) =>{
                   <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleSubmit(username,password,e)}}>
                       Sign in
                   </button>
-                   
                    {
                      props.isLoginError&&<div className="alert alert-danger mt-3">
                        <span>Invalid Username or Password</span>
@@ -291,17 +278,12 @@ const LoginView = (props:any) =>{
             props.isLoading&&
             <div className="loader-waiting d-flex justify-content-center">
                 <div className="spinner-border text-info align-self-center" role="status">
-
                 </div>
-
             </div>
           }
-          
         </div>
     );
 }
-
-
 
 const mapStateToProps: any = (state: any) => {
   return {
@@ -312,5 +294,3 @@ const mapStateToProps: any = (state: any) => {
 
 export default connect(
   mapStateToProps)(withRouter(LoginView));
-
-
