@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 const Amouletlist = (props:any) => {
     return (
         <section className="userlist p-0">
-                    <div>
+                    <div className="table-responsive">
                       <table className="table table-bordered">
                           <tr className="bg-theme text-white">
                             <th>Amoulet Name</th>

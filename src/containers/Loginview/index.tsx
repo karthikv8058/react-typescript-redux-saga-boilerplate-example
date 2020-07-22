@@ -120,8 +120,10 @@ const LoginView = (props:any) =>{
   }
 
   const handleSubmit = (username:string,password:string,e:any) => {
+
     e.preventDefault();
-    console.log('username :',usernameRef.current?.value);
+    // console.log('username :',usernameRef.current?.value);
+
     if(usernameRef.current?.value === '') {
       setUsernameError('Username is required');
       setIsUsernameError(true);
@@ -130,12 +132,14 @@ const LoginView = (props:any) =>{
       setPasswordError('Password is required');
       setIsPasswordError(true);
     }
+
     if(usernameRef.current?.value !== '' && passwordRef.current?.value !== ''){
       const params:object = {     
         "grant_type": "password",
         'username': username,
         'password': password,
       }
+
       const finalParams:object = {
         params,
         loginNav:() => history.push('/admin')
@@ -158,9 +162,19 @@ const LoginView = (props:any) =>{
         }  
        },[])
 
-       const handleForgotPassword = (e:any,forgotPasswordEmail:any) => {
+
+      const handleForgot = (e:any,forgotPasswordEmail:string) => {
+        
         e.preventDefault();
-       }
+
+        console.log('Forgot function');
+        if(forgotPasswordRef.current?.value==='') {
+            setForgotPasswordEmailError('Email is required');
+            setIsForgotPasswordEmailError(true);
+          }else{
+                
+        }
+      }
 
        const handleGoBack = (e:any) => {
         e.preventDefault();
@@ -261,7 +275,7 @@ const LoginView = (props:any) =>{
                       </div>
                       
                       <div className="form-group text-center">
-                      <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleForgotPassword(forgotPasswordEmail,e)}}>
+                      <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleForgot(e,forgotPasswordEmail)}}>
                           Send Request
                       </button>
                           
