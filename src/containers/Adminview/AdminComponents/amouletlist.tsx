@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { amouletListRequestAction, genConfigRequestAction } from '../action'
+import { amouletListRequestAction, amoluletListResponseAction } from '../action'
 
 const Amouletlist = (props:any) => {
     const dispatch = useDispatch();
@@ -11,53 +11,47 @@ const Amouletlist = (props:any) => {
     }
     useEffect(() => {
       dispatch(amouletListRequestAction(params));
-      dispatch(genConfigRequestAction(params));
     },[]);
     return (
-        <section className="userlist p-0">
-                    <div>
-                      <table className="table table-bordered">
-                          <tr className="bg-theme text-white">
-                            <th>Amoulet Name</th>
-                            <th>Email</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Profile Image</th>
-                          </tr>
-                          <tr>
-                            <td>Samual123</td>
-                            <td>Samual123@host.in</td>
-                            <td>Samual</td>
-                            <td>Donmenic</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td>Samual123</td>
-                            <td>Samual123@host.in</td>
-                            <td>Samual</td>
-                            <td>Donmenic</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <td>Samual123</td>
-                            <td>Samual123@host.in</td>
-                            <td>Samual</td>
-                            <td>Donmenic</td>
-                            <td></td>
-                          </tr>
-                      </table>
-                  </div>
-             </section>
+      <section className="userlist p-0">
+          <div>
+            <table className="table table-bordered">
+                <thead>
+                  <tr className="bg-theme text-white">
+                    <th>Amoulet Name</th>
+                    <th>Product Serial Number</th>
+                    <th>NFC Code</th>
+                    <th>Description</th>
+                    <th>SKU</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                { props.amouletList.length > 0 && props.amouletList.map((item:any) => {
+                    return <tr key={item.id}>
+                        <td> {item.name} </td>
+                        <td> {item.serialNumber} </td>
+                        <td> {item.nfcCode} </td>
+                        <td> {item.description} </td>
+                        <td> {item.sku} </td>
+                        <td></td>
+                    </tr>
+                  })
+                }
+              </tbody>
+            </table>
+        </div>
+      </section>
     )
 }
 
 const mapStateToProps: any = (state: any) => {
+  console.log('state', state);
   return {
-    accessToken:state.loginReducer.accessToken,
-    tokenType:state.loginReducer.tokenType,
-    userList:state.adminReducer.userList,
-    amouletList:state.adminReducer.amouletList,
-    profileImages:state.adminReducer.profileImages,
+    accessToken: state.loginReducer.accessToken,
+    tokenType: state.loginReducer.tokenType,
+    amouletList: state.adminReducer.amouletList,
+    profileImages: state.adminReducer.profileImages,
   };
 };
 

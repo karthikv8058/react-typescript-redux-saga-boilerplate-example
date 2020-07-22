@@ -4,6 +4,7 @@ import ActionTypes from './constants';
 import { 
   userListResponseAction,
   genConfigResponseAction,
+  amoluletListResponseAction,
  } from './action';
 
 
@@ -69,7 +70,8 @@ export function* getUserlistRepos(action:any) {
       //yield put(testDataErrorAction(err));
     }
   }
-
+  
+  // Function to list amoulets
   export function* getAmouletList(action :any) {
     function fetchFromApi() {
       return axios.get(ApiConstants.BASE_URL + ApiConstants.AMOULET_LIST, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
@@ -77,7 +79,7 @@ export function* getUserlistRepos(action:any) {
     try {
       const response = yield call(fetchFromApi);
       if(response.data.error === false){
-        yield put(genConfigResponseAction(response.data));
+        yield put(amoluletListResponseAction(response.data));
       }
     } catch (err) {
       console.log('error in amoulet list api:', err);
