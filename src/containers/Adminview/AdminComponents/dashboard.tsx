@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import {  withRouter } from 'react-router-dom';
 
 const Dashboard = (props:any) => {
+
+
     return (
         <section className="dashboard p-0">
                   <div>
@@ -71,6 +73,7 @@ const Dashboard = (props:any) => {
                       </div>
                       
                     </div>
+
              </section>
     )
 }

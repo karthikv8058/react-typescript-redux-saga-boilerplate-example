@@ -10,7 +10,7 @@ export const routes = [
     {
       path: "/admin",
       exact: true,
-      sidebar: () => <Dashbord/>,
+      sidebar: () => <Dashbord title="Dashboard"/>,
     //   main: () => <Dashbord/>
     },
     {

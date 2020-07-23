@@ -17,6 +17,7 @@ import './assets/scss/style.scss';
 
 import Navbartop from './AdminComponents/navbar';
 import {routes} from './Routes';
+import { logoutAllTabsEventListener } from '../../utils/logOutAll';
 
 
 
@@ -27,8 +28,10 @@ const Adminview  = (props:any) => {
      window.history.pushState(null, document.title,  window.location.href);
   });
 
-  useEffect (()=>{
-    
+
+  useEffect(()=>{
+
+    logoutAllTabsEventListener();
   },[]);
 
 

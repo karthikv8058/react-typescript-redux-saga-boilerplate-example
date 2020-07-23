@@ -1,7 +1,7 @@
 import React, {useEffect,useState} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import CreateAmoulet from './Amoulet/createAmoulet';
+import {amouletListRequestAction} from '../action';
 
 const Amouletlist = (props:any) => {
 
@@ -9,21 +9,14 @@ const Amouletlist = (props:any) => {
     
 
     const dispatch = useDispatch();
-    const [isCreateAmoulet, setIsCreateAmoulet] = useState(false);
-
-    const handleCreateAmoulet = (e:any) => {
-      e.preventDefault();
-      setIsCreateAmoulet(!isCreateAmoulet);
-    }
-
+    
     let params:object = {
       accessToken: props.accessToken,
       tokenType: props.tokenType
     }
 
     useEffect(() => {
-      console.log('loaded amoulet page');
-      
+      dispatch(amouletListRequestAction(params));
     },[]);
 
     return (
