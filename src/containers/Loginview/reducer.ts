@@ -46,6 +46,7 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
              }
         case ActionTypes.CLEAR_STATES:
             return {
+                ...state,
                 errorData:'',
                 responseData:'',
                 isLoading:false,

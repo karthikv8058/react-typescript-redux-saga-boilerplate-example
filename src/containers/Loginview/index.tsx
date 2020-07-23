@@ -1,26 +1,26 @@
-import React, { FunctionComponent,useState, useEffect, createRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {loginStates} from './types';
+import React, {useState, useEffect, createRef } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { 
   loginRequestAction,
-  fetchStatesAction,
   clearLoginStatesAction,
 } from './action';
 import { clearItemStatesAction } from '../Newitems/action';
 import { connect } from 'react-redux';
-import { Link, withRouter,useHistory } from 'react-router-dom';
+import {  withRouter,useHistory } from 'react-router-dom';
 
-import { Spinner } from 'reactstrap';
+
 
 import './assets/css/sb-admin-2.min.css';
 import './assets/css/all.css';
 import './assets/scss/style.scss';
-import loginReducer from './reducer';
+
 
 
 const LoginView = (props:any) =>{
 
     // console.log('Props from login page :', props);
+
     const history = useHistory();
     const usernameRef:React.RefObject<HTMLInputElement> = createRef();
     const passwordRef:React.RefObject<HTMLInputElement> = createRef();
@@ -39,7 +39,6 @@ const LoginView = (props:any) =>{
     const [isForgotPasswordEmailError, setIsForgotPasswordEmailError] = useState(false);
 
     const [isForgotpassword, setIsForgotPassword] = useState(false);
-    const [errCount, setErrCount] = useState(0);
 
     const dispatch = useDispatch();
    
@@ -149,6 +148,7 @@ const LoginView = (props:any) =>{
   }
 
   const { match } = props;
+
       window.history.pushState(null, document.title, window.location.href);
       window.addEventListener('popstate', function (event){
          window.history.pushState(null, document.title,  window.location.href);
@@ -159,7 +159,9 @@ const LoginView = (props:any) =>{
           history.push('/');
           dispatch(clearItemStatesAction());
           dispatch(clearLoginStatesAction());
-        }  
+          
+        }
+          
        },[])
 
 

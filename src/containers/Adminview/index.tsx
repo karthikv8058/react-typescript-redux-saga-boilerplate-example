@@ -1,66 +1,41 @@
-import React, { FunctionComponent,useState, useEffect } from 'react';
-
-import { useSelector, useDispatch } from 'react-redux';
-// import {adminStates} from './types';
-import Button from '../../Components/Button';
-
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
 
-import { Collapse, CardBody,UncontrolledCollapse,Card } from 'reactstrap';
+import {
+  Switch,
+  Route,
+  Link,
+  withRouter,
+
+} from "react-router-dom";
 
 import profile_pic from './assets/img/img_avatar.png';
 import './assets/css/sb-admin-2.min.css';
 import './assets/css/all.css';
 import './assets/scss/style.scss';
 
-import Dashborad from './AdminComponents/dashboard';
+
 import Navbartop from './AdminComponents/navbar';
-import Userlist from './AdminComponents/userlist';
-import Amouletlist from './AdminComponents/amouletlist';
+import {routes} from './Routes';
+
 
 
 const Adminview  = (props:any) => {
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-  const [isUserlistOpen, setIsUserlistOpen] = useState(false);
-  const [isAmouletlistOpen, setIsAmouletlistOpen] = useState(false);
-
-  const handleUserlist = () => {
-    
-    props.loginStatus&&setIsUserlistOpen(true);
-    setIsDashboardOpen(false);
-    setIsAmouletlistOpen(false);
-  }
-
-  const handleDashboard = () => {
-    props.loginStatus&&setIsDashboardOpen(true);
-    setIsUserlistOpen(false);
-    setIsAmouletlistOpen(false);
-  }
-
-  const handleAmouletlist = () => {
-    setIsDashboardOpen(false);
-    setIsUserlistOpen(false);
-    props.loginStatus&&setIsAmouletlistOpen(true);
-  }
-
-  const dispatch = useDispatch();
-
-  const { match } = props;
   window.history.pushState(null, document.title, window.location.href);
   window.addEventListener('popstate', function (event){
      window.history.pushState(null, document.title,  window.location.href);
   });
 
   useEffect (()=>{
-    setIsDashboardOpen(!isDashboardOpen);
+    
   },[]);
 
 
     return(
+      
         <div className="d-flex" style={{height:'100vh'}}>
+
           <div className="bg-white admin-menu">
                 <ul className="list-unstyled m-0">
                   <li className="mb-2 mb-md-5">
@@ -72,49 +47,68 @@ const Adminview  = (props:any) => {
                       </div>
                     </a>
                   </li>
-                  <li className="my-2 my-md-3" onClick={handleDashboard}>
+                  <li className="my-2 my-md-3">
                     <span className="block text-decoration-none text-dark font-weight-bolder w-100">
                       <i className="fas fa-tachometer-alt"></i>
-                      <span className={isDashboardOpen?"ml-3 text-theme":"ml-3"}>Dashboard</span>
+                      <span  className="ml-3 text-theme">
+                          <Link to="/admin">Dashboard</Link>
+                      </span>
                     </span>
                   </li>
-                  <li className="my-2 my-md-3" onClick={handleUserlist}>
+                  <li className="my-2 my-md-3">
                     <span className="block text-decoration-none text-dark font-weight-bolder w-100">
                     <i className="fas fa-users"></i>
-                      <span className={isUserlistOpen?"ml-3 text-theme":"ml-3"}>User list</span>
+                      <span  className="ml-3 text-theme">
+                          <Link to="/admin/userlist">User list</Link>
+                      </span>
                     </span>
                   </li>
-                  <li className="my-2 my-md-3" onClick={handleAmouletlist}>
+                  <li className="my-2 my-md-3">
                     <span className="block text-decoration-none text-dark font-weight-bolder w-100">
                     <i className="fas fa-gem"></i>
-                      <span className={isAmouletlistOpen ? "ml-3 text-theme" : "ml-3"}>Amoulet list</span>
+                      <span  className="ml-3 text-theme">
+                          <Link to="/admin/amouletlist">Amoulet list</Link>
+                      </span>
                     </span>
                   </li>
                   <li className="my-2 my-md-3">
                     <span className="block text-decoration-none text-dark font-weight-bolder w-100">
                     <i className="fas fa-book-reader"></i>
-                      <span className="ml-3">Stories</span>
+                      <span  className="ml-3 text-theme">
+                          <Link to="/admin/stories">Stories</Link>
+                      </span>
                     </span>
                   </li>
-                  {/* <i class="fas fa-book-reader"></i> */}
+                
                 </ul>
           </div>
           <div className="d-flex flex-column admin-view w-100 p-3">
               
-              <Navbartop />
-              <div className="w-100 mt-3">
-                {
-                  isDashboardOpen && props.loginStatus && <Dashborad/>
-                }
-                {
-                  isUserlistOpen&&<Userlist/>
-                }
-                {
-                  isAmouletlistOpen && <Amouletlist/>
-                }
+              <div className="d-flex justify-content-end bg-white py-2 rounded-lg shadow-sm">
+                  <Navbartop />
+              </div>
+              
+              <div className="w-100">
+              
+             
+                  <Switch>
+                  {routes.map((route:any, index:any) => (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      children={<route.sidebar/>}
+                    />
+                  ))}
+                  </Switch>
+
+              
               </div>
           </div>
+          
         </div>
+        
+        
     );
 }
 
