@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import {
   userListRequestAction,
@@ -22,44 +22,49 @@ const Userlist = (props:any) => {
     useEffect(()=>{
       dispatch(userListRequestAction(params));
       dispatch(genConfigRequestAction(params));
+
+      console.log('Page Userlist');
+      
     },[]);
 
     return (
         <section className="userlist p-0">
                   <div>
+                      <h3>{props.title}</h3>
+                  </div>
+                  <div className="table-responsive">
                       <table className="table table-bordered">
-                          <tr className="bg-theme text-white">
-                            <th>User Name</th>
-                            <th>Email</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Profile Image</th>
-                          </tr>
-                         
+                          <thead>
+                            <tr className="bg-theme text-white">
+                              <th>User Name</th>
+                              <th>Email</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Profile Image</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                           {
-                            props.userList.length > 0 && props.userList.map((item:any)=>{
+                            props.userList.length > 0 ? props.userList.map((item:any)=>{
                               return   <tr key={item.id}>
                                   <td> {item.username}</td>
                                   <td> {item.email}</td>
                                   <td> {item.firstName}</td>
                                   <td> {item.lastName}</td>
                                   <td> 
-                                    {/* {item.profileImage} */}
-                                      <img src={props.profileImages+item.profileImage} width={50} height={50} alt="No Image"/>
-                                      {
-                                        console.log('img path:',props.profileImages+item.profileImage)
-                                        
-                                      }
+                                      <img src={props.profileImages+item.profileImage} width={50} height={50} alt="Profile Pic"/>
                                   </td>
                               </tr>
-                            })
-
+                            }) :
                             
-                            
+                            <tr>
+                              <td colSpan={6}>
+                              <span className="d-block text-center">No data</span>
+                              </td>
+                            </tr>
+                           
                           }
-                          {
-                            console.log('userList',props.userList)
-                          }
+                         </tbody>
                       </table>
                   </div>
              </section>
@@ -70,6 +75,7 @@ const mapStateToProps: any = (state: any) => {
   return {
     accessToken:state.loginReducer.accessToken,
     tokenType:state.loginReducer.tokenType,
+    loginStatus:state.loginReducer.loginStatus,
     userList:state.adminReducer.userList,
     profileImages:state.adminReducer.profileImages,
   };

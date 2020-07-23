@@ -14,70 +14,50 @@ import ApiConstants from '../../api/ApiConstants';
 
 
 export function* getUserlistRepos(action:any) {
-  
-    // Select username from store
-    console.log('adminpageSaga :',action);
 
-    function fetchFromApi() {
-      console.log('api fn');
-      
-      // return axios.post(ApiConstants.BASE_URL+ApiConstants.AUTH_LOGIN,action.payload.params)
+    function fetchFromApi() {;
       return axios.get(ApiConstants.BASE_URL+ApiConstants.USER_LIST, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
     }
     
-  
     try {
-      console.log('try ');
-      
       const response = yield call(fetchFromApi);
-      // console.log('response from axios :',response.data);
       if(response.data.error===false){
         yield put(userListResponseAction(response.data));
       }
     } catch (err) {
 
-      console.log('error in admin req:',err);
-      
-      //yield put(testDataErrorAction(err));
     }
   }
 
   export function* getGenConfig(action:any) {
   
-    // Select username from store
-    console.log('getGenConfig :',action.payload);
-
     function fetchFromApi() {
-      console.log('api fn getGenConfig');
-      
-      // return axios.post(ApiConstants.BASE_URL+ApiConstants.AUTH_LOGIN,action.payload.params)
       return axios.get(ApiConstants.BASE_URL+ApiConstants.GEN_CONFIG, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
     }
-    
   
     try {
-      console.log('try ');
-      
       const response = yield call(fetchFromApi);
-       console.log('response from axios :',response.data);
       if(response.data.error===false){
         yield put(genConfigResponseAction(response.data));
       }
     } catch (err) {
 
-      console.log('error in admin req:',err);
-      
-      //yield put(testDataErrorAction(err));
     }
   }
   
   // Function to list amoulets
   export function* getAmouletList(action :any) {
+
+    console.log('getAmouletList :',action.payload);
+
     function fetchFromApi() {
       return axios.get(ApiConstants.BASE_URL + ApiConstants.AMOULET_LIST, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
     }
+
     try {
       const response = yield call(fetchFromApi);
+      console.log('getAmouletList response',response.data);
+      
       if(response.data.error === false){
         yield put(amoluletListResponseAction(response.data));
       }

@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import {  withRouter } from 'react-router-dom';
 
 const Dashboard = (props:any) => {
     return (
         <section className="dashboard p-0">
+                  <div>
+                      <h3>{props.title}</h3>
+                  </div>
                   <div className="row">
                       <div className="col-xl-3 col-md-6 mb-4">
                       <div className="card border-left-primary shadow h-100 py-2">

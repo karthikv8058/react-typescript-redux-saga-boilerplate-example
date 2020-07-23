@@ -35,7 +35,7 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
                 storyMedia:action.payload.data.storyMedia,
             }
         case ActionTypes.AMOULET_LIST_REQUEST:
-            console.log('AMOULET_LIST_REQUEST', ActionTypes.AMOULET_LIST_REQUEST);
+            console.log('AMOULET_LIST_REQUEST');
             return {
                 ...state,
             }

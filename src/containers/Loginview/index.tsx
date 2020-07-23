@@ -1,26 +1,26 @@
-import React, { FunctionComponent,useState, useEffect, createRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {loginStates} from './types';
+import React, {useState, useEffect, createRef } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { 
   loginRequestAction,
-  fetchStatesAction,
   clearLoginStatesAction,
 } from './action';
 import { clearItemStatesAction } from '../Newitems/action';
 import { connect } from 'react-redux';
-import { Link, withRouter,useHistory } from 'react-router-dom';
+import {  withRouter,useHistory } from 'react-router-dom';
 
-import { Spinner } from 'reactstrap';
+
 
 import './assets/css/sb-admin-2.min.css';
 import './assets/css/all.css';
 import './assets/scss/style.scss';
-import loginReducer from './reducer';
+
 
 
 const LoginView = (props:any) =>{
 
     // console.log('Props from login page :', props);
+
     const history = useHistory();
     const usernameRef:React.RefObject<HTMLInputElement> = createRef();
     const passwordRef:React.RefObject<HTMLInputElement> = createRef();
@@ -39,7 +39,6 @@ const LoginView = (props:any) =>{
     const [isForgotPasswordEmailError, setIsForgotPasswordEmailError] = useState(false);
 
     const [isForgotpassword, setIsForgotPassword] = useState(false);
-    const [errCount, setErrCount] = useState(0);
 
     const dispatch = useDispatch();
    
@@ -120,8 +119,10 @@ const LoginView = (props:any) =>{
   }
 
   const handleSubmit = (username:string,password:string,e:any) => {
+
     e.preventDefault();
-    console.log('username :',usernameRef.current?.value);
+    // console.log('username :',usernameRef.current?.value);
+
     if(usernameRef.current?.value === '') {
       setUsernameError('Username is required');
       setIsUsernameError(true);
@@ -130,12 +131,14 @@ const LoginView = (props:any) =>{
       setPasswordError('Password is required');
       setIsPasswordError(true);
     }
+
     if(usernameRef.current?.value !== '' && passwordRef.current?.value !== ''){
       const params:object = {     
         "grant_type": "password",
         'username': username,
         'password': password,
       }
+
       const finalParams:object = {
         params,
         loginNav:() => history.push('/admin')
@@ -145,6 +148,7 @@ const LoginView = (props:any) =>{
   }
 
   const { match } = props;
+
       window.history.pushState(null, document.title, window.location.href);
       window.addEventListener('popstate', function (event){
          window.history.pushState(null, document.title,  window.location.href);
@@ -155,12 +159,24 @@ const LoginView = (props:any) =>{
           history.push('/');
           dispatch(clearItemStatesAction());
           dispatch(clearLoginStatesAction());
-        }  
+          
+        }
+          
        },[])
 
-       const handleForgotPassword = (e:any,forgotPasswordEmail:any) => {
+
+      const handleForgot = (e:any,forgotPasswordEmail:string) => {
+        
         e.preventDefault();
-       }
+
+        console.log('Forgot function');
+        if(forgotPasswordRef.current?.value==='') {
+            setForgotPasswordEmailError('Email is required');
+            setIsForgotPasswordEmailError(true);
+          }else{
+                
+        }
+      }
 
        const handleGoBack = (e:any) => {
         e.preventDefault();
@@ -261,7 +277,7 @@ const LoginView = (props:any) =>{
                       </div>
                       
                       <div className="form-group text-center">
-                      <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleForgotPassword(forgotPasswordEmail,e)}}>
+                      <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleForgot(e,forgotPasswordEmail)}}>
                           Send Request
                       </button>
                           

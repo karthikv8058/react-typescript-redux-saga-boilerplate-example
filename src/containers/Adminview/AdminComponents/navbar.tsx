@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 import { connect } from 'react-redux';
-import { Link, withRouter,useHistory } from 'react-router-dom';
+import { Link, withRouter,useHistory,Redirect } from 'react-router-dom';
 
 import profile_pic from '../assets/img/img_avatar.png';
 import '../assets/scss/style.scss';
@@ -21,6 +21,7 @@ const Navbartop = (props:any) => {
   const notificationRef:RefObject<HTMLInputElement> = createRef();
   const profileRef:RefObject<HTMLInputElement> = createRef();
 
+
   const handleLogout = () => {
 
       Swal.fire({
@@ -35,6 +36,7 @@ const Navbartop = (props:any) => {
         if (result.value) {
           console.log('logout');
           history.push('/');
+          // window.location.reload();
         }
       })
   }
