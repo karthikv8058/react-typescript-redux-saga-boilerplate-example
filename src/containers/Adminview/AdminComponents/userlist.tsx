@@ -8,26 +8,16 @@ import {
 } from '../action'
 
 const Userlist = (props:any) => {
-
-  console.log('Props from userlist :',props);
-  
-
   const dispatch = useDispatch();
-
   let params:object = {
     accessToken:props.accessToken,
     tokenType:props.tokenType
   }
-
-    useEffect(()=>{
-      dispatch(userListRequestAction(params));
-      dispatch(genConfigRequestAction(params));
-
-      console.log('Page Userlist');
-      
-    },[]);
-
-    return (
+  useEffect(()=>{
+    dispatch(userListRequestAction(params));
+    dispatch(genConfigRequestAction(params));
+  },[]);
+  return (
         <section className="userlist p-0">
                   <div>
                       <h3>{props.title}</h3>
