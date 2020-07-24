@@ -11,6 +11,7 @@ import '../assets/scss/style.scss';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import {Navbar,Nav,NavDropdown,Form,Button,FormControl}  from 'react-bootstrap';
+import { logout } from '../../../utils/logOutAll';
 
 
 const Navbartop = (props:any) => {
@@ -35,8 +36,8 @@ const Navbartop = (props:any) => {
       }).then((result) => {
         if (result.value) {
           console.log('logout');
+          logout();
           history.push('/');
-          // window.location.reload();
         }
       })
   }
