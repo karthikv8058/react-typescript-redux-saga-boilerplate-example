@@ -18,16 +18,10 @@ import './assets/scss/style.scss';
 import Navbartop from './AdminComponents/navbar';
 import {routes} from './Routes';
 import { logoutAllTabsEventListener } from '../../utils/logOutAll';
-import {
-  refreshTokenRequestAction,
-} from '../Loginview/action';
 
-let loginDay=new Date();
 
-const Adminview  = (props:any) => {
 
-  console.log('PROPS FROM REDUCER IN ADMIN PAGE:',props.accessDateTime,props);
-  
+const Adminview  = (props:any) => {  
 
   const dispatch = useDispatch();
 
@@ -44,66 +38,8 @@ const Adminview  = (props:any) => {
     setIsMenuBarActive(!isMenuBarActive);
   }
 
-  loginDay = new Date(props.accessDateTime);
-  
-  console.log('OUTER TIMER DATE TIME:',props.accessDateTime);
-
-  const startTime = () => {
-
-    console.log('INNER TIMER DATE TIME:',props.accessDateTime);
-    // const loginDay = new Date(props.accessDateTime)
-    const loginH = new Date(loginDay).getHours();
-    const loginM = new Date(loginDay).getMinutes();
-    const loginS = new Date(loginDay).getSeconds();
-      
-    const loginTime = (loginH * 3600) + (loginM * 60) + loginS;
-    // const loginTime = new Date(loginDay).getTime()/1000;
-    const expireTime = props.expiresIn;
-
-    const newRequestTime = ( loginTime + expireTime ) -520;
-    
-
-    // console.log('props.accessDateTime:',new Date(props.accessDateTime));
-    
-    
-    const today = new Date();
-    const h = today.getHours();
-    const m = today.getMinutes();
-    const s = today.getSeconds();
-    
-    const CurrentTime = (h * 3600) + (m * 60) + s;
-    // const CurrentTime = new Date().getTime()/1000;
-
-
-    console.log('totalTimeInSeconds :',CurrentTime,loginTime,newRequestTime);
-
-    
-
-    if(CurrentTime == newRequestTime){
-
-      console.log('Expired !');
-
-      let params:object = {
-        'refresh_token':props.refreshToken,
-        'grant_type' : 'refresh_token'
-      }
-
-      dispatch(refreshTokenRequestAction(params));
-      
-    }else{
-      console.log('Waiting !');
-    }
-    
-    let t = setTimeout(function() {
-      startTime()
-    }, 1000);
-
-  }
-
   useEffect(()=>{
     logoutAllTabsEventListener();
-    startTime();
-    // loginDay = new Date(props.accessDateTime);
   },[]);
 
 
