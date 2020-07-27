@@ -9,6 +9,10 @@ import {
   loginErrorAction
 } from './action';
 
+import {
+  refreshTokenResponseAction
+} from '../Loginview/action';
+
 export function* getLoginResponse(action:any) {
     function fetchFromApi() {
       return axios.post(ApiConstants.BASE_URL+ApiConstants.AUTH_LOGIN,action.payload.params)
@@ -17,14 +21,53 @@ export function* getLoginResponse(action:any) {
     try {
       const response = yield call(fetchFromApi);
       if(response.status === 200 && !response.data.error) {
-        yield put(loginResponseAction(response.data));
+        
+        let loginDay = new Date();
+
+        let finalData = {
+          "loginDay":loginDay,
+          "data":response.data.data
+        }
+
+        yield put(loginResponseAction(finalData));
         yield call(action.payload.loginNav); 
+
       }
     } catch (err) {
       yield put(loginErrorAction(err));
     }
   }
+
+  export function* getRefreshTokenResponse(action:any) {
+
+    console.log('getRefreshTokenResponse params:',action.payload);
+
+    function fetchFromApi() {
+      return axios.post(ApiConstants.BASE_URL+ApiConstants.AUTH_LOGIN,action.payload)
+    }
+    
+    try {
+      const response = yield call(fetchFromApi);
+      console.log('getRefreshTokenResponse Data:',response);
+      
+      if(response.status === 200 && response.statusText=='OK') {
+
+        let loginDay = new Date();
+
+        let finalData = {
+          "loginDay":loginDay,
+          "data":response.data.data
+        }
+
+        yield put(refreshTokenResponseAction(finalData)); 
+        
+      }
+    } catch (err) {
+      
+    }
+  }
   
   export default function* loginPageSaga() {
     yield takeLatest(ActionTypes.LOGIN_REQUEST, getLoginResponse);
+    yield takeLatest(ActionTypes.REFRESH_TOKEN_REQUEST, getRefreshTokenResponse);
   }

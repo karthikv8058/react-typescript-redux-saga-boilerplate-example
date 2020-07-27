@@ -9,6 +9,9 @@ import {
 
 const Userlist = (props:any) => {
 
+  console.log('Props from userlist :',props);
+  
+
   const dispatch = useDispatch();
 
   let params:object = {
