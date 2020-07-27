@@ -1,0 +1,6 @@
+enum ActionTypes {
+    AMOULET_CREATE_REQUEST = 'AMOULET_CREATE_REQUEST',
+    AMOULET_CREATE_RESPONSE = 'AMOULET_CREATE_RESPONSE',
+  }
+  
+  export default ActionTypes;

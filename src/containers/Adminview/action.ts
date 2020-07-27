@@ -9,6 +9,8 @@ export const amouletListRequestAction = (params:object) => action(ActionTypes.AM
 export const amoluletListResponseAction = (amouletList:any) => action(ActionTypes.AMOULET_LIST_RESPONSE, amouletList);
 export const genConfigRequestAction = (params:object) => action(ActionTypes.GEN_CONFIG_REQUEST, params);
 export const genConfigResponseAction = (config:any) => action(ActionTypes.GEN_CONFIG_RESPONSE, config);
+export const clearAdminStates = () => action(ActionTypes.CLEAR_ADMIN_STATES);
+
 
 
 

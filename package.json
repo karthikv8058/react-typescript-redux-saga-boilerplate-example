@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "author": "karthik v",
     "private": true,
+    "homepage": "",
     "dependencies": {
         "@reduxjs/toolkit": "^1.4.0",
         "@testing-library/jest-dom": "^4.2.4",
@@ -18,6 +19,7 @@
         "@types/reactstrap": "^8.5.0",
         "axios": "^0.19.2",
         "bootstrap": "^4.5.0",
+        "formik": "^2.1.5",
         "history": "^5.0.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
@@ -28,7 +30,8 @@
         "redux-saga": "^1.1.3",
         "tslint": "^6.1.2",
         "typesafe-actions": "^5.1.0",
-        "typescript": "^3.7.5"
+        "typescript": "^3.7.5",
+        "yup": "^0.29.1"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -55,6 +58,7 @@
         "@types/bootstrap": "^4.5.0",
         "@types/react-router": "^5.1.8",
         "@types/webpack-env": "^1.15.2",
+        "@types/yup": "^0.29.3",
         "broadcast-channel": "^3.1.0",
         "node-sass": "^4.14.1",
         "react-bootstrap": "^1.0.1",

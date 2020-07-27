@@ -5,6 +5,9 @@ import {
   loginRequestAction,
   clearLoginStatesAction,
 } from './action';
+
+import {clearAdminStates} from '../Adminview/action';
+
 import { clearItemStatesAction } from '../Newitems/action';
 import { connect } from 'react-redux';
 import {  withRouter,useHistory } from 'react-router-dom';
@@ -158,12 +161,9 @@ const LoginView = (props:any) =>{
       useEffect(()=> {
        
           dispatch(clearItemStatesAction());
-          dispatch(clearLoginStatesAction()); 
-          // logout();
-          // postMessageToChannel();
-       
-        // console.log('window.location.href :',window.location.href);
-        
+          dispatch(clearLoginStatesAction());
+          dispatch(clearAdminStates()); 
+
        },[])
 
 
