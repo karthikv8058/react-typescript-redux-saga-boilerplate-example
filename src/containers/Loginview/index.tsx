@@ -8,12 +8,13 @@ import {
 import { clearItemStatesAction } from '../Newitems/action';
 import { connect } from 'react-redux';
 import {  withRouter,useHistory } from 'react-router-dom';
-
+import {persistor} from '../../store';
 
 
 import './assets/css/sb-admin-2.min.css';
 import './assets/css/all.css';
 import './assets/scss/style.scss';
+import { logout } from '../../utils/logOutAll';
 
 
 
@@ -155,13 +156,14 @@ const LoginView = (props:any) =>{
       }); 
 
       useEffect(()=> {
-        if(match.url==='/'){
-          history.push('/');
+       
           dispatch(clearItemStatesAction());
-          dispatch(clearLoginStatesAction());
-          
-        }
-          
+          dispatch(clearLoginStatesAction()); 
+          // logout();
+          // postMessageToChannel();
+       
+        // console.log('window.location.href :',window.location.href);
+        
        },[])
 
 

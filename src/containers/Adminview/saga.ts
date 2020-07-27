@@ -13,14 +13,16 @@ import ApiConstants from '../../api/ApiConstants';
 
 
 
-export function* getUserlistRepos(action:any) {
-
+export function* getUserlist(action:any) {
+    console.log('getUserlistRepos');
+    
     function fetchFromApi() {;
       return axios.get(ApiConstants.BASE_URL+ApiConstants.USER_LIST, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
     }
-    
     try {
       const response = yield call(fetchFromApi);
+      console.log('response data from userlist',response.data);
+      
       if(response.data.error===false){
         yield put(userListResponseAction(response.data));
       }
@@ -48,16 +50,14 @@ export function* getUserlistRepos(action:any) {
   // Function to list amoulets
   export function* getAmouletList(action :any) {
 
-    console.log('getAmouletList :',action.payload);
+    console.log('getAmouletList :', action.payload);
 
     function fetchFromApi() {
       return axios.get(ApiConstants.BASE_URL + ApiConstants.AMOULET_LIST, { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
     }
 
     try {
-      const response = yield call(fetchFromApi);
-      console.log('getAmouletList response',response.data);
-      
+      const response = yield call(fetchFromApi);      
       if(response.data.error === false){
         yield put(amoluletListResponseAction(response.data));
       }
@@ -68,7 +68,7 @@ export function* getUserlistRepos(action:any) {
   
   export default function* adminPageSaga() {
     // See example in containers/HomePage/saga.js
-    yield takeLatest(ActionTypes.USER_LIST_REQUEST, getUserlistRepos);
+    yield takeLatest(ActionTypes.USER_LIST_REQUEST, getUserlist);
     yield takeLatest(ActionTypes.GEN_CONFIG_REQUEST, getGenConfig);
     yield takeLatest(ActionTypes.AMOULET_LIST_REQUEST, getAmouletList);
   }

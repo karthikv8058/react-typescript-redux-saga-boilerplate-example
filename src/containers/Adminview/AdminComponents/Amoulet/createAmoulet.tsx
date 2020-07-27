@@ -2,22 +2,14 @@ import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import {  withRouter } from 'react-router-dom';
 
-const CreateAmolet = (props:any) => {
-
-    console.log("props from amoulet",props);
-    
-
+const CreateAmoulet = (props:any) => {
     const dispatch = useDispatch();
-
     let params:object = {
       accessToken: props.accessToken,
       tokenType: props.tokenType
     }
-
     useEffect(() => {
-      
     },[]);
-
     return (
       <section className="create-amoulet p-0">
         <div>
@@ -85,5 +77,5 @@ const mapStateToProps: any = (state: any) => {
 };
 
 export default connect(
-  mapStateToProps)(withRouter(CreateAmolet));
+  mapStateToProps)(withRouter(CreateAmoulet));
 
