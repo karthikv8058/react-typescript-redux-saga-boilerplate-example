@@ -8,21 +8,18 @@ import {
 } from '../action'
 
 const Userlist = (props:any) => {
-
-  console.log('Props from userlist :',props);
   
-
   const dispatch = useDispatch();
 
   let params:object = {
-    accessToken:props.loginReducer.accessToken,
-    tokenType:props.loginReducer.tokenType
+    accessToken:props.accessToken,
+    tokenType:props.tokenType,
+    refresh_token:props.refreshToken,
   }
 
     useEffect(()=>{
       dispatch(userListRequestAction(params));
       dispatch(genConfigRequestAction(params));;
-      
     },[]);
 
     return (
@@ -73,6 +70,8 @@ const mapStateToProps: any = (state: any) => {
   return {
     loginReducer:state.loginReducer,
     accessToken:state.loginReducer.accessToken,
+    expiresIn:state.loginReducer.expiresIn,
+    refreshToken:state.loginReducer.refreshToken,
     tokenType:state.loginReducer.tokenType,
     loginStatus:state.loginReducer.loginStatus,
     userList:state.adminReducer.userList,

@@ -21,15 +21,9 @@ export function* getLoginResponse(action:any) {
     try {
       const response = yield call(fetchFromApi);
       if(response.status === 200 && !response.data.error) {
-        
-        let loginDay = new Date();
 
-        let finalData = {
-          "loginDay":loginDay,
-          "data":response.data.data
-        }
 
-        yield put(loginResponseAction(finalData));
+        yield put(loginResponseAction(response.data));
         yield call(action.payload.loginNav); 
 
       }
@@ -47,20 +41,13 @@ export function* getLoginResponse(action:any) {
     }
     
     try {
+
       const response = yield call(fetchFromApi);
       console.log('getRefreshTokenResponse Data:',response);
       
       if(response.status === 200 && response.statusText=='OK') {
 
-        let loginDay = new Date();
-
-        let finalData = {
-          "loginDay":loginDay,
-          "data":response.data.data
-        }
-
-        yield put(refreshTokenResponseAction(finalData)); 
-        
+        yield put(refreshTokenResponseAction(response.data)); 
       }
     } catch (err) {
       

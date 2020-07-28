@@ -4,7 +4,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import {persistor,store} from './store';
+import axios from 'axios';
 
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+if (error.response.status === 401) {
+  console.log('401 ERROR');
+}
+return error;
+});
 
 
 
