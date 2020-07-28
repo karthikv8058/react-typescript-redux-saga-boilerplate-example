@@ -112,6 +112,8 @@
         
         .admin-view {
             background-color: #f7f8fa;
+            height: 100vh;
+            overflow-y: scroll;
             .bg-search {
                 background-color: #efeef3;
             }
@@ -203,4 +205,9 @@
                     }
                 }
             }
+        }
+        
+        .ag-center-cols-container {
+            width: 100%!important;
+            height: auto!important;
         }
