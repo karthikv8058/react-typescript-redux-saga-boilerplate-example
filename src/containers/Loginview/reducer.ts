@@ -14,6 +14,7 @@ export const initialState ={
     tokenType:'',
     loginStatus:false,
     accessDateTime:'',
+    isLoader:false,
 
 }
 console.log('in reducer file');
@@ -48,18 +49,21 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
                 loginStatus:false,
              }
         case ActionTypes.REFRESH_TOKEN_REQUEST:
+            console.log('REFRESH_TOKEN_REQUEST');
+            
             return {
                 ...state,
+                isLoader:true,
             }
         case ActionTypes.REFRESH_TOKEN_RESPONSE:
-            console.log('REFRESH_TOKEN_RESPONSE :',action.payload.loginDay);
+            console.log('REFRESH_TOKEN_RESPONSE :',action.payload);
             return {
                 ...state,
                 accessToken:action.payload.data.access_token,
                 expiresIn:action.payload.data.expires_in,
                 tokenType:action.payload.data.token_type,
                 refreshToken:action.payload.data.refresh_token,
-                accessDateTime:action.payload.loginDay,
+                isLoader:false,
             }
         case ActionTypes.CLEAR_STATES:
             return {
