@@ -8,5 +8,7 @@ const ApiConstants = {
     USER_LIST: 'api/1.0/user/list',
     AMOULET_LIST: 'api/1.0/amoulet/jewel-list',
     GEN_CONFIG: 'api/1.0/general/configuration',
+    CREATE_AMOULET: 'api/1.0/amoulet/new',
+    GET_CODE: 'api/1.0/amoulet/get-code/',
 };
 export default ApiConstants;

@@ -44,6 +44,14 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
                 ...state,
                 amouletList: action.payload.data,
             }
+        case ActionTypes.CLEAR_ADMIN_STATES:
+            return {
+                userList: [],
+                amouletList: [],
+                profileImages: '',
+                storyMedia: ''
+            }
+
         default:
             return state;
     }

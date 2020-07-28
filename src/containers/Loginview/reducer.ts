@@ -1,5 +1,6 @@
 import ActionTypes from './constants';
 import {ContainerActions,loginStates} from './types';
+import { date } from 'yup';
  
 
 export const initialState ={
@@ -12,6 +13,7 @@ export const initialState ={
     refreshToken:'',
     tokenType:'',
     loginStatus:false,
+    accessDateTime:'',
 
 }
 console.log('in reducer file');
@@ -26,13 +28,14 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
                 loginStatus:false,
             }
         case ActionTypes.LOGIN_RESPONSE:
-            console.log('LOGIN_RESPONSE :',action.payload.data.access_token);
+            console.log('LOGIN_RESPONSE expires_in :',action.payload.expires_in);
             return {
                 ...state,
                 accessToken:action.payload.data.access_token,
                 expiresIn:action.payload.data.expires_in,
                 tokenType:action.payload.data.token_type,
                 refreshToken:action.payload.data.refresh_token,
+                accessDateTime:action.payload.loginDay,
                 isLoginError:false,
                 isLoading:false,
                 loginStatus:true,
@@ -44,6 +47,20 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
                 isLoading:false,
                 loginStatus:false,
              }
+        case ActionTypes.REFRESH_TOKEN_REQUEST:
+            return {
+                ...state,
+            }
+        case ActionTypes.REFRESH_TOKEN_RESPONSE:
+            console.log('REFRESH_TOKEN_RESPONSE :',action.payload.loginDay);
+            return {
+                ...state,
+                accessToken:action.payload.data.access_token,
+                expiresIn:action.payload.data.expires_in,
+                tokenType:action.payload.data.token_type,
+                refreshToken:action.payload.data.refresh_token,
+                accessDateTime:action.payload.loginDay,
+            }
         case ActionTypes.CLEAR_STATES:
             return {
                 ...state,

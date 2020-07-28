@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect,useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
 
 import {
   Switch,
@@ -21,25 +21,34 @@ import { logoutAllTabsEventListener } from '../../utils/logOutAll';
 
 
 
-const Adminview  = (props:any) => {
+const Adminview  = (props:any) => {  
+
+  const dispatch = useDispatch();
+
+  const [isMenuActive, setIsMenuActive] = useState(false);
+  const [isMenuBarActive, setIsMenuBarActive] = useState(false);
 
   window.history.pushState(null, document.title, window.location.href);
   window.addEventListener('popstate', function (event){
      window.history.pushState(null, document.title,  window.location.href);
   });
 
+  const handleMenu = () => {
+    setIsMenuActive(!isMenuActive);
+    setIsMenuBarActive(!isMenuBarActive);
+  }
 
   useEffect(()=>{
-
     logoutAllTabsEventListener();
   },[]);
+
 
 
     return(
       
         <div className="d-flex" style={{height:'100vh'}}>
 
-          <div className="bg-white admin-menu">
+          <div className={isMenuActive?"bg-white admin-menu active":"bg-white admin-menu"}>
                 <ul className="list-unstyled m-0">
                   <li className="mb-2 mb-md-5">
                     <a href="" className="d-block text-decoration-none text-dark text-center font-weight-bolder">
@@ -88,6 +97,11 @@ const Adminview  = (props:any) => {
           <div className="d-flex flex-column admin-view w-100 p-3">
               
               <div className="d-flex justify-content-end bg-white py-2 rounded-lg shadow-sm">
+                  <div className="mr-auto">
+                      <div className={isMenuActive?"menu active":"menu"} onClick={handleMenu}>
+                        <span  className="menu-bar"></span>
+                      </div>
+                  </div>
                   <Navbartop />
               </div>
               
@@ -118,6 +132,9 @@ const Adminview  = (props:any) => {
 const mapStateToProps: any = (state: any) => {
   return {
     loginStatus:state.loginReducer.loginStatus,
+    refreshToken:state.loginReducer.refreshToken,
+    expiresIn:state.loginReducer.expiresIn,
+    accessDateTime:state.loginReducer.accessDateTime,
   };
 };
 
