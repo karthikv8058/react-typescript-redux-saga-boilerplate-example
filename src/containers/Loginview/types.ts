@@ -13,6 +13,7 @@ export interface loginStates{
     isLoading:boolean,
     loginStatus:boolean,
     accessDateTime:string,
+    isLoader:boolean,
 }
 
 /* --- ACTIONS --- */

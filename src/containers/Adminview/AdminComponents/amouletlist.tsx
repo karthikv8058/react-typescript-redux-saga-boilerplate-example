@@ -11,8 +11,9 @@ const Amouletlist = (props:any) => {
       setIsCreateAmoulet(!isCreateAmoulet);
     }
     let params:object = {
-      accessToken: props.accessToken,
-      tokenType: props.tokenType
+      accessToken:props.accessToken,
+      tokenType:props.tokenType,
+      refresh_token:props.refreshToken,
     }
 
     useEffect(() => {
@@ -69,6 +70,7 @@ const mapStateToProps: any = (state: any) => {
   return {
     accessToken: state.loginReducer.accessToken,
     tokenType: state.loginReducer.tokenType,
+    refreshToken:state.loginReducer.refreshToken,
     amouletList: state.adminReducer.amouletList,
     profileImages: state.adminReducer.profileImages,
   };

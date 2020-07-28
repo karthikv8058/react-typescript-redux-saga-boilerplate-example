@@ -18,7 +18,9 @@ import './assets/scss/style.scss';
 import Navbartop from './AdminComponents/navbar';
 import {routes} from './Routes';
 import { logoutAllTabsEventListener } from '../../utils/logOutAll';
+import axios from 'axios';
 
+import {refreshTokenRequestAction} from '../Loginview/action';
 
 
 const Adminview  = (props:any) => {  
@@ -38,16 +40,46 @@ const Adminview  = (props:any) => {
     setIsMenuBarActive(!isMenuBarActive);
   }
 
+
   useEffect(()=>{
+    
     logoutAllTabsEventListener();
+
   },[]);
 
+//   axios.interceptors.response.use(response => {
+//     return response;
+//   }, error => {
+//   if (error.response.status === 401) {
 
+//     console.log('401 ERROR',props.refreshToken);
+//     let params:object = {
+//       "refresh_token":props.refreshToken,
+//       "grant_type" : "refresh_token"
+//     }
+//       if(props.isLoader){
+//         console.log('waiting for response');
+        
+//       }else{
+//         dispatch(refreshTokenRequestAction(params));
+//       }
+//   }
+//   return error;
+// });
+
+    // for access token generator
+    
 
     return(
       
-        <div className="d-flex" style={{height:'100vh'}}>
-
+        <div className="d-flex relative" style={{height:'100vh'}}>
+           {/* {
+             props.isLoader&&
+              <div className="loader-waiting d-flex justify-content-center">
+                  <div className="spinner-border text-info align-self-center" role="status">
+                  </div>
+              </div>
+           } */}
           <div className={isMenuActive?"bg-white admin-menu active":"bg-white admin-menu"}>
                 <ul className="list-unstyled m-0">
                   <li className="mb-2 mb-md-5">
@@ -133,8 +165,8 @@ const mapStateToProps: any = (state: any) => {
   return {
     loginStatus:state.loginReducer.loginStatus,
     refreshToken:state.loginReducer.refreshToken,
+    isLoader:state.loginReducer.isLoader,
     expiresIn:state.loginReducer.expiresIn,
-    accessDateTime:state.loginReducer.accessDateTime,
   };
 };
 
