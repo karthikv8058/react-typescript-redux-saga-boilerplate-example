@@ -10,5 +10,6 @@ const ApiConstants = {
     GEN_CONFIG: 'api/1.0/general/configuration',
     CREATE_AMOULET: 'api/1.0/amoulet/new',
     GET_CODE: 'api/1.0/amoulet/get-code/',
+    VALIDATE_NFC_SERIAL: 'api/1.0/amoulet/validate/',
 };
 export default ApiConstants;

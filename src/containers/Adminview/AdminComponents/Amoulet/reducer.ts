@@ -1,10 +1,11 @@
 import ActionTypes from './constants';
 import {ContainerActions,amouletStates} from './types';
-import { string } from 'yup';
+import { string, object } from 'yup';
  
 export const initialState = {
     giverCode: string,
     receiverCode: string,
+    validateCode: object,
 }
 const amouletReducer = (state:amouletStates = initialState, action:ContainerActions) => {
     switch(action.type) {
@@ -33,6 +34,15 @@ const amouletReducer = (state:amouletStates = initialState, action:ContainerActi
             return {
                 ...state,
                 receiverCode: action.payload.data
+            }
+        case ActionTypes.AMOULET_VALIDATE_CODE_REQUEST:
+            return {
+                ...state,
+            }
+        case ActionTypes.AMOULET_VALIDATE_CODE_RESPONSE:
+            return {
+                ...state,
+                validateCode: action.payload
             }
         default:
             return state;

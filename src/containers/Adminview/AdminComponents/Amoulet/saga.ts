@@ -4,7 +4,8 @@ import ActionTypes from './constants';
 import { 
   amouletCreateResponseAction,
   amouletGiverCodeResponseAction,
-  amouletReceiverCodeResponseAction
+  amouletReceiverCodeResponseAction,
+  amouletValidateResponseAction
  } from './action';
 
 
@@ -73,9 +74,48 @@ export function* getReceiverCode(action :any) {
     console.log('error in amoulet list api:', err);
   }
 }
+
+// Function to validate nfc and serial numbers
+export function* validateNFCAndSerialNumber(action :any) {
+  const url = ApiConstants.BASE_URL + ApiConstants.VALIDATE_NFC_SERIAL + action.payload.params.type;
+  const data:object = {
+    value: action.payload.params.value
+  };
+  const token = action.payload.accessParams.accessToken;
+  function fetchFromApi() {
+    return axios.post(url, data, {
+      headers: {
+        'Authorization': `Bearer ${token}` 
+      }
+    });
+  }
+  try {
+    const response = yield call(fetchFromApi);
+    console.log('3435345', response.data);
+    if(response.status === 200 && response.data.error === false){
+      console.log(423434234);
+      yield put(amouletValidateResponseAction(response.data));
+    }
+  } catch (err) {
+    console.log('error in amoulet list api:', err);
+  }
+  
+  
+  // function fetchFromApi() {
+  //   return axios.get(ApiConstants.BASE_URL + ApiConstants.GET_CODE + 'receiver', { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
+  // }
+  // try {
+  //   const response = yield call(fetchFromApi);      
+  //   if(response.data.error === false){
+  //     yield put(amouletReceiverCodeResponseAction(response.data));
+  //   }
+  // } catch (err) {
+  //   console.log('error in amoulet list api:', err);
+  // }
+}
   
 export default function* amouletPageSaga() {
     yield takeLatest(ActionTypes.AMOULET_CREATE_REQUEST, createAmoulet);
     yield takeLatest(ActionTypes.AMOULET_GIVER_CODE_REQUEST, getGiverCode);
-    yield takeLatest(ActionTypes.AMOULET_RECEIVER_CODE_REQUEST, getReceiverCode);
+    yield takeLatest(ActionTypes.AMOULET_VALIDATE_CODE_REQUEST, validateNFCAndSerialNumber);
 }

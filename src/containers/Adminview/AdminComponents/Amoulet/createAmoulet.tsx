@@ -1,17 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import {  withRouter } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-
+import inArray from '../../../../Service';
 import {
   amouletCreateRequestAction,
   amouletGiverCodeRequestAction,
-  amouletReceiverCodeRequestAction
+  amouletReceiverCodeRequestAction,
+  amouletValidateRequestAction
 } from './action';
 
 import * as Yup from 'yup';
 
 const CreateAmoulet = (props:any) => {    
+    const [value, setValue] = useState("");
     const dispatch = useDispatch();
     const accessParams:object = {
       accessToken: props.accessToken,
@@ -29,6 +31,31 @@ const CreateAmoulet = (props:any) => {
     const handleReceiverCode = (e:any) => {
       e.preventDefault();
       dispatch(amouletReceiverCodeRequestAction(accessParams));
+    }
+    // Function to handle NFC and Serial number validation
+    const handleNfcCodeSerialNumberValidation = (e:any, type:string) => {
+      e.preventDefault();
+      let typeArr = ["nfcCode", "serialNumber"];
+      if (!inArray(type, typeArr) || (e.target.value.length === 0)) {
+        return false;
+      }
+      var params:object = {};
+      if (type === 'nfcCode') {
+        params = {
+          value: e.target.value,
+          type: type
+        }
+      } else {
+        params = {
+          value: e.target.value,
+          type: type
+        }
+      }
+      let finalParams:object = {
+        params,
+        accessParams
+      }
+      dispatch(amouletValidateRequestAction(finalParams));
     }
     return (
       <section className="create-amoulet p-0">
@@ -104,7 +131,12 @@ const CreateAmoulet = (props:any) => {
               <div className="form-group row">
                 <label htmlFor="nfcCode" className="col-sm-4 col-form-label">NFC Code</label>
                 <div className="col-sm-8">
-                  <Field name="nfcCode" type="text" className="form-control rounded-sm"/>
+                  <Field name="nfcCode" onBlur={
+                    (e:any) => { 
+                      handleNfcCodeSerialNumberValidation(e, 'nfcCode')
+                    }
+                  } 
+                  type="text" className="form-control rounded-sm"/>
                   <span className="text-danger" ><ErrorMessage name="nfcCode" /></span>
                 </div>
               </div>
@@ -128,7 +160,11 @@ const CreateAmoulet = (props:any) => {
               <div className="form-group row">
                 <label htmlFor="serialNumber" className="col-sm-4 col-form-label">Product Serial Number</label>
                 <div className="col-sm-8">
-                  <Field name="serialNumber" type="text" className="form-control rounded-sm"/>
+                  <Field name="serialNumber" type="text" onBlur={
+                    (e:any) => { 
+                      handleNfcCodeSerialNumberValidation(e, 'serialNumber')
+                    }
+                  } className="form-control rounded-sm"/>
                   <span className="text-danger" ><ErrorMessage name="serialNumber"/></span>
                 </div>
               </div>
@@ -153,6 +189,7 @@ const mapStateToProps: any = (state: any) => {
     tokenType: state.loginReducer.tokenType,
     giverCode: state.amouletReducer.giverCode,
     receiverCode: state.amouletReducer.receiverCode,
+    validateCode: state.amouletReducer.validateCode,
   };
 };
 
