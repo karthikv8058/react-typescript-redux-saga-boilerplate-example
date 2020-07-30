@@ -16,16 +16,13 @@ export const routes = [
     {
       path: "/admin/userlist",
       sidebar: () => <Userlist/>,
-    //   main: () => <Userlist/>
     },
     {
         path: "/admin/amouletlist",
         sidebar: () => <Amouletlist/>,
-      //   main: () => <Amouletlist/>
       },
       {
-        path: "/admin/createAmoulet",
+        path: "/admin/create-amoulet",
         sidebar: () => <CreateAmoulet/>,
-      //   main: () => <CreateAmoulet/>
       },
   ];

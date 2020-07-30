@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions';
 import * as actions from './action';
-import { DateTime } from '../../../../../demo/src/lib/mobiscroll-package/dist/src/js/presets/datetime';
+// import { DateTime } from '../../../../../demo/src/lib/mobiscroll-package/dist/src/js/presets/datetime';
 
 export interface loginStates{
     errorData:any,
@@ -12,7 +12,6 @@ export interface loginStates{
     tokenType:string,
     isLoading:boolean,
     loginStatus:boolean,
-    accessDateTime:string,
     isLoader:boolean,
 }
 

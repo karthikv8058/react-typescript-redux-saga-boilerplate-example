@@ -5,25 +5,37 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 import {
   amouletCreateRequestAction,
+  amouletGiverCodeRequestAction,
+  amouletReceiverCodeRequestAction
 } from './action';
 
 import * as Yup from 'yup';
 
-const CreateAmolet = (props:any) => {    
+const CreateAmoulet = (props:any) => {    
 
     const dispatch = useDispatch();
 
-    const accessParams:object = {
+    let accessParams:object = {
       accessToken: props.accessToken,
-      tokenType: props.tokenType
+      tokenType: props.tokenType,
+      refresh_token:props.refreshToken,
     }
 
     useEffect(() => {
-      
     },[]);
 
     const handleSubmit = (e:any) => {
       e.preventDefault();
+    }
+
+    const handleGiverCode = (e:any) => {
+      e.preventDefault();
+      dispatch(amouletGiverCodeRequestAction(accessParams));
+    }
+
+    const handleReceiverCode = (e:any) => {
+      e.preventDefault();
+      dispatch(amouletReceiverCodeRequestAction(accessParams));
     }
 
     return (
@@ -31,7 +43,6 @@ const CreateAmolet = (props:any) => {
         <div>
             <h3>{props.title}</h3>
         </div>
-        
         <div>
         <Formik
             initialValues={{ 
@@ -40,10 +51,11 @@ const CreateAmolet = (props:any) => {
             description:'',
             nfcCode:'',
             serialNumber:'',
-            receiverCode:'7dc24327-cdab-11ea-9fce-00155d01d82b',
-            giverCode:'81ec7b8a-cdab-11ea-9fce-00155d01d82b'
+            receiverCode: props.receiverCode ? props.receiverCode.uuid : '',
+            giverCode: props.giverCode ? props.giverCode.uuid : ''
           }}
             validationSchema={Yup.object({
+
                 sku: Yup.string()
                   .required('Required'),
                 name: Yup.string()
@@ -62,22 +74,18 @@ const CreateAmolet = (props:any) => {
               })}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-
-                let amouletParams:object = {
-                  ...values,
-                  tag:'tag1',
-                  color:'#fff',
-                }
-
-                let finalParams:object = {
-                  amouletParams,
-                  accessParams
-                }
-
-                console.log('finalParams :',finalParams);
-                setSubmitting(false);
-                dispatch(amouletCreateRequestAction(finalParams));
-
+                  let amouletParams:object = {
+                    ...values,
+                    tag:'tag1',
+                    color:'#fff',
+                  }
+                  let finalParams:object = {
+                    amouletParams,
+                    accessParams
+                  }
+                  console.log('finalParams :',finalParams);
+                  setSubmitting(false);
+                  dispatch(amouletCreateRequestAction(finalParams));
                 }, 1000);
         }}>
             <Form className="w-75 mx-auto" >
@@ -112,7 +120,7 @@ const CreateAmolet = (props:any) => {
               <div className="form-group row">
                 <label className="col-sm-4 col-form-label"> Giver Code </label>
                 <div className="col-sm-8">
-                  <button className="btn btn-secondary rounded-sm">Assign Giver Code</button>
+                  <button onClick={handleGiverCode} className="btn btn-secondary rounded-sm">Assign Giver Code</button>
                   <Field name="giverCode" type="hidden" className="form-control rounded-sm"/>
                   <span className="text-danger ml-2" ><ErrorMessage name="giverCode" /></span>
                 </div>
@@ -120,7 +128,7 @@ const CreateAmolet = (props:any) => {
               <div className="form-group row">
                 <label className="col-sm-4 col-form-label"> Receiver Code </label>
                 <div className="col-sm-8">
-                  <button className="btn btn-secondary rounded-sm">Assign Receiver Code</button>
+                  <button onClick={handleReceiverCode} className="btn btn-secondary rounded-sm">Assign Receiver Code</button>
                   <Field name="receiverCode" type="hidden" className="form-control rounded-sm"/>
                   <span className="text-danger ml-2" ><ErrorMessage name="receiverCode" /></span>
                 </div>
@@ -152,11 +160,12 @@ const mapStateToProps: any = (state: any) => {
   return {
     accessToken: state.loginReducer.accessToken,
     tokenType: state.loginReducer.tokenType,
-    amouletList: state.adminReducer.amouletList,
-    profileImages: state.adminReducer.profileImages,
+    giverCode: state.amouletReducer.giverCode,
+    receiverCode: state.amouletReducer.receiverCode,
+    refreshToken:state.loginReducer.refreshToken,
   };
 };
 
 export default connect(
-  mapStateToProps)(withRouter(CreateAmolet));
+  mapStateToProps)(withRouter(CreateAmoulet));
 

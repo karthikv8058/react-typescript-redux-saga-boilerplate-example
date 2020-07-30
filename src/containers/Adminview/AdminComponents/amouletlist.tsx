@@ -5,11 +5,14 @@ import {amouletListRequestAction} from '../action';
 
 const Amouletlist = (props:any) => {
 
-    console.log("props from amoulet",props);
-    
-
     const dispatch = useDispatch();
-    
+    const [isCreateAmoulet, setIsCreateAmoulet] = useState(false);
+
+    const handleCreateAmoulet = (e:any) => {
+      e.preventDefault();
+      setIsCreateAmoulet(!isCreateAmoulet);
+    }
+
     let params:object = {
       accessToken:props.accessToken,
       tokenType:props.tokenType,
@@ -27,7 +30,7 @@ const Amouletlist = (props:any) => {
                   <h3>{props.title}</h3>
               </div>
               <div className="d-flex mb-3">
-                  <Link className="btn btn-primary rounded-sm" to="/admin/createAmoulet">Create Amoulet</Link>
+                  <Link className="btn btn-primary rounded-sm" to="/admin/create-amoulet">Create Amoulet</Link>
               </div>
               <div>
                   <table className="table table-bordered">
@@ -67,7 +70,6 @@ const Amouletlist = (props:any) => {
 }
 
 const mapStateToProps: any = (state: any) => {
-  console.log('state', state);
   return {
     accessToken: state.loginReducer.accessToken,
     tokenType: state.loginReducer.tokenType,
