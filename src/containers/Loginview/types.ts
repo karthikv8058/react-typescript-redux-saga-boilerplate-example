@@ -12,7 +12,6 @@ export interface loginStates{
     tokenType:string,
     isLoading:boolean,
     loginStatus:boolean,
-    accessDateTime:string,
     isLoader:boolean,
 }
 

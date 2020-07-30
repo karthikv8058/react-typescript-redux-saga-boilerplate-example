@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { connect, useDispatch } from 'react-redux';
-import {  withRouter } from 'react-router-dom';
+import {  withRouter,useHistory  } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import inArray from '../../../../Service';
 import {
@@ -15,23 +15,31 @@ import * as Yup from 'yup';
 const CreateAmoulet = (props:any) => {    
     const [value, setValue] = useState("");
     const dispatch = useDispatch();
-    const accessParams:object = {
+    const history = useHistory();
+
+    let accessParams:object = {
       accessToken: props.accessToken,
-      tokenType: props.tokenType
+      tokenType: props.tokenType,
+      refresh_token:props.refreshToken,
     }
+
     useEffect(() => {
     },[]);
+
     const handleSubmit = (e:any) => {
       e.preventDefault();
     }
+
     const handleGiverCode = (e:any) => {
       e.preventDefault();
       dispatch(amouletGiverCodeRequestAction(accessParams));
     }
+
     const handleReceiverCode = (e:any) => {
       e.preventDefault();
       dispatch(amouletReceiverCodeRequestAction(accessParams));
     }
+
     // Function to handle NFC and Serial number validation
     const handleNfcCodeSerialNumberValidation = (e:any, type:string) => {
       e.preventDefault();
@@ -57,6 +65,7 @@ const CreateAmoulet = (props:any) => {
       }
       dispatch(amouletValidateRequestAction(finalParams));
     }
+
     return (
       <section className="create-amoulet p-0">
         <div>
@@ -74,6 +83,7 @@ const CreateAmoulet = (props:any) => {
             giverCode: props.giverCode ? props.giverCode.uuid : ''
           }}
             validationSchema={Yup.object({
+
                 sku: Yup.string()
                   .required('Required'),
                 name: Yup.string()
@@ -91,21 +101,25 @@ const CreateAmoulet = (props:any) => {
                 
               })}
               onSubmit={(values, { setSubmitting }) => {
+
                 setTimeout(() => {
+
                   let amouletParams:object = {
                     ...values,
                     tag:'tag1',
                     color:'#fff',
                   }
+
                   let finalParams:object = {
                     amouletParams,
                     accessParams
                   }
+
                   console.log('finalParams :',finalParams);
-                  setSubmitting(false);
                   dispatch(amouletCreateRequestAction(finalParams));
-                }, 1000);
+                }, 1000);                
         }}>
+          
             <Form className="w-75 mx-auto" >
               <div className="form-group row">
                 <label htmlFor="sku" className="col-sm-4 col-form-label">SKU</label>
@@ -136,24 +150,47 @@ const CreateAmoulet = (props:any) => {
                       handleNfcCodeSerialNumberValidation(e, 'nfcCode')
                     }
                   } 
-                  type="text" className="form-control rounded-sm"/>
+                  type="text" className={props.validateCode=='nfcCode'?'form-control rounded-sm border border-success':'form-control rounded-sm'} />
                   <span className="text-danger" ><ErrorMessage name="nfcCode" /></span>
                 </div>
               </div>
               <div className="form-group row">
                 <label className="col-sm-4 col-form-label"> Giver Code </label>
                 <div className="col-sm-8">
-                  <button onClick={handleGiverCode} className="btn btn-secondary rounded-sm">Assign Giver Code</button>
+                  <button disabled={props.giverCode.uuid?true:false} onClick={handleGiverCode} className="btn btn-secondary rounded-sm">Assign Giver Code
+                  {
+                    props.isGiverCode?<div style={{width:'20px',height:'20px'}} className="spinner-border text-dark ml-2" role="status">
+                      <span className="sr-only"></span>
+                    </div>:''
+                  }
+                  </button>
+                  {
+                    props.giverCode.uuid?<i className="fas fa-check ml-2 text-success"></i>:''
+                  }
                   <Field name="giverCode" type="hidden" className="form-control rounded-sm"/>
-                  <span className="text-danger ml-2" ><ErrorMessage name="giverCode" /></span>
+                  {
+                    !props.giverCode.uuid&&<span className="text-danger ml-2" ><ErrorMessage name="giverCode" /></span>
+                  }
+                  
                 </div>
               </div>
               <div className="form-group row">
                 <label className="col-sm-4 col-form-label"> Receiver Code </label>
                 <div className="col-sm-8">
-                  <button onClick={handleReceiverCode} className="btn btn-secondary rounded-sm">Assign Receiver Code</button>
+                  <button disabled={props.receiverCode.uuid?true:false} onClick={handleReceiverCode} className="btn btn-secondary rounded-sm">Assign Receiver Code
+                  {
+                    props.isReceiverCode?<div style={{width:'20px',height:'20px'}} className="spinner-border text-dark ml-2" role="status">
+                      <span className="sr-only"></span>
+                    </div>:''
+                  }
+                  </button>
+                  {
+                    props.receiverCode.uuid?<i className="fas fa-check ml-2 text-success"></i>:''
+                  }
                   <Field name="receiverCode" type="hidden" className="form-control rounded-sm"/>
-                  <span className="text-danger ml-2" ><ErrorMessage name="receiverCode" /></span>
+                  {
+                    !props.receiverCode.uuid&&<span className="text-danger ml-2" ><ErrorMessage name="receiverCode" /></span>
+                  }
                 </div>
               </div>
 
@@ -164,7 +201,7 @@ const CreateAmoulet = (props:any) => {
                     (e:any) => { 
                       handleNfcCodeSerialNumberValidation(e, 'serialNumber')
                     }
-                  } className="form-control rounded-sm"/>
+                  } className={props.validateCode=='serialNumber'?'form-control rounded-sm border border-success':'form-control rounded-sm'} />
                   <span className="text-danger" ><ErrorMessage name="serialNumber"/></span>
                 </div>
               </div>
@@ -190,6 +227,8 @@ const mapStateToProps: any = (state: any) => {
     giverCode: state.amouletReducer.giverCode,
     receiverCode: state.amouletReducer.receiverCode,
     validateCode: state.amouletReducer.validateCode,
+    isGiverCode: state.amouletReducer.isGiverCode,
+    isReceiverCode: state.amouletReducer.isReceiverCode,
   };
 };
 

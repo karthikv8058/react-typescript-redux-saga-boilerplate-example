@@ -1,6 +1,5 @@
 import ActionTypes from './constants';
 import {ContainerActions,loginStates} from './types';
-import { date } from 'yup';
  
 
 export const initialState ={
@@ -13,7 +12,6 @@ export const initialState ={
     refreshToken:'',
     tokenType:'',
     loginStatus:false,
-    accessDateTime:'',
     isLoader:false,
 
 }
@@ -29,14 +27,13 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
                 loginStatus:false,
             }
         case ActionTypes.LOGIN_RESPONSE:
-            console.log('LOGIN_RESPONSE expires_in :',action.payload.expires_in);
+            console.log('LOGIN_RESPONSE:',action.payload);
             return {
                 ...state,
-                accessToken:action.payload.data.access_token,
-                expiresIn:action.payload.data.expires_in,
-                tokenType:action.payload.data.token_type,
-                refreshToken:action.payload.data.refresh_token,
-                accessDateTime:action.payload.loginDay,
+                accessToken:action.payload.access_token,
+                expiresIn:action.payload.expires_in,
+                tokenType:action.payload.token_type,
+                refreshToken:action.payload.refresh_token,
                 isLoginError:false,
                 isLoading:false,
                 loginStatus:true,
@@ -59,10 +56,10 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
             console.log('REFRESH_TOKEN_RESPONSE :',action.payload);
             return {
                 ...state,
-                accessToken:action.payload.data.access_token,
-                expiresIn:action.payload.data.expires_in,
-                tokenType:action.payload.data.token_type,
-                refreshToken:action.payload.data.refresh_token,
+                accessToken:action.payload.access_token,
+                expiresIn:action.payload.expires_in,
+                tokenType:action.payload.token_type,
+                refreshToken:action.payload.refresh_token,
                 isLoader:false,
             }
         case ActionTypes.CLEAR_STATES:

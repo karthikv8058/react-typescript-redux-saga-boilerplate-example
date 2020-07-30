@@ -2,7 +2,7 @@ import React from 'react';
 import Dashbord from '../AdminComponents/dashboard';
 import Amouletlist from '../AdminComponents/amouletlist';
 import Userlist from '../AdminComponents/userlist';
-import CreateAmoulet from '../AdminComponents/Amoulet/CreateAmoulet';
+import CreateAmoulet from '../AdminComponents/Amoulet/createAmoulet';
 
 
 //Userlist

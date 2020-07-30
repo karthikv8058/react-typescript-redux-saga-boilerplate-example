@@ -1,23 +1,30 @@
 import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { AgGridReact } from 'ag-grid-react';
 
 import {
   userListRequestAction,
   genConfigRequestAction
-} from '../action'
+} from '../action';
 
 const Userlist = (props:any) => {
+
   const dispatch = useDispatch();
+
   let params:object = {
     accessToken:props.accessToken,
     tokenType:props.tokenType,
     refresh_token:props.refreshToken,
   }
+  
+
   useEffect(()=>{
     dispatch(userListRequestAction(params));
-    dispatch(genConfigRequestAction(params));;
+    dispatch(genConfigRequestAction(params));
   },[]);
+
+   
 
     return (
         <section className="userlist p-0">
@@ -37,7 +44,7 @@ const Userlist = (props:any) => {
                           </thead>
                           <tbody>
                           {
-                            props.userList.length > 0 ? props.userList.map((item:any)=>{
+                            props.userList && props.userList.length > 0 ? props.userList.map((item:any)=>{
                               return   <tr key={item.id}>
                                   <td> {item.username}</td>
                                   <td> {item.email}</td>
@@ -59,6 +66,7 @@ const Userlist = (props:any) => {
                          </tbody>
                       </table>
                   </div>
+                  
              </section>
     )
 }

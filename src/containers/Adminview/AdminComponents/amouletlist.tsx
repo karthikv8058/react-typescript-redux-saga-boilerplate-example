@@ -4,12 +4,15 @@ import { Link, withRouter } from 'react-router-dom';
 import {amouletListRequestAction} from '../action';
 
 const Amouletlist = (props:any) => {
+
     const dispatch = useDispatch();
     const [isCreateAmoulet, setIsCreateAmoulet] = useState(false);
+
     const handleCreateAmoulet = (e:any) => {
       e.preventDefault();
       setIsCreateAmoulet(!isCreateAmoulet);
     }
+
     let params:object = {
       accessToken:props.accessToken,
       tokenType:props.tokenType,
