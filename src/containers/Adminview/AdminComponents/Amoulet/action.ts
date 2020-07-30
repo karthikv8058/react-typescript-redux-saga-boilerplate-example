@@ -9,7 +9,5 @@ export const amouletGiverCodeRequestAction = (params:object) => action(ActionTyp
 export const amouletGiverCodeResponseAction = (params:any) => action(ActionTypes.AMOULET_GIVER_CODE_RESPONSE, params);
 export const amouletReceiverCodeRequestAction = (params:object) => action(ActionTypes.AMOULET_RECEIVER_CODE_REQUEST, params);
 export const amouletReceiverCodeResponseAction = (params:any) => action(ActionTypes.AMOULET_RECEIVER_CODE_RESPONSE, params);
-
-
-
-
+export const amouletValidateRequestAction = (params:object) => action(ActionTypes.AMOULET_VALIDATE_CODE_REQUEST, params);
+export const amouletValidateResponseAction = (params:any) => action(ActionTypes.AMOULET_VALIDATE_CODE_RESPONSE, params);

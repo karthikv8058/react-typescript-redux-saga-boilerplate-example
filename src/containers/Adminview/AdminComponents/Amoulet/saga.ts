@@ -1,140 +1,86 @@
 import { takeLatest,takeEvery,call,put } from 'redux-saga/effects';
-import axios from 'axios';
+import axios from '../../../../utils/axios/index';
 import ActionTypes from './constants';
 import { 
   amouletCreateResponseAction,
   amouletGiverCodeResponseAction,
-  amouletReceiverCodeResponseAction
+  amouletReceiverCodeResponseAction,
+  amouletValidateResponseAction
  } from './action';
 
-
 import ApiConstants from '../../../../api/ApiConstants';
-import { refreshTokenRequestAction } from '../../../Loginview/action';
 
 // Function to create amoulets
-export function* createAmoulet(action :any) {
+export function* createAmoulet(action:any) {
 
-  console.log('createAmoulet :',action.payload);
-
-  let paramsRefresh = {
-    refresh_token:action.payload.accessParams.refresh_token,
-    grant_type:'refresh_token'
-  }
-
-  const url =ApiConstants.BASE_URL + ApiConstants.CREATE_AMOULET;
-  const data = action.payload.amouletParams;
-  const token = action.payload.accessParams.accessToken;
-
-  function fetchFromApi() {
-    return  axios.post(url,data, {
-      headers: {
-        'Authorization': `Bearer ${token}` 
-      }
-    });
-  }
+  let url = ApiConstants.BASE_URL + ApiConstants.CREATE_AMOULET;
+  let data= action.payload.amouletParams;
 
   try {
-
-    const response = yield call(fetchFromApi);
-    console.log('createAmoulet response',response);
-    console.log('createAmoulet error :',response.response.status);        
-
-    if(response.data.error === false){
-      yield put(amouletCreateResponseAction(response));
-    }
-
-    if(response.response.status===401){
-      yield put(refreshTokenRequestAction(paramsRefresh));
-    }
+    const response = yield call(()=> axios.postData(url,data));
+    console.log('createAmoulet :',response);
+    yield put(amouletCreateResponseAction(response));
+  } catch (error) {
     
-    
-  } catch (err) {
   }
-
 }
 
 // Function to get giver code
-export function* getGiverCode(action :any) {
-
-  console.log('getGiverCode action params:',action.payload);
+export function* getGiverCode(action:any) {
   
-  let paramsRefresh = {
-    refresh_token:action.payload.refresh_token,
-    grant_type:'refresh_token'
-  }
-
-  function fetchFromApi() {
-    return axios.get(ApiConstants.BASE_URL + ApiConstants.GET_CODE + 'giver', { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
-  }
+  let url = ApiConstants.BASE_URL + ApiConstants.GET_CODE + 'giver';
 
   try {
-
-    const response = yield call(fetchFromApi); 
-   
-
-    console.log('giver response',response);
-    console.log('giver error :',response.response.status);
-    
-    if(response.data.error === false){
-
-      yield put(amouletGiverCodeResponseAction(response.data));
-
-    }
-
-    if(response.response.status===401){
-      console.log('401 in saga giver');
-      yield put(refreshTokenRequestAction(paramsRefresh));
-
-    }
-   
-  } catch (err) {
+    const response = yield call(()=> axios.getData(url));
+    console.log('getGiverCode response:',response);
+    yield put(amouletGiverCodeResponseAction(response));
+  } catch (error) {
     
   }
+
 }
 
 // Function to get receiver code
-export function* getReceiverCode(action :any) {
-
-  console.log('getReceiverCode action params:',action.payload);
-
-  let paramsRefresh = {
-    refresh_token:action.payload.refresh_token,
-    grant_type:'refresh_token'
-  }
-
-  function fetchFromApi() {
-    return axios.get(ApiConstants.BASE_URL + ApiConstants.GET_CODE + 'receiver', { headers: {"Authorization" : `Bearer ${action.payload.accessToken}`} })
-  }
+export function* getReceiverCode(action:any) {
+  console.log('getReceiverCode action params :',action.payload);
+  
+  let url = ApiConstants.BASE_URL + ApiConstants.GET_CODE + 'receiver';
 
   try {
+    const response = yield call(()=> axios.getData(url));
+    console.log('getReceiverCode response:',response);
+    yield put(amouletReceiverCodeResponseAction(response));
+  } catch (error) {
+    
+  }
 
-    const response = yield call(fetchFromApi); 
+}
+// Function to validate nfc and serial numbers
+export function* validateNFCAndSerialNumber(action :any) {
 
-    console.log('receiver response',response);
-    console.log('receiver error :',response.response.status);
+  console.log('validateNFCAndSerialNumber action params:',action.payload);
+  
 
-    if(response.response.status===401){
+  const url = ApiConstants.BASE_URL + ApiConstants.VALIDATE_NFC_SERIAL + action.payload.params.type;
+  const data:object = {
+    value: action.payload.params.value
+  };
 
-      console.log('401 in saga receiver');
-      yield put(refreshTokenRequestAction(paramsRefresh));
-
-    }else if(response.data.error === false){
-
-      yield put(amouletReceiverCodeResponseAction(response.data));
-
-    }else{
-
-      console.log('receiver response error last else :',response);
-
-    }
-
+  try {
+      const response = yield call(()=> axios.postData(url,data));
+      console.log('validateNFCAndSerialNumber response:',response);
+      
+      yield put(amouletValidateResponseAction(response.data));
+    
   } catch (err) {
     
   }
+  
 }
   
 export default function* amouletPageSaga() {
-    yield takeEvery(ActionTypes.AMOULET_CREATE_REQUEST, createAmoulet);
-    yield takeEvery(ActionTypes.AMOULET_GIVER_CODE_REQUEST, getGiverCode);
-    yield takeEvery(ActionTypes.AMOULET_RECEIVER_CODE_REQUEST, getReceiverCode);
+    yield takeLatest(ActionTypes.AMOULET_CREATE_REQUEST, createAmoulet);
+    yield takeLatest(ActionTypes.AMOULET_GIVER_CODE_REQUEST, getGiverCode);
+    yield takeLatest(ActionTypes.AMOULET_RECEIVER_CODE_REQUEST, getReceiverCode);
+    yield takeLatest(ActionTypes.AMOULET_VALIDATE_CODE_REQUEST, validateNFCAndSerialNumber);
 }

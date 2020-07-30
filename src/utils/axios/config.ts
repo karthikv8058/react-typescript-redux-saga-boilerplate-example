@@ -29,6 +29,8 @@ instance.interceptors.response.use((response) => {
         const originalRequest = error.config;
 
         if (error.response.status === 401 ) {   
+
+            console.log('401 ERROR',error.config); 
             const url = ApiConstants.BASE_URL + ApiConstants.AUTH_LOGIN;
             const grantType = "refresh_token"; 
             const refreshToken = localStorage.getItem('refresh_token');        

@@ -11,7 +11,7 @@ import rootReducer, { RootState } from './rootReducer';
 const config = {
  key: 'root',
  storage: storage,
- //blacklist:['itemReducer']
+ blacklist:['amouletReducer']
 };
 
 const middleware = [];
