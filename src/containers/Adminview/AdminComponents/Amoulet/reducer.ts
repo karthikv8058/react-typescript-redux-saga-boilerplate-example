@@ -9,6 +9,8 @@ export const initialState = {
     isGiverCode:false,
     isReceiverCode:false,
     isValidateCode:false,
+    giverCodeUUID:'',
+    receiverCodeUUID:''
 }
 const amouletReducer = (state:amouletStates = initialState, action:ContainerActions) => {
     switch(action.type) {
@@ -33,7 +35,8 @@ const amouletReducer = (state:amouletStates = initialState, action:ContainerActi
             return {
                 ...state,
                 isGiverCode:false,
-                giverCode: action.payload
+                giverCode: action.payload,
+                giverCodeUUID:action.payload.uuid,
             }
         case ActionTypes.AMOULET_RECEIVER_CODE_REQUEST:
             return {
@@ -45,7 +48,8 @@ const amouletReducer = (state:amouletStates = initialState, action:ContainerActi
             return {
                 ...state,
                 isReceiverCode:false,
-                receiverCode: action.payload
+                receiverCode: action.payload,
+                receiverCodeUUID:action.payload.uuid
             }
         case ActionTypes.AMOULET_VALIDATE_CODE_REQUEST:
             return {

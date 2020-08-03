@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import {  withRouter,useHistory  } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import inArray from '../../../../Service';
+import Swal from 'sweetalert2';
 import {
   amouletCreateRequestAction,
   amouletGiverCodeRequestAction,
@@ -13,7 +14,7 @@ import {
 import * as Yup from 'yup';
 
 const CreateAmoulet = (props:any) => {    
-    const [value, setValue] = useState("");
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -24,7 +25,7 @@ const CreateAmoulet = (props:any) => {
     }
 
     useEffect(() => {
-    },[]);
+    },[props.receiverCodeUUID,props.giverCodeUUID]);
 
     const handleSubmit = (e:any) => {
       e.preventDefault();
@@ -79,8 +80,8 @@ const CreateAmoulet = (props:any) => {
             description:'',
             nfcCode:'',
             serialNumber:'',
-            receiverCode: props.receiverCode ? props.receiverCode.uuid : '',
-            giverCode: props.giverCode ? props.giverCode.uuid : ''
+            receiverCode: '',
+            giverCode:'',
           }}
             validationSchema={Yup.object({
 
@@ -94,20 +95,23 @@ const CreateAmoulet = (props:any) => {
                   .required('Required'),
                 serialNumber: Yup.string()
                   .required('Required'),
-                receiverCode: Yup.string()
-                  .required('Required'),
-                giverCode: Yup.string()
-                  .required('Required'),
-                
+                // receiverCode: Yup.string()
+                //   .required('Required'),
+                // giverCode: Yup.string()
+                //   .required('Required'),
               })}
               onSubmit={(values, { setSubmitting }) => {
 
                 setTimeout(() => {
 
+                  console.log('values :',values);
+                  
                   let amouletParams:object = {
                     ...values,
                     tag:'tag1',
                     color:'#fff',
+                    giverCode:props.giverCodeUUID,
+                    receiverCode:props.receiverCodeUUID
                   }
 
                   let finalParams:object = {
@@ -115,12 +119,42 @@ const CreateAmoulet = (props:any) => {
                     accessParams
                   }
 
+                  if(props.giverCodeUUID =='' || props.receiverCodeUUID ==''){
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Please Assign Giver and Receiver Code',
+                    })
+                  } else {
+                    Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Amoulet has been created',
+                      showConfirmButton: false,
+                      timer: 1500
+                    }).then((res)=>{
+                      console.log('res:',res);
+                      dispatch(amouletCreateRequestAction(finalParams));
+                      setSubmitting(false);
+
+                      setTimeout(() => {
+                        history.go(0);
+                      }, 500);
+                      
+                    })
+                  } 
+
                   console.log('finalParams :',finalParams);
-                  dispatch(amouletCreateRequestAction(finalParams));
+                  //dispatch(amouletCreateRequestAction(finalParams));
+                  setSubmitting(false);
                 }, 1000);                
-        }}>
-          
-            <Form className="w-75 mx-auto" >
+        }}
+        
+        >
+          {
+            ({values,handleBlur,handleChange,handleSubmit,handleReset}) => {
+              return (
+                <form onSubmit={handleSubmit} className="w-75 mx-auto" >
               <div className="form-group row">
                 <label htmlFor="sku" className="col-sm-4 col-form-label">SKU</label>
                 <div className="col-sm-8">
@@ -167,11 +201,6 @@ const CreateAmoulet = (props:any) => {
                   {
                     props.giverCode.uuid?<i className="fas fa-check ml-2 text-success"></i>:''
                   }
-                  <Field name="giverCode" type="hidden" className="form-control rounded-sm"/>
-                  {
-                    !props.giverCode.uuid&&<span className="text-danger ml-2" ><ErrorMessage name="giverCode" /></span>
-                  }
-                  
                 </div>
               </div>
               <div className="form-group row">
@@ -187,10 +216,7 @@ const CreateAmoulet = (props:any) => {
                   {
                     props.receiverCode.uuid?<i className="fas fa-check ml-2 text-success"></i>:''
                   }
-                  <Field name="receiverCode" type="hidden" className="form-control rounded-sm"/>
-                  {
-                    !props.receiverCode.uuid&&<span className="text-danger ml-2" ><ErrorMessage name="receiverCode" /></span>
-                  }
+      
                 </div>
               </div>
 
@@ -210,11 +236,15 @@ const CreateAmoulet = (props:any) => {
                 <label className="col-sm-4 col-form-label"></label>
                 <div className="col-sm-8">
                 <button type="submit" className="btn btn-success rounded-sm">Create Amoulet</button>
+                <button onClick={handleReset} className="btn btn-warning rounded-sm ml-1">Reset</button>
                 </div>
               </div>
 
-            </Form>
-            </Formik>
+            </form>
+              )
+            }
+          }
+        </Formik>
         </div>
       </section>
     )
@@ -229,6 +259,8 @@ const mapStateToProps: any = (state: any) => {
     validateCode: state.amouletReducer.validateCode,
     isGiverCode: state.amouletReducer.isGiverCode,
     isReceiverCode: state.amouletReducer.isReceiverCode,
+    giverCodeUUID: state.amouletReducer.giverCodeUUID,
+    receiverCodeUUID: state.amouletReducer.receiverCodeUUID,
   };
 };
 

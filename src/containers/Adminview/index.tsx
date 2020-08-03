@@ -47,39 +47,16 @@ const Adminview  = (props:any) => {
 
   },[]);
 
-//   axios.interceptors.response.use(response => {
-//     return response;
-//   }, error => {
-//   if (error.response.status === 401) {
-
-//     console.log('401 ERROR',props.refreshToken);
-//     let params:object = {
-//       "refresh_token":props.refreshToken,
-//       "grant_type" : "refresh_token"
-//     }
-//       if(props.isLoader){
-//         console.log('waiting for response');
-        
-//       }else{
-//         dispatch(refreshTokenRequestAction(params));
-//       }
-//   }
-//   return error;
-// });
-
-    // for access token generator
-    
-
     return(
       
         <div className="d-flex relative" style={{height:'100vh'}}>
-           {/* {
-             props.isLoader&&
+           {
+             props.isloading&&
               <div className="loader-waiting d-flex justify-content-center">
                   <div className="spinner-border text-info align-self-center" role="status">
                   </div>
               </div>
-           } */}
+           }
           <div className={isMenuActive?"bg-white admin-menu active":"bg-white admin-menu"}>
                 <ul className="list-unstyled m-0">
                   <li className="mb-2 mb-md-5">
@@ -165,7 +142,7 @@ const mapStateToProps: any = (state: any) => {
   return {
     loginStatus:state.loginReducer.loginStatus,
     refreshToken:state.loginReducer.refreshToken,
-    isLoader:state.loginReducer.isLoader,
+    isloading:state.adminReducer.isloading,
     expiresIn:state.loginReducer.expiresIn,
   };
 };
