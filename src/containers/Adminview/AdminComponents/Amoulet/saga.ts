@@ -27,6 +27,7 @@ export function* createAmoulet(action:any) {
 
 // Function to get giver code
 export function* getGiverCode(action:any) {
+  console.log('getGiverCode action:',action.payload);
   
   let url = ApiConstants.BASE_URL + ApiConstants.GET_CODE + 'giver';
 

@@ -36,6 +36,7 @@ const Amouletlist = (props:any) => {
                   <table className="table table-bordered">
                       <thead>
                         <tr className="bg-theme text-white">
+                          <th>SL NO </th>
                           <th>Amoulet Name</th>
                           <th>Product Serial Number</th>
                           <th>NFC Code</th>
@@ -45,8 +46,9 @@ const Amouletlist = (props:any) => {
                         </tr>
                       </thead>
                       <tbody>
-                      { props.amouletList.length > 0 ? props.amouletList.map((item:any) => {
+                      { props.amouletList.length > 0 ? props.amouletList.map((item:any,index:any) => {
                           return <tr key={item.id}>
+                              <td> {index+1} </td>
                               <td> {item.name} </td>
                               <td> {item.serialNumber} </td>
                               <td> {item.nfcCode} </td>

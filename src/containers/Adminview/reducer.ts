@@ -5,7 +5,8 @@ export const initialState ={
     userList: [],
     amouletList: [],
     profileImages: '',
-    storyMedia: ''
+    storyMedia: '',
+    isloading:false,
 }
  
 const adminReducer = (state:adminStates = initialState,action:ContainerActions) => {
@@ -15,6 +16,7 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
             
             return{
                 ...state,
+                isloading:true,
             }
         case ActionTypes.USER_LIST_RESPONSE:
             console.log('USER_LIST_RESPONSE:',action.payload);
@@ -22,6 +24,7 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
             return{
                 ...state,
                 userList:action.payload,
+                isloading:false,
             }
         case ActionTypes.GEN_CONFIG_REQUEST:
             return{
@@ -38,18 +41,21 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
             
             return {
                 ...state,
+                isloading:true,
             }
         case ActionTypes.AMOULET_LIST_RESPONSE:
             return {
                 ...state,
                 amouletList: action.payload,
+                isloading:false,
             }
         case ActionTypes.CLEAR_ADMIN_STATES:
             return {
                 userList: [],
                 amouletList: [],
                 profileImages: '',
-                storyMedia: ''
+                storyMedia: '',
+                isloading:false,
             }
 
         default:

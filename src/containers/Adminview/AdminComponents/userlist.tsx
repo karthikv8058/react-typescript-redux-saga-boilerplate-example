@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AgGridReact } from 'ag-grid-react';
+import MUIDataTable from "mui-datatables";
 
 import {
   userListRequestAction,
@@ -10,7 +10,36 @@ import {
 
 const Userlist = (props:any) => {
 
+  console.log('props :',props.userList);
+  
+  const data = props.userList;
+
+  console.log('data',data);
+  
   const dispatch = useDispatch();
+
+  const columns = [
+    {
+      name: "id",
+      label: "ID",
+     },
+    {
+     name: "username",
+     label: "User Name",
+    },
+    {
+      name: "email",
+      label: "Email",
+     },
+     {
+      name: "firstName",
+      label: "First Name",
+     },
+     {
+      name: "lastName",
+      label: "Last Name",
+     }];
+
 
   let params:object = {
     accessToken:props.accessToken,
@@ -66,6 +95,12 @@ const Userlist = (props:any) => {
                          </tbody>
                       </table>
                   </div>
+
+                  <MUIDataTable
+                    title={"User List"}
+                    data={data}
+                    columns={columns}
+                  />
                   
              </section>
     )
