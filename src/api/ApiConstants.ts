@@ -10,5 +10,6 @@ const ApiConstants = {
     CREATE_AMOULET: 'api/1.0/amoulet/new',
     GET_CODE: 'api/1.0/amoulet/get-code/',
     VALIDATE_NFC_SERIAL: 'api/1.0/amoulet/validate/',
+    STORY_LIST: 'api/1.0/story/get'
 };
 export default ApiConstants;
