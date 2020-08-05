@@ -38,12 +38,16 @@ const Userlist = (props:any) => {
         options: {
           customBodyRender: (value:any, tableMeta:any) => {
             return (
-              <Link
+              <div>
+                <Link
                 style={{ textDecoration: "none" }}
-                to={`/user/${tableMeta.rowData[0]}`}
-              >
-               <i className="d-inline-block fas fa-eye fa-1x text-success"></i>
-              </Link>
+                /*to={{pathname:`/admin/userListView/`,state:{id:tableMeta.rowData[4]}}}*/
+                to={'/admin/userListView/:id='+tableMeta.rowData[4]}
+                >
+                <i className="d-inline-block fas fa-eye fa-1x text-success"></i>
+                
+                </Link>
+              </div>
             );
           }
       }
