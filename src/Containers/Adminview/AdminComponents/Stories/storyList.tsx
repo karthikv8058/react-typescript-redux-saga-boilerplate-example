@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MUIDataTable from "mui-datatables";
+import getMuiTheme from '../../dataTableStyle';
+import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 
 import {
     storyListRequestAction
@@ -48,12 +50,13 @@ const Storylist = (props:any) => {
 
     return (
         <section className="userlist p-0">
+           <MuiThemeProvider theme={getMuiTheme()}>
                   <MUIDataTable
                     title={"Story List"}
                     data={data}
                     columns={columns}
                   />
-                  
+                </MuiThemeProvider>  
              </section>
     )
 }
