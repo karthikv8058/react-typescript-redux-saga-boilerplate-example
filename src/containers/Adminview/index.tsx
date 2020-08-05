@@ -92,14 +92,14 @@ const Adminview  = (props:any) => {
                       </span>
                     </span>
                   </li>
-                  <li className="my-2 my-md-3">
+                  {/* <li className="my-2 my-md-3">
                     <span className="block text-decoration-none text-dark font-weight-bolder w-100">
                     <i className="fas fa-book-reader"></i>
                       <span  className="ml-3 text-theme">
                           <Link to="/admin/stories">Stories</Link>
                       </span>
                     </span>
-                  </li>
+                  </li> */}
                 
                 </ul>
           </div>

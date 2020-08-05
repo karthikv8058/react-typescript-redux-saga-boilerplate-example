@@ -34,9 +34,10 @@ instance.interceptors.response.use((response) => {
             if (error.response.status === 401 ) {   
 
                 console.log('401 ERROR',error.config); 
+                await localStorage.removeItem('access_token'); 
                 const url = ApiConstants.BASE_URL + ApiConstants.AUTH_LOGIN;
                 const grantType = "refresh_token"; 
-                const refreshToken = localStorage.getItem('refresh_token');        
+                const refreshToken = await localStorage.getItem('refresh_token');        
                 return axios.post(
                     url, {  grant_type: grantType, refresh_token: refreshToken}
                 ).then(
@@ -45,8 +46,8 @@ instance.interceptors.response.use((response) => {
                             
                             console.log('401 ERROR RESPONSE : ',res);
     
-                             localStorage.setItem('access_token',res.data.data.access_token);
-                             localStorage.setItem('refresh_token',res.data.data.refresh_token);
+                            await localStorage.setItem('access_token',res.data.data.access_token);
+                            await localStorage.setItem('refresh_token',res.data.data.refresh_token);
     
                             axios.defaults.headers.common.Authorization = `Bearer ${res.data.data.access_token}`;
                             

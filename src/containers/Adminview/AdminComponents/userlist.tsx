@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter,Link } from 'react-router-dom';
 import MUIDataTable from "mui-datatables";
 
 import {
@@ -10,19 +10,12 @@ import {
 
 const Userlist = (props:any) => {
 
-  console.log('props :',props.userList);
   
   const data = props.userList;
-
-  console.log('data',data);
   
   const dispatch = useDispatch();
 
   const columns = [
-    {
-      name: "id",
-      label: "ID",
-     },
     {
      name: "username",
      label: "User Name",
@@ -38,7 +31,23 @@ const Userlist = (props:any) => {
      {
       name: "lastName",
       label: "Last Name",
-     }];
+     },
+     {
+      name: "id",
+      label: "Actions",
+        options: {
+          customBodyRender: (value:any, tableMeta:any) => {
+            return (
+              <Link
+                style={{ textDecoration: "none" }}
+                to={`/user/${tableMeta.rowData[0]}`}
+              >
+               <i className="d-inline-block fas fa-eye fa-1x text-success"></i>
+              </Link>
+            );
+          }
+      }
+    }];
 
 
   let params:object = {
@@ -59,41 +68,6 @@ const Userlist = (props:any) => {
         <section className="userlist p-0">
                   <div>
                       <h3>{props.title}</h3>
-                  </div>
-                  <div className="table-responsive">
-                      <table className="table table-bordered">
-                          <thead>
-                            <tr className="bg-theme text-white">
-                              <th>User Name</th>
-                              <th>Email</th>
-                              <th>First Name</th>
-                              <th>Last Name</th>
-                              <th>Profile Image</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {
-                            props.userList && props.userList.length > 0 ? props.userList.map((item:any)=>{
-                              return   <tr key={item.id}>
-                                  <td> {item.username}</td>
-                                  <td> {item.email}</td>
-                                  <td> {item.firstName}</td>
-                                  <td> {item.lastName}</td>
-                                  <td> 
-                                      <img src={props.profileImages+item.profileImage} width={50} height={50} alt="Profile Pic"/>
-                                  </td>
-                              </tr>
-                            }) :
-                            
-                            <tr>
-                              <td colSpan={6}>
-                              <span className="d-block text-center">No data</span>
-                              </td>
-                            </tr>
-                           
-                          }
-                         </tbody>
-                      </table>
                   </div>
 
                   <MUIDataTable
