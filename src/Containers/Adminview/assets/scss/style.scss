@@ -211,3 +211,9 @@
             width: 100%!important;
             height: auto!important;
         }
+        
+        thead {
+            &.MuiTableHead-root {
+                background: #000!important;
+            }
+        }
