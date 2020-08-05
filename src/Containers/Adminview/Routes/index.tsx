@@ -3,6 +3,7 @@ import Dashbord from '../AdminComponents/dashboard';
 import Amouletlist from '../AdminComponents/amouletlist';
 import Userlist from '../AdminComponents/userlist';
 import CreateAmoulet from '../AdminComponents/Amoulet/createAmoulet';
+import Stories from '../AdminComponents/Stories/storyList';
 
 
 //Userlist
@@ -24,5 +25,9 @@ export const routes = [
       {
         path: "/admin/create-amoulet",
         sidebar: () => <CreateAmoulet/>,
+      },
+      {
+        path: "/admin/stories",
+        sidebar: () => <Stories/>,
       },
   ];
