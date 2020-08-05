@@ -3,6 +3,8 @@ import { connect, useDispatch } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import {amouletListRequestAction} from '../action';
 import MUIDataTable from "mui-datatables";
+import getMuiTheme from '../dataTableStyle';
+import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 
 const Amouletlist = (props:any) => {
 
@@ -88,11 +90,13 @@ const Amouletlist = (props:any) => {
               <div className="d-flex mb-3">
                   <Link className="btn btn-primary rounded-sm" to="/admin/create-amoulet">Create Amoulet</Link>
               </div>
-              <MUIDataTable
-                    title={"Amoulet List"}
-                    data={data}
-                    columns={columns}
-              />
+              <MuiThemeProvider theme={getMuiTheme()}>
+                <MUIDataTable
+                      title={"Amoulet List"}
+                      data={data}
+                      columns={columns}
+                />
+              </MuiThemeProvider>
           </div>
       </section>
     )
