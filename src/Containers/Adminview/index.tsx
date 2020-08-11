@@ -15,7 +15,10 @@ import './assets/css/all.css';
 import './assets/scss/style.scss';
 
 
-import Navbartop from './AdminComponents/navbar';
+import Navbartop from './AdminComponents/Navbar/navbar';
+import Sidebar from './AdminComponents/Sidebar';
+import Loader from '../../Components/Loader';
+
 import {routes} from './Routes';
 import { logoutAllTabsEventListener } from '../../utils/logOutAll';
 import axios from 'axios';
@@ -51,57 +54,11 @@ const Adminview  = (props:any) => {
       
         <div className="d-flex relative" style={{height:'100vh'}}>
            {
-             props.isloading&&
-              <div className="loader-waiting d-flex justify-content-center">
-                  <div className="spinner-border text-info align-self-center" role="status">
-                  </div>
-              </div>
+             props.isloading&& <Loader color="text-primary"/>
+              
            }
           <div className={isMenuActive?"bg-white admin-menu active":"bg-white admin-menu"}>
-                <ul className="list-unstyled m-0">
-                  <li className="mb-2 mb-md-5">
-                    <a href="" className="d-block text-decoration-none text-dark text-center font-weight-bolder">
-                      <div className="text-center">
-                        <img src={profile_pic} className="img-fluid mx-auto rounded-circle" width={'50%'} alt=""/>
-                        <h5 className="text-dark font-weight-bolder mb-0 pb-0 mt-1">Welcome {props.loginStatus&&'Admin'}</h5>
-                        <span className="text-muted small">Super Admin</span>
-                      </div>
-                    </a>
-                  </li>
-                  <li className="my-2 my-md-3">
-                    <span className="block text-decoration-none text-dark font-weight-bolder w-100">
-                      <i className="fas fa-tachometer-alt"></i>
-                      <span  className="ml-3 text-theme">
-                          <Link to="/admin">Dashboard</Link>
-                      </span>
-                    </span>
-                  </li>
-                  <li className="my-2 my-md-3">
-                    <span className="block text-decoration-none text-dark font-weight-bolder w-100">
-                    <i className="fas fa-users"></i>
-                      <span  className="ml-3 text-theme">
-                          <Link to="/admin/userlist">User list</Link>
-                      </span>
-                    </span>
-                  </li>
-                  <li className="my-2 my-md-3">
-                    <span className="block text-decoration-none text-dark font-weight-bolder w-100">
-                    <i className="fas fa-gem"></i>
-                      <span  className="ml-3 text-theme">
-                          <Link to="/admin/amouletlist">Amoulet list</Link>
-                      </span>
-                    </span>
-                  </li>
-                  {/* <li className="my-2 my-md-3">
-                    <span className="block text-decoration-none text-dark font-weight-bolder w-100">
-                    <i className="fas fa-book-reader"></i>
-                      <span  className="ml-3 text-theme">
-                          <Link to="/admin/stories">Stories</Link>
-                      </span>
-                    </span>
-                  </li> */}
-                
-                </ul>
+                <Sidebar/>
           </div>
           <div className="d-flex flex-column admin-view w-100 p-3">
               
@@ -111,12 +68,12 @@ const Adminview  = (props:any) => {
                         <span  className="menu-bar"></span>
                       </div>
                   </div>
+
                   <Navbartop />
               </div>
               
-              <div className="w-100">
-              
-             
+              <div className="w-100 pt-3">
+            
                   <Switch>
                   {routes.map((route:any, index:any) => (
                     <Route

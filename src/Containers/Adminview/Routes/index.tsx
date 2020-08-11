@@ -1,8 +1,9 @@
 import React from 'react';
-import Dashbord from '../AdminComponents/dashboard';
-import Amouletlist from '../AdminComponents/amouletlist';
-import Userlist from '../AdminComponents/userlist';
+import Dashbord from '../AdminComponents/Dashboard/dashboard';
+import Amouletlist from '../AdminComponents/Amoulet/amouletlist';
+import Userlist from '../AdminComponents/Userlist/userlist';
 import CreateAmoulet from '../AdminComponents/Amoulet/createAmoulet';
+import UserListView from '../AdminComponents/Userlist/userListView';
 import Stories from '../AdminComponents/Stories/storyList';
 
 
@@ -25,6 +26,10 @@ export const routes = [
       {
         path: "/admin/create-amoulet",
         sidebar: () => <CreateAmoulet/>,
+      },
+      {
+        path: "/admin/userListView",
+        sidebar: () => <UserListView title="User list View"/>,
       },
       {
         path: "/admin/stories",

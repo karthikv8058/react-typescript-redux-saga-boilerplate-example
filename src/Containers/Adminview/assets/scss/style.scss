@@ -40,7 +40,7 @@
             margin-bottom: 0;
             list-style: none;
             height: 100vh;
-            overflow-y: scroll;
+            // overflow-y: scroll;
             padding: 30px;
             transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
             &.active {
@@ -212,8 +212,55 @@
             height: auto!important;
         }
         
-        thead {
-            &.MuiTableHead-root {
-                background: #000!important;
+        .bg-td-custom {
+            padding: 5px;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            &.null {
+                border-top: solid 5px #fff!important;
+                top: -3px;
             }
+        }
+        
+        .MuiTableCell-body {
+            position: relative;
+            padding: 15px;
+        }
+        
+        thead.MuiTableHead-root {
+            th {
+                background: rgb(221, 221, 221)!important;
+                color: #000;
+            }
+        }
+        
+        .table-bordered td,
+        .table-bordered th {
+            border: 1px solid #383838!important;
+        }
+        
+        .MuiToolbar-regular {
+            // background: rgb(221, 221, 221)!important;
+            background: $wc-1!important;
+        }
+        
+        .MuiTableFooter-root {
+            background: rgb(221, 221, 221)!important;
+        }
+        
+        .MuiTablePagination-toolbar {
+            background: rgb(221, 221, 221)!important;
+        }
+        
+        .MuiIconButton-root {
+            color: rgba(255, 255, 255, 1)!important;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .MuiTypography-h6 {
+            color: #fff!important;
         }
