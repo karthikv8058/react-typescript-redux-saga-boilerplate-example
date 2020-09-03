@@ -6,6 +6,7 @@ import ApiConstants from '../../api/ApiConstants';
 
 import {
   loginResponseAction,
+  loginErrorAction,
 } from './action';
 
 import {
@@ -22,6 +23,8 @@ export function* getLoginResponse(action:any) {
   let data= action.payload.params;
 
   try {
+    console.log('Hello');
+    
     const response = yield call(()=> axios.postData(url,data));
     console.log('response:',response);
     localStorage.setItem('access_token',response.access_token);
@@ -29,25 +32,26 @@ export function* getLoginResponse(action:any) {
     yield put(loginResponseAction(response));
     yield call(action.payload.loginNav);
   } catch (error) {
-    
+    // console.log('error :',error.en);
+    yield put(loginErrorAction(error));
   }
 }
 
-export function* getRefreshTokenResponse(action:any) {
+// export function* getRefreshTokenResponse(action:any) {
 
-  let url = ApiConstants.BASE_URL + ApiConstants.AUTH_LOGIN;
-  let data= action.payload;
+//   let url = ApiConstants.BASE_URL + ApiConstants.AUTH_LOGIN;
+//   let data= action.payload;
 
-  try {
-    const response = yield call(()=> axios.postData(url,data));
-    console.log('response:',response);
-    yield put(refreshTokenResponseAction(response));
-  } catch (error) {
+//   try {
+//     const response = yield call(()=> axios.postData(url,data));
+//     console.log('response:',response);
+//     yield put(refreshTokenResponseAction(response));
+//   } catch (error) {
     
-  }
-}
+//   }
+// }
 
   export default function* loginPageSaga() {
     yield takeLatest(ActionTypes.LOGIN_REQUEST, getLoginResponse);
-    yield takeLatest(ActionTypes.REFRESH_TOKEN_REQUEST, getRefreshTokenResponse);
+    // yield takeLatest(ActionTypes.REFRESH_TOKEN_REQUEST, getRefreshTokenResponse);
   }

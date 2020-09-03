@@ -10,7 +10,7 @@ import {clearAdminStates} from '../Adminview/action';
 
 import { clearItemStatesAction } from '../Newitems/action';
 import { connect } from 'react-redux';
-import {  withRouter,useHistory } from 'react-router-dom';
+import {  withRouter,useHistory,Switch,Route,BrowserRouter,MemoryRouter } from 'react-router-dom';
 import {persistor} from '../../store';
 
 
@@ -19,7 +19,9 @@ import './assets/css/all.css';
 import './assets/scss/style.scss';
 import { logout } from '../../utils/logOutAll';
 
-
+import Login from '../../Components/Login';
+import ForgotPassword from '../../Components/ForgotPassword';
+import Loader from '../../Components/Loader';
 
 const LoginView = (props:any) =>{
 
@@ -45,10 +47,7 @@ const LoginView = (props:any) =>{
     const [isForgotpassword, setIsForgotPassword] = useState(false);
 
     const dispatch = useDispatch();
-   
-
- 
-
+  
   const handleOnchanage = (e:any) => {
 
     let regexmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/gm;
@@ -141,6 +140,7 @@ const LoginView = (props:any) =>{
         "grant_type": "password",
         'username': username,
         'password': password,
+        "user_type" : "admin",
       }
 
       const finalParams:object = {
@@ -151,7 +151,7 @@ const LoginView = (props:any) =>{
     }
   }
 
-  const { match } = props;
+      const { match } = props;
 
       window.history.pushState(null, document.title, window.location.href);
       window.addEventListener('popstate', function (event){
@@ -185,121 +185,69 @@ const LoginView = (props:any) =>{
         setIsForgotPassword(!isForgotpassword);
        }
 
-    return(
-        <div className="d-flex justify-content-center bg-color login-view" style={{height:'100vh'}}>
-          {
-            isForgotpassword ? <div></div>
-            :
-            <div className="d-flex bg-white align-self-center max-width shadow jumbotron login-cover">
-            <div className="icon-cover">
-                    <div className="middle">
-                      <i className="fas fa-graduation-cap fa-2x"></i>
-                    </div>
-            </div>
-              <form className="w-100">
-                  <div className="form-group relative">
-                      <label htmlFor="" className="text-left text-dark">Username :</label>
-                      <input 
-                        type="email"
-                        name="username"
-                        ref={usernameRef} 
-                        onChange={(e)=>{handleOnchanage(e)}} 
-                        onBlur={(e)=>{handleOnBlur(e)}} 
-                        className="form-control" 
-                        placeholder="Enter Username"
-                        />
-                        {
-                          isusernameError&&<span className="badge badge-danger px-3 error-label py-1 font-weight-lighter">
-                            {usernameError}
-                          </span>
-                        }
-                  </div>
-                  <div className="form-group relative">
-                      <label htmlFor="" className="text-left text-dark">Password :</label>
-                      <input 
-                        type="password"
-                        name="password"
-                        ref={passwordRef} 
-                        onChange={(e)=>{handleOnchanage(e)}}
-                        onBlur={(e)=>{handleOnBlur(e)}}  
-                        className="form-control" 
-                        placeholder="Enter Password"
-                        />
-                        {
-                          ispasswordError&&<span className="badge badge-danger px-3 error-label py-1 font-weight-lighter">
-                            {passwordError}
-                          </span>
-                        }
-                  </div>
-                  <div className="form-group text-center">
-                  <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleSubmit(username,password,e)}}>
-                      Sign in
-                  </button>
-                   {
-                     props.isLoginError&&<div className="alert alert-danger mt-3">
-                       <span>Invalid Username or Password</span>
-                     </div>
-                   }
-                    <div className="mt-2 px-3">
-                      <a href="" className="small" onClick={handleGoBack}>Forgot password ?</a> 
-                    </div>   
-                  </div>
-              </form>
-          </div>
-          }
-          {
-            isForgotpassword&&<div className="d-flex bg-white align-self-center max-width shadow jumbotron login-cover">
-                <div className="icon-cover">
-                        <div className="middle">
-                        <i className="fas fa-key fa-2x"></i>
-                        </div>
-                </div>
-                  <form className="w-100">
-                      <div className="form-group text-center">
-                          <h5 className="text-capitalize text-theme pb-0 mb-0">Forgot your password ?
-                            <small style={{fontSize:'12px'}} className="d-block mt-1 text-muted">No worries! Enter your email and we will send you a request</small>
-                          </h5>
-                      </div>
-                      <div className="form-group relative">
-                      <label htmlFor="" className="text-left text-dark"></label>
-                          <input 
-                            type="email"
-                            name="forgotPassword"
-                            ref={forgotPasswordRef} 
-                            onChange={(e)=>{handleOnchanage(e)}} 
-                            onBlur={(e)=>{handleOnBlur(e)}} 
-                            className="form-control" 
-                            placeholder="Email"
-                            />
-                            {
-                              isForgotPasswordEmailError&&<span className="badge badge-danger px-3 error-label py-1 font-weight-lighter">
-                                {forgotPasswordEmailError}
-                              </span>
-                            }
-                      </div>
-                      
-                      <div className="form-group text-center">
-                      <button className="btn btn-primary px-5 mt-2 bg-theme" onClick={(e)=>{handleForgot(e,forgotPasswordEmail)}}>
-                          Send Request
-                      </button>
-                          
-                      </div>
-                      <div className="text-center">
-                      <span onClick={handleGoBack} className="px-3 small" style={{cursor:'pointer'}}>Go Back</span>
-                      </div>
-                  </form>
+       const routes = [
+        {
+          path: "/",
+          exact: true,
+        },
+        {
+          path: "/forgotpassword",
+        },
+      ];
 
+    return(
+        <MemoryRouter>
+        <div className="d-flex justify-content-center bg-color login-view" style={{height:'100vh'}}>
+                
+                <Switch>
+                  <Route
+                        
+                        path={routes[0].path}
+                        exact={routes[0].exact}
+                        children={<Login
+                          username={username}
+                          password={password} 
+                          usernameRef ={usernameRef}
+                          passwordRef={passwordRef}
+                          ispasswordError={ispasswordError}
+                          isusernameError={isusernameError}
+                          passwordError={passwordError}
+                          usernameError={usernameError}
+                          handleGoBack={handleGoBack} 
+                          handleOnchanage={handleOnchanage} 
+                          handleOnBlur={handleOnBlur}
+                          handleSubmit={handleSubmit}
+                          path="/forgotpassword"
+                          error={props.errorData}
+                          /> }
+                      />
+                    <Route
+                      
+                      path={routes[1].path}
+                      exact={routes[1].exact}
+                      children={<ForgotPassword
+                        forgotPasswordRef={forgotPasswordRef}
+                        handleOnchanage={handleOnchanage} 
+                        handleOnBlur={handleOnBlur}
+                        handleForgot={handleForgot}
+                        forgotPasswordEmail={forgotPasswordEmail}
+                        isForgotPasswordEmailError={isForgotPasswordEmailError}
+                        forgotPasswordEmailError={forgotPasswordEmailError}
+                        path="/"
+                        error=""
+                      />}
+                    />
                   
-          </div>
-          }
+                  </Switch>
+                  
+  
           {
             props.isLoading&&
-            <div className="loader-waiting d-flex justify-content-center">
-                <div className="spinner-border text-info align-self-center" role="status">
-                </div>
-            </div>
+            <Loader color="text-primary"/>
           }
+          
         </div>
+        </MemoryRouter>
     );
 }
 
@@ -307,6 +255,7 @@ const mapStateToProps: any = (state: any) => {
   return {
     isLoading : state.loginReducer.isLoading,
     isLoginError : state.loginReducer.isLoginError,
+    errorData : state.loginReducer.errorData,
   };
 };
 

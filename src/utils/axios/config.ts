@@ -36,10 +36,11 @@ instance.interceptors.response.use((response) => {
                 console.log('401 ERROR',error.config); 
                 await localStorage.removeItem('access_token'); 
                 const url = ApiConstants.BASE_URL + ApiConstants.AUTH_LOGIN;
-                const grantType = "refresh_token"; 
+                const grantType = "refresh_token";
+                const userType = "admin"; 
                 const refreshToken = await localStorage.getItem('refresh_token');        
                 return axios.post(
-                    url, {  grant_type: grantType, refresh_token: refreshToken}
+                    url, {  grant_type: grantType, refresh_token: refreshToken,user_type:userType}
                 ).then(
                     async (res) => {                    
                         if (res.status === 200) {  
