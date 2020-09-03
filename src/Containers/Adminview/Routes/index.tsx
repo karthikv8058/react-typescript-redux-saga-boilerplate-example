@@ -5,6 +5,7 @@ import Userlist from '../AdminComponents/Userlist/userlist';
 import CreateAmoulet from '../AdminComponents/Amoulet/createAmoulet';
 import UserListView from '../AdminComponents/Userlist/userListView';
 import Stories from '../AdminComponents/Stories/storyList';
+import AddDescriptions from '../AdminComponents/AddDescriptions/addDescriptions';
 
 
 //Userlist
@@ -34,5 +35,9 @@ export const routes = [
       {
         path: "/admin/stories",
         sidebar: () => <Stories/>,
+      },
+      {
+        path: "/admin/adddescriptions",
+        sidebar: () => <AddDescriptions title="Add Section"/>,
       },
   ];

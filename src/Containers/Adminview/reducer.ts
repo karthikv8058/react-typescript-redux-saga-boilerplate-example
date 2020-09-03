@@ -7,6 +7,7 @@ export const initialState ={
     profileImages: '',
     storyMedia: '',
     isloading:false,
+    amouletCount:0,
 }
  
 const adminReducer = (state:adminStates = initialState,action:ContainerActions) => {
@@ -37,16 +38,17 @@ const adminReducer = (state:adminStates = initialState,action:ContainerActions) 
                 storyMedia:action.payload.storyMedia,
             }
         case ActionTypes.AMOULET_LIST_REQUEST:
-            console.log('AMOULET_LIST_REQUEST');
-            
             return {
                 ...state,
                 isloading:true,
             }
         case ActionTypes.AMOULET_LIST_RESPONSE:
+            console.log('AMOULET_LIST_RESPONSE :',action.payload.length);
+            
             return {
                 ...state,
                 amouletList: action.payload,
+                amouletCount:action.payload.length,
                 isloading:false,
             }
         case ActionTypes.CLEAR_ADMIN_STATES:

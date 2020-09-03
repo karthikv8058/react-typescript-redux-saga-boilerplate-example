@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter,Link } from 'react-router-dom';
 import MUIDataTable from "mui-datatables";
@@ -53,8 +53,32 @@ const Userlist = (props:any) => {
   console.log('Temp Json Array:',dataArr);
   
   let temp ='';
+  let count=0;
+  let tempID:any=null;
   
   const dispatch = useDispatch();
+  const [unlinkAmoulet, setUnlinkAmoulet] = useState(false);
+
+  const handleUnlinkAmoulet = (e:any) => {
+
+    e.preventDefault();
+    console.log('CURR ID :',e.target.id,'PREV ID :',tempID);
+    count++;
+
+    if(tempID != e.target.id && tempID != null ){
+      count++;
+    }
+    
+    if(count%2==1){
+      e.target.previousElementSibling.style.textDecoration = 'line-through';
+      e.target.innerText="Restore Amoulet Connection";
+    }else{
+      e.target.previousElementSibling.style.textDecoration = 'none';
+      e.target.innerText="Unlink Amoulet";
+    }
+    tempID=e.target.id;
+
+  } 
 
   const columns = [
     {
@@ -87,7 +111,24 @@ const Userlist = (props:any) => {
      },
      {
       name: "nfcCode",
-      label: "Amoulet ID NFC ID",
+      label: "Amoulet ID (NFC ID)",
+      options: {
+        customBodyRender: (value:any, tableMeta:any) => {
+          console.log('lOG vALUES :',value);
+          
+          if(value!=undefined){
+            return (
+              <div className="amouletID">
+                <span className="">
+                    {value}
+                </span>
+                <Link to="" id={'amou'+value} className="d-block mt-1" onClick={(e)=>{handleUnlinkAmoulet(e)}}>Unlink Amoulet</Link>
+              </div>
+            );
+          }
+          
+        }
+        }
      },
      {
       name: "giverCode",

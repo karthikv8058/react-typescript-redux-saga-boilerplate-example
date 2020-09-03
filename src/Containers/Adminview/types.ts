@@ -7,6 +7,7 @@ export interface adminStates{
    storyMedia: any,
    profileImages: any,
    isloading:boolean,
+   amouletCount:number,
 }
 
 /* --- ACTIONS --- */

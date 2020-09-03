@@ -39,11 +39,13 @@ const loginReducer = (state:loginStates = initialState,action:ContainerActions) 
                 loginStatus:true,
             }
          case ActionTypes.LOGIN_ERROR:
+            console.log('LOGIN_ERROR:',action.payload);
              return {
                 ...state,
                 isLoginError:true,
                 isLoading:false,
                 loginStatus:false,
+                errorData:action.payload.en,
              }
         case ActionTypes.REFRESH_TOKEN_REQUEST:
             console.log('REFRESH_TOKEN_REQUEST');
