@@ -5,10 +5,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import inArray from '../../../../Service';
 import Swal from 'sweetalert2';
 import {
-  amouletCreateRequestAction,
-  amouletGiverCodeRequestAction,
-  amouletReceiverCodeRequestAction,
-  amouletValidateRequestAction
+  
 } from './action';
 
 import * as Yup from 'yup';
