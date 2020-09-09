@@ -5,7 +5,8 @@ import Userlist from '../AdminComponents/Userlist/userlist';
 import CreateAmoulet from '../AdminComponents/Amoulet/createAmoulet';
 import UserListView from '../AdminComponents/Userlist/userListView';
 import Stories from '../AdminComponents/Stories/storyList';
-import AddDescriptions from '../AdminComponents/AddDescriptions/addDescriptions';
+import AddDescriptions from '../AdminComponents/Descriptions/addDescriptions';
+import ViewDescriptions from '../AdminComponents/Descriptions/ViewDescriptions';
 
 
 //Userlist
@@ -39,5 +40,9 @@ export const routes = [
       {
         path: "/admin/adddescriptions",
         sidebar: () => <AddDescriptions title="Add Section"/>,
+      },
+      {
+        path: "/admin/viewdescriptions",
+        sidebar: () => <ViewDescriptions title="View Descriptions"/>,
       },
   ];
