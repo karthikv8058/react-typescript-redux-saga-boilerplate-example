@@ -57,8 +57,6 @@ const Sidebar = (props:any) => {
 
                   </li>
                   <li className="my-2 my-md-3">
-                    
-
                     <Link to="/admin/amouletlist" className="d-inline-block w-100 font-weight-bold link-text" onClick={(e)=> {onLinkClick(e)} }>
                             <i className="fas fa-gem d-inline-block mr-2 text-dark"></i>
                             Amoulet list
