@@ -1,19 +1,19 @@
-import React from 'react';
-import { MemoryRouter,BrowserRouter, Route, Switch } from "react-router-dom";
+import React from "react";
+import { MemoryRouter, BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Adminview from '../Containers/Adminview';
-import Loginview from '../Containers/Loginview';
-import SecuredRoute from './authentication';
+import Adminview from "../Containers/Adminview";
+import Loginview from "../Containers/Loginview";
+import SecuredRoute from "./authentication";
 
 const Routes = () => {
- return (
-   <BrowserRouter>
+  return (
+    <BrowserRouter>
       <Switch>
-          <Route exact path="/" component={Loginview} />
-          <SecuredRoute path="/admin" component={Adminview} />
+        <Route exact path="/" component={Loginview} />
+        <SecuredRoute path="/admin" component={Adminview} />
       </Switch>
-   </BrowserRouter>
- );
-}
+    </BrowserRouter>
+  );
+};
 
 export default Routes;
