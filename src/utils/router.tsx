@@ -7,12 +7,12 @@ import SecuredRoute from "./authentication";
 
 const Routes = () => {
   return (
-    <MemoryRouter>
+    <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Loginview} />
         <SecuredRoute path="/admin" component={Adminview} />
       </Switch>
-    </MemoryRouter>
+    </BrowserRouter>
   );
 };
 
