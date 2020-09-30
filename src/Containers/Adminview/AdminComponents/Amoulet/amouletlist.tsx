@@ -12,7 +12,6 @@ import {
 import "../../assets/scss/style.scss";
 
 const Amouletlist = (props: any) => {
-  console.log("Props from amoulet list:", props);
 
   const dispatch = useDispatch();
 
@@ -54,7 +53,7 @@ const Amouletlist = (props: any) => {
     },
     {
       name: "serialNumber",
-      label: "SerialNumber",
+      label: "RFID (Serial Number)",
     },
     {
       name: "nfcCode",

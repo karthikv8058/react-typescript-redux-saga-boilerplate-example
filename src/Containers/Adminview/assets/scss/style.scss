@@ -223,9 +223,13 @@
             height: 100%;
             left: 0;
             top: 0;
+            word-wrap: break-word;
             &.null {
                 border-top: solid 5px #fff!important;
                 top: -3px;
+            }
+            &.text-empty {
+                color: transparent!important;
             }
         }
         
