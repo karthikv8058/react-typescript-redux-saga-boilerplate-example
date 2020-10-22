@@ -39,7 +39,7 @@ const Dashboard = (props: any) => {
               <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                    Pass-phrase 1
+                    Passphrase 1
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
                     {props.loginStatus && dashboardCount.giver}
@@ -58,7 +58,7 @@ const Dashboard = (props: any) => {
               <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    Pass-phrase 2
+                    Passphrase 2
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
                     {props.loginStatus && dashboardCount.receiver}

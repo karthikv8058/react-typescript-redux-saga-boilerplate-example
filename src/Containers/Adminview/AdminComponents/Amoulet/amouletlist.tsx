@@ -45,11 +45,11 @@ const Amouletlist = (props: any) => {
     },
     {
       name: "giverCode",
-      label: "Passphrase1 / Giver Code",
+      label: "Passphrase1",
     },
     {
       name: "receiverCode",
-      label: "Passphrase2 / Receiver Code",
+      label: "Passphrase2",
     },
     {
       name: "serialNumber",
