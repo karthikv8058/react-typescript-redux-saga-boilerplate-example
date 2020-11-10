@@ -23,7 +23,7 @@ const CreateAmoulet = (props: any) => {
     refresh_token: props.refreshToken,
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   //handle givercode
   const handleGiverCode = (e: any) => {
@@ -79,12 +79,14 @@ const CreateAmoulet = (props: any) => {
             serialNumber: "",
             receiverCode: "",
             giverCode: "",
+            modeOfPurchase: ""
           }}
           validationSchema={Yup.object({
             name: Yup.string().required("Required"),
             description: Yup.string().required("Required"),
             nfcCode: Yup.string().required("Required"),
             serialNumber: Yup.string().required("Required"),
+            modeOfPurchase: Yup.string().required("Required"),
           })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
@@ -118,11 +120,11 @@ const CreateAmoulet = (props: any) => {
                   timer: 1500,
                 }).then((res) => {
                   console.log("res:", res);
-                  dispatch(amouletCreateRequestAction(finalParams));
+                  //dispatch(amouletCreateRequestAction(finalParams));
                   setSubmitting(false);
 
                   setTimeout(() => {
-                    history.go(0);
+                    //history.go(0);
                   }, 500);
                 });
               }
@@ -196,6 +198,21 @@ const CreateAmoulet = (props: any) => {
                   </div>
                 </div>
                 <div className="form-group row">
+                  <label htmlFor="modeOfPurchase" className="col-sm-4 col-form-label">
+                    Mode of purchase
+                  </label>
+                  <div className="col-sm-8">
+                    <Field as="select" name="modeOfPurchase" className="form-control">
+                      <option value="">Select</option>
+                      <option value="Online">Online</option>
+                      <option value="Offline">Offline</option>
+                    </Field>
+                    <span className="text-danger">
+                      <ErrorMessage name="modeOfPurchase" />
+                    </span>
+                  </div>
+                </div>
+                <div className="form-group row">
                   <label className="col-sm-4 col-form-label"> </label>
                   <div className="col-sm-8">
                     <div className="row">
@@ -215,14 +232,14 @@ const CreateAmoulet = (props: any) => {
                               <span className="sr-only"></span>
                             </div>
                           ) : (
-                            ""
-                          )}
+                              ""
+                            )}
                         </button>
                         {props.giverCode.uuid ? (
                           <i className="fas fa-check ml-2 text-success"></i>
                         ) : (
-                          ""
-                        )}
+                            ""
+                          )}
                       </div>
                       <div className="col-auto">
                         <button
@@ -240,14 +257,14 @@ const CreateAmoulet = (props: any) => {
                               <span className="sr-only"></span>
                             </div>
                           ) : (
-                            ""
-                          )}
+                              ""
+                            )}
                         </button>
                         {props.receiverCode.uuid ? (
                           <i className="fas fa-check ml-2 text-success"></i>
                         ) : (
-                          ""
-                        )}
+                            ""
+                          )}
                       </div>
                     </div>
                   </div>
