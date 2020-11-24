@@ -16,6 +16,8 @@ import * as Yup from "yup";
 const CreateAmoulet = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [showNote, setShowNote] = useState(false);
+  const [modeOfPurchase, setModeOfPurchase] = useState('');
 
   let accessParams: object = {
     accessToken: props.accessToken,
@@ -65,6 +67,18 @@ const CreateAmoulet = (props: any) => {
     dispatch(amouletValidateRequestAction(finalParams));
   };
 
+  const handleOnSelectChange = (e: any, setFieldValue: any) => {
+    setFieldValue("isOnline", e.target.value);
+    if (e.target.value == "false") {
+      setModeOfPurchase("Offline");
+      setShowNote(true);
+      console.log('showNote=>', showNote);
+    } else {
+      setModeOfPurchase("Online");
+      setShowNote(false);
+    }
+  }
+
   return (
     <section className="create-amoulet p-0">
       <div>
@@ -79,18 +93,22 @@ const CreateAmoulet = (props: any) => {
             serialNumber: "",
             receiverCode: "",
             giverCode: "",
-            modeOfPurchase: ""
+            isOnline: "",
+            note: "",
           }}
           validationSchema={Yup.object({
             name: Yup.string().required("Required"),
             description: Yup.string().required("Required"),
             nfcCode: Yup.string().required("Required"),
             serialNumber: Yup.string().required("Required"),
-            modeOfPurchase: Yup.string().required("Required"),
+            isOnline: Yup.boolean().required("Required"),
+            note: Yup.string().matches(/^[a-z][a-z\s]*$/, "Accept only alphabets and space"),
           })}
+
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               console.log("values :", values);
+              console.log("showNote :", showNote);
 
               let amouletParams: object = {
                 ...values,
@@ -98,6 +116,7 @@ const CreateAmoulet = (props: any) => {
                 color: "#fff",
                 giverCode: props.giverCodeUUID,
                 receiverCode: props.receiverCodeUUID,
+                isOnline: values.isOnline == "false" ? false : true,
               };
 
               let finalParams: object = {
@@ -109,7 +128,7 @@ const CreateAmoulet = (props: any) => {
                 Swal.fire({
                   icon: "error",
                   title: "Oops...",
-                  text: "Please Assign Giver and Receiver Code",
+                  text: "Please Assign Passphrase 1 and Passphrase 2",
                 });
               } else {
                 Swal.fire({
@@ -120,11 +139,11 @@ const CreateAmoulet = (props: any) => {
                   timer: 1500,
                 }).then((res) => {
                   console.log("res:", res);
-                  //dispatch(amouletCreateRequestAction(finalParams));
+                  dispatch(amouletCreateRequestAction(finalParams));
                   setSubmitting(false);
 
                   setTimeout(() => {
-                    //history.go(0);
+                    history.go(0);
                   }, 500);
                 });
               }
@@ -132,14 +151,20 @@ const CreateAmoulet = (props: any) => {
               setSubmitting(false);
             }, 1000);
           }}
+
         >
           {({
             values,
+            touched,
             handleBlur,
             handleChange,
+            setFieldValue,
+            setFieldTouched,
             handleSubmit,
             handleReset,
           }) => {
+            console.log('handleChange from form:', values);
+
             return (
               <form onSubmit={handleSubmit} className="w-75 mx-auto">
                 <div className="form-group row">
@@ -198,20 +223,51 @@ const CreateAmoulet = (props: any) => {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="modeOfPurchase" className="col-sm-4 col-form-label">
-                    Mode of purchase
+                  <label htmlFor="isOnline" className="col-sm-4 col-form-label">
+                    Mode of sale
                   </label>
+                  {/* (e: any) => { handleOnSelectChange(e) } */}
                   <div className="col-sm-8">
-                    <Field as="select" name="modeOfPurchase" className="form-control">
-                      <option value="">Select</option>
-                      <option value="Online">Online</option>
-                      <option value="Offline">Offline</option>
-                    </Field>
+                    <select
+                      value={values.isOnline}
+                      onBlur={() => setFieldTouched("isOnline", true)}
+                      onChange={(e) => {
+                        handleOnSelectChange(e, setFieldValue);
+                      }}
+                      name="isOnline"
+                      className="form-control rounded-sm"
+
+                    >
+
+                      <option value="">-select-</option>
+
+                      <option value="true">Online</option>
+
+                      <option value="false">Offline</option>
+
+                    </select>
                     <span className="text-danger">
-                      <ErrorMessage name="modeOfPurchase" />
+                      <ErrorMessage name="isOnline" />
                     </span>
                   </div>
                 </div>
+                { showNote &&
+                  <div className="form-group row">
+                    <label htmlFor="note" className="col-sm-4 col-form-label">
+                      Note
+                  </label>
+                    <div className="col-sm-8">
+                      <Field
+                        name="note"
+                        type="text"
+                        className="form-control rounded-sm"
+                      />
+                      <span className="text-danger">
+                        <ErrorMessage name="note" />
+                      </span>
+                    </div>
+                  </div>
+                }
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label"> </label>
                   <div className="col-sm-8">

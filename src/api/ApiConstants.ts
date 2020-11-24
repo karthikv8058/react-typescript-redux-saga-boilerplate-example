@@ -5,7 +5,7 @@ const TEST = 15022;
 
 const ApiConstants = {
 
-  BASE_URL: `http://demo.mypits.org:${DEV}/`,
+  BASE_URL: `http://demo.mypits.org:${UAT}/`,
   //BASE_URL: 'http://localhost:81/', // LOCAL
 
   AUTH_LOGIN: apiVersion + "user/auth_login",

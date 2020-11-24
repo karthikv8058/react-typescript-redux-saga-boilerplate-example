@@ -18,11 +18,11 @@ const Userlist = (props: any) => {
   let tempJson1 = {};
   let tempJson = {};
 
-  const slicedData = dataFromApi.slice(0, 10);
-  console.log('dataFromApi :', slicedData);
+  // const dataFromApi = dataFromApi.slice(0, 10);
+  console.log('dataFromApi :', dataFromApi);
 
-  slicedData.length > 0 &&
-    slicedData.map((item: any) => {
+  dataFromApi.length > 0 &&
+    dataFromApi.map((item: any) => {
       var useremail = item.userEmail;
       tempJson = { useremail: item.userEmail };
 
