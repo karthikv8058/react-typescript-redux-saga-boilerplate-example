@@ -6,6 +6,7 @@ import adminReducer from "./Containers/Adminview/reducer";
 import amouletReducer from "./Containers/Adminview/AdminComponents/Amoulet/reducer";
 import storyReducer from "./Containers/Adminview/AdminComponents/Stories/reducer";
 import descriptionReducer from "./Containers/Adminview/AdminComponents/Descriptions/reducer";
+import userlistReducer from "./Containers/Adminview/AdminComponents/Userlist/reducer";
 
 const rootReducer = combineReducers({
   itemReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   amouletReducer,
   storyReducer,
   descriptionReducer,
+  userlistReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

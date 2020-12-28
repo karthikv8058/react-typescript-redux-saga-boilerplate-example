@@ -5,7 +5,8 @@ import {
   amouletCreateResponseAction,
   amouletGiverCodeResponseAction,
   amouletReceiverCodeResponseAction,
-  amouletValidateResponseAction
+  amouletValidateResponseAction,
+  linkUnlinkResponseAction,
 } from './action';
 
 import ApiConstants from '../../../../api/ApiConstants';
@@ -69,9 +70,29 @@ export function* validateNFCAndSerialNumber(action: any) {
 
 }
 
-export default function* amouletPageSaga() {
+// function to set link / unlink 
+export function* linkUnLink(action: any) {
+  console.log("ACTION LOG===>", action);
+  const url = ApiConstants.BASE_URL + ApiConstants.LINK_UNLINK;
+  const data: object = {
+    action: action.payload.action,
+    uuid: action.payload.uuid
+  };
+
+  try {
+    const response = yield call(() => axios.postData(url, data));
+    yield put(linkUnlinkResponseAction(response));
+
+  } catch (err) {
+
+  }
+
+}
+
+export default function* userlistPageSaga() {
   yield takeLatest(ActionTypes.AMOULET_CREATE_REQUEST, createAmoulet);
   yield takeLatest(ActionTypes.AMOULET_GIVER_CODE_REQUEST, getGiverCode);
   yield takeLatest(ActionTypes.AMOULET_RECEIVER_CODE_REQUEST, getReceiverCode);
   yield takeLatest(ActionTypes.AMOULET_VALIDATE_CODE_REQUEST, validateNFCAndSerialNumber);
+  yield takeLatest(ActionTypes.LINK_UNLINK_REQUEST, linkUnLink);
 }

@@ -5,7 +5,7 @@ const TEST = 15022;
 
 const ApiConstants = {
 
-  BASE_URL: `http://demo.mypits.org:${UAT}/`,
+  BASE_URL: `http://demo.mypits.org:${DEV}/`,
   //BASE_URL: 'http://localhost:81/', // LOCAL
 
   AUTH_LOGIN: apiVersion + "user/auth_login",
@@ -19,6 +19,6 @@ const ApiConstants = {
   ADD_DESCRIPTIONS: apiVersion + "admin/add-descriptions",
   LIST_DESCRIPTIONS: apiVersion + "admin/list-descriptions",
   DASHBOARD: apiVersion + "admin/dashboard",
-
+  LINK_UNLINK: apiVersion + "admin/amoulet/link-unlink",
 };
 export default ApiConstants;

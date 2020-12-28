@@ -5,9 +5,10 @@ export interface amouletStates {
     giverCode: object,
     receiverCode: object,
     validateCode: object,
-    isGiverCode:boolean,
-    isReceiverCode:boolean,
-    isValidateCode:boolean,
+    isGiverCode: boolean,
+    isReceiverCode: boolean,
+    isValidateCode: boolean,
+    linkUnlinkStatus: boolean,
 }
 
 /* --- ACTIONS --- */

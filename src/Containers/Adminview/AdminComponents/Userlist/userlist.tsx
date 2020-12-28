@@ -8,15 +8,30 @@ import {
 } from "@material-ui/core/styles";
 
 import { userListRequestAction, genConfigRequestAction } from "../../action";
+import { linkUnlinkRequestAction } from './action';
 
 import "../../assets/scss/style.scss";
 
 const Userlist = (props: any) => {
+  const dispatch = useDispatch();
+  const [unlinkAmoulet, setUnlinkAmoulet] = useState(false);
+  const [isSearchElementHide, setIsSearchElementHide] = useState(true);
+  const [isLinked, setIsLinked] = useState(false);
+  const [amID, setAmID] = useState("");
   const dataFromApi = props.userList;
 
   let dataArr: any = [];
   let tempJson1 = {};
   let tempJson = {};
+
+  useEffect(() => {
+    dispatch(userListRequestAction(params));
+    dispatch(genConfigRequestAction(params));
+  }, []);
+
+  useEffect(() => {
+    dispatch(userListRequestAction(params));
+  }, [props.linkUnlinkStatus])
 
   // const dataFromApi = dataFromApi.slice(0, 10);
   console.log('dataFromApi :', dataFromApi);
@@ -34,13 +49,13 @@ const Userlist = (props: any) => {
           } else {
             receiverEmail = value.receiverEmail;
           }
-
           tempJson1 = {
             giverCode: value.giverCode,
-            nfcCode: value.nfcCode,
+            nfcCode: { value: value.nfcCode, link: value.hidden, id: value.id },
             receiverCode: value.receiverCode,
             receiverEmail: receiverEmail,
             serialNumber: value.serialNumber,
+            id: value.id
           };
 
           let finalObj = {
@@ -57,27 +72,21 @@ const Userlist = (props: any) => {
   let count = 0;
   let tempID: any = null;
 
-  const dispatch = useDispatch();
-  const [unlinkAmoulet, setUnlinkAmoulet] = useState(false);
-  const [isSearchElementHide, setIsSearchElementHide] = useState(true);
 
-  const handleUnlinkAmoulet = (e: any) => {
+
+  const handleUnlinkAmoulet = (e: any, id: any, link: any) => {
+    let params: any = {
+      action: link ? "link" : "unlink",
+      uuid: id,
+    };
+    console.log("params===========>", params);
+    dispatch(linkUnlinkRequestAction(params));
     e.preventDefault();
-    count++;
-
-    if (tempID != e.target.id && tempID != null) {
-      count++;
-    }
-
-    if (count % 2 == 1) {
-      e.target.previousElementSibling.style.textDecoration = "line-through";
-      e.target.innerText = "Restore Amoulet Connection";
-    } else {
-      e.target.previousElementSibling.style.textDecoration = "none";
-      e.target.innerText = "Unlink Amoulet";
-    }
-    tempID = e.target.id;
   };
+
+  let colOptions: any = {
+    display: false
+  }
 
   const columns = [
     {
@@ -106,18 +115,23 @@ const Userlist = (props: any) => {
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
           if (value != undefined) {
+            setIsLinked(value.link);
             return (
               <div className="amouletID">
-                <span className="">{value}</span>
+                <span className="">
+                  {
+                    value.link ? (<del>{value.value}</del>) : (<span>{value.value}</span>)
+                  }
+                </span>
                 <Link
                   to=""
-                  id={"amou" + value}
+                  id={"amou" + value.value}
                   className="d-block mt-1"
                   onClick={(e) => {
-                    handleUnlinkAmoulet(e);
+                    handleUnlinkAmoulet(e, value.id, value.link);
                   }}
                 >
-                  Unlink Amoulet
+                  {value.link ? 'Restore Amoulet Connection' : 'Unlink Amoulet'}
                 </Link>
               </div>
             );
@@ -137,7 +151,14 @@ const Userlist = (props: any) => {
       name: "receiverEmail",
       label: "Another email linked to the Amoulet",
     },
+    {
+      name: 'id',
+      label: "ID",
+      options: colOptions
+    }
   ];
+
+
 
   let params: object = {
     accessToken: props.accessToken,
@@ -145,10 +166,7 @@ const Userlist = (props: any) => {
     refresh_token: props.refreshToken,
   };
 
-  useEffect(() => {
-    dispatch(userListRequestAction(params));
-    dispatch(genConfigRequestAction(params));
-  }, []);
+
 
   let options: any = {
     selectableRows: "none",
@@ -187,8 +205,15 @@ const Userlist = (props: any) => {
       else if (tableState.searchText === null) {
         setIsSearchElementHide(true);
       }
+    },
+    onRowClick: (rowData: string[]) => {
+      console.log("rowData=====================>", rowData[6]);
+      setAmID(rowData[6]);
     }
   };
+
+  console.log('dataArr=======>', dataArr);
+
 
   return (
     <section className="userlist p-0">
@@ -215,6 +240,7 @@ const mapStateToProps: any = (state: any) => {
     loginStatus: state.loginReducer.loginStatus,
     userList: state.adminReducer.userList,
     profileImages: state.adminReducer.profileImages,
+    linkUnlinkStatus: state.userlistReducer.linkUnlinkStatus,
   };
 };
 

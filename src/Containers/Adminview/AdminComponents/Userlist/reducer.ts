@@ -10,9 +10,10 @@ export const initialState = {
     isReceiverCode: false,
     isValidateCode: false,
     giverCodeUUID: '',
-    receiverCodeUUID: ''
+    receiverCodeUUID: '',
+    linkUnlinkStatus: false,
 }
-const amouletReducer = (state: amouletStates = initialState, action: ContainerActions) => {
+const userlistReducer = (state: amouletStates = initialState, action: ContainerActions) => {
     switch (action.type) {
         case ActionTypes.AMOULET_CREATE_REQUEST:
             return {
@@ -57,9 +58,21 @@ const amouletReducer = (state: amouletStates = initialState, action: ContainerAc
                 validateCode: action.payload,
                 isValidateCode: false,
             }
+        case ActionTypes.LINK_UNLINK_REQUEST:
+            console.log("LINK_UNLINK_REQUEST", action.payload);
+            return {
+                ...state,
+                linkUnlinkStatus: false,
+            }
+        case ActionTypes.LINK_UNLINK_RESPONSE:
+            console.log("LINK_UNLINK_RESPONSE", action);
+            return {
+                ...state,
+                linkUnlinkStatus: true,
+            }
         default:
             return state;
     }
 }
 
-export default amouletReducer;
+export default userlistReducer;
