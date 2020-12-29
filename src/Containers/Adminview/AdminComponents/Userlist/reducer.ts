@@ -1,22 +1,21 @@
 import ActionTypes from './constants';
-import {ContainerActions,amouletStates} from './types';
+import { ContainerActions, amouletStates } from './types';
 import { string, object } from 'yup';
- 
+
 export const initialState = {
     giverCode: {},
     receiverCode: {},
     validateCode: {},
-    isGiverCode:false,
-    isReceiverCode:false,
-    isValidateCode:false,
-    giverCodeUUID:'',
-    receiverCodeUUID:''
+    isGiverCode: false,
+    isReceiverCode: false,
+    isValidateCode: false,
+    giverCodeUUID: '',
+    receiverCodeUUID: '',
+    linkUnlinkStatus: false,
 }
-const amouletReducer = (state:amouletStates = initialState, action:ContainerActions) => {
-    switch(action.type) {
+const userlistReducer = (state: amouletStates = initialState, action: ContainerActions) => {
+    switch (action.type) {
         case ActionTypes.AMOULET_CREATE_REQUEST:
-            console.log('AMOULET_CREATE_REQUEST');
-            
             return {
                 ...state,
             }
@@ -27,44 +26,53 @@ const amouletReducer = (state:amouletStates = initialState, action:ContainerActi
         case ActionTypes.AMOULET_GIVER_CODE_REQUEST:
             return {
                 ...state,
-                isGiverCode:true,
+                isGiverCode: true,
             }
         case ActionTypes.AMOULET_GIVER_CODE_RESPONSE:
-            console.log('AMOULET_GIVER_CODE_RESPONSE:',action.payload);
-            
             return {
                 ...state,
-                isGiverCode:false,
+                isGiverCode: false,
                 giverCode: action.payload,
-                giverCodeUUID:action.payload.uuid,
+                giverCodeUUID: action.payload.uuid,
             }
         case ActionTypes.AMOULET_RECEIVER_CODE_REQUEST:
             return {
                 ...state,
-                isReceiverCode:true,
+                isReceiverCode: true,
             }
         case ActionTypes.AMOULET_RECEIVER_CODE_RESPONSE:
-            console.log('AMOULET_RECEIVER_CODE_RESPONSE:',action.payload);
             return {
                 ...state,
-                isReceiverCode:false,
+                isReceiverCode: false,
                 receiverCode: action.payload,
-                receiverCodeUUID:action.payload.uuid
+                receiverCodeUUID: action.payload.uuid
             }
         case ActionTypes.AMOULET_VALIDATE_CODE_REQUEST:
             return {
                 ...state,
-                isValidateCode:true,
+                isValidateCode: true,
             }
         case ActionTypes.AMOULET_VALIDATE_CODE_RESPONSE:
             return {
                 ...state,
                 validateCode: action.payload,
-                isValidateCode:false,
+                isValidateCode: false,
+            }
+        case ActionTypes.LINK_UNLINK_REQUEST:
+            console.log("LINK_UNLINK_REQUEST", action.payload);
+            return {
+                ...state,
+                linkUnlinkStatus: false,
+            }
+        case ActionTypes.LINK_UNLINK_RESPONSE:
+            console.log("LINK_UNLINK_RESPONSE", action);
+            return {
+                ...state,
+                linkUnlinkStatus: true,
             }
         default:
             return state;
     }
 }
 
-export default amouletReducer;
+export default userlistReducer;

@@ -1,16 +1,21 @@
+import { action } from "typesafe-actions";
 
-import { action } from 'typesafe-actions';
+import ActionTypes from "./constants";
 
-import ActionTypes from './constants';
-
-export const userListRequestAction = (params:object) => action(ActionTypes.USER_LIST_REQUEST, params);
-export const userListResponseAction = (userList:any) => action(ActionTypes.USER_LIST_RESPONSE, userList);
-export const amouletListRequestAction = (params:object) => action(ActionTypes.AMOULET_LIST_REQUEST, params);
-export const amoluletListResponseAction = (amouletList:any) => action(ActionTypes.AMOULET_LIST_RESPONSE, amouletList);
-export const genConfigRequestAction = (params:object) => action(ActionTypes.GEN_CONFIG_REQUEST, params);
-export const genConfigResponseAction = (config:any) => action(ActionTypes.GEN_CONFIG_RESPONSE, config);
+export const userListRequestAction = (params: object) =>
+  action(ActionTypes.USER_LIST_REQUEST, params);
+export const userListResponseAction = (userList: any) =>
+  action(ActionTypes.USER_LIST_RESPONSE, userList);
+export const amouletListRequestAction = (params: object) =>
+  action(ActionTypes.AMOULET_LIST_REQUEST, params);
+export const amoluletListResponseAction = (amouletList: any) =>
+  action(ActionTypes.AMOULET_LIST_RESPONSE, amouletList);
+export const genConfigRequestAction = (params: object) =>
+  action(ActionTypes.GEN_CONFIG_REQUEST, params);
+export const genConfigResponseAction = (config: any) =>
+  action(ActionTypes.GEN_CONFIG_RESPONSE, config);
 export const clearAdminStates = () => action(ActionTypes.CLEAR_ADMIN_STATES);
-
-
-
-
+export const dashboardRecGivCountRequestAction = () =>
+  action(ActionTypes.DASHBOARD_REC_GIV_COUNT_REQUEST);
+export const dashboardRecGivCountResponseAction = (params: any) =>
+  action(ActionTypes.DASHBOARD_REC_GIV_COUNT_RESPONSE, params);

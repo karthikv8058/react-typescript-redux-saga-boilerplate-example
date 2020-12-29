@@ -12,7 +12,6 @@ import {
 import "../../assets/scss/style.scss";
 
 const Amouletlist = (props: any) => {
-  console.log("Props from amoulet list:", props);
 
   const dispatch = useDispatch();
 
@@ -35,6 +34,9 @@ const Amouletlist = (props: any) => {
 
   const data = props.amouletList;
 
+  console.log('data=>', data);
+
+
   const columns = [
     {
       name: "name",
@@ -46,19 +48,32 @@ const Amouletlist = (props: any) => {
     },
     {
       name: "giverCode",
-      label: "Passphrase1 / Giver Code",
+      label: "Passphrase1",
     },
     {
       name: "receiverCode",
-      label: "Passphrase2 / Receiver Code",
+      label: "Passphrase2",
     },
     {
       name: "serialNumber",
-      label: "SerialNumber",
+      label: "RFID (Serial Number)",
     },
     {
       name: "nfcCode",
       label: "NFC Code",
+    },
+    {
+      name: "isOnline",
+      label: "Mode of sale",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          return (
+            <span>
+              {value == true ? 'Online' : 'Offline'}
+            </span>
+          )
+        },
+      }
     },
     {
       name: "id",
@@ -70,14 +85,16 @@ const Amouletlist = (props: any) => {
               <Link
                 className="d-inline-block"
                 style={{ textDecoration: "none" }}
-                to={`/user/${tableMeta.rowData[6]}`}
+                // to={`/user/${tableMeta.rowData[6]}`}
+                to={`#`}
               >
                 <i className="d-inline-block fas fa-eye fa-1x text-success"></i>
               </Link>
               <Link
                 className="d-inline-block ml-3"
                 style={{ textDecoration: "none" }}
-                to={`/user/${tableMeta.rowData[6]}`}
+                // to={`/user/${tableMeta.rowData[6]}`}
+                to={`#`}
               >
                 <i className="d-inline-block fas fa-edit fa-1x text-warning"></i>
               </Link>

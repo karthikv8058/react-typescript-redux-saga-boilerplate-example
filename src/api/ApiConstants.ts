@@ -1,20 +1,24 @@
-/* App config for apis
- */
-// /api/1.0/admin/amoulet/list
+const apiVersion = 'api/1.0/';
+const DEV = 15020;
+const UAT = 15021;
+const TEST = 15022;
+
 const ApiConstants = {
-  // BASE_URL: "http://demo.mypits.org:15020/",
-  BASE_URL: "http://demo.mypits.org:15021/",
-  //BASE_URL: 'http://localhost:81/',
-  AUTH_LOGIN: "api/1.0/user/auth_login",
-  USER_LIST: "api/1.0/user/list",
-  AMOULET_LIST: "api/1.0/admin/amoulet/list",
-  GEN_CONFIG: "api/1.0/general/configuration",
-  CREATE_AMOULET: "api/1.0/admin/amoulet/new",
-  GET_CODE: "api/1.0/admin/amoulet/get-code/",
-  VALIDATE_NFC_SERIAL: "api/1.0/admin/amoulet/validate/",
-  STORY_LIST: "api/1.0/story/get",
-  ADD_DESCRIPTIONS: "api/1.0/admin/add-descriptions",
-  LIST_DESCRIPTIONS: "api/1.0/admin/list-descriptions",
-  DASHBOARD: "api/1.0/admin/dashboard",
+
+  BASE_URL: `http://demo.mypits.org:${DEV}/`,
+  //BASE_URL: 'http://localhost:81/', // LOCAL
+
+  AUTH_LOGIN: apiVersion + "user/auth_login",
+  USER_LIST: apiVersion + "user/list",
+  AMOULET_LIST: apiVersion + "admin/amoulet/list",
+  GEN_CONFIG: apiVersion + "general/configuration",
+  CREATE_AMOULET: apiVersion + "admin/amoulet/new",
+  GET_CODE: apiVersion + "admin/amoulet/get-code/",
+  VALIDATE_NFC_SERIAL: apiVersion + "admin/amoulet/validate/",
+  STORY_LIST: apiVersion + "story/get",
+  ADD_DESCRIPTIONS: apiVersion + "admin/add-descriptions",
+  LIST_DESCRIPTIONS: apiVersion + "admin/list-descriptions",
+  DASHBOARD: apiVersion + "admin/dashboard",
+  LINK_UNLINK: apiVersion + "admin/amoulet/link-unlink",
 };
 export default ApiConstants;

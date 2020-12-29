@@ -8,6 +8,7 @@ export const initialState = {
   storyMedia: "",
   isloading: false,
   amouletCount: 0,
+  dashboard: {},
 };
 
 const adminReducer = (
@@ -16,14 +17,12 @@ const adminReducer = (
 ) => {
   switch (action.type) {
     case ActionTypes.USER_LIST_REQUEST:
-      console.log("USER_LIST_REQUEST");
 
       return {
         ...state,
         isloading: true,
       };
     case ActionTypes.USER_LIST_RESPONSE:
-      console.log("USER_LIST_RESPONSE:", action.payload);
 
       return {
         ...state,
@@ -46,7 +45,6 @@ const adminReducer = (
         isloading: true,
       };
     case ActionTypes.AMOULET_LIST_RESPONSE:
-      console.log("AMOULET_LIST_RESPONSE :", action.payload.length);
 
       return {
         ...state,
@@ -62,7 +60,15 @@ const adminReducer = (
         storyMedia: "",
         isloading: false,
       };
-
+    case ActionTypes.DASHBOARD_REC_GIV_COUNT_REQUEST:
+      return {
+        ...state,
+      };
+    case ActionTypes.DASHBOARD_REC_GIV_COUNT_RESPONSE:
+      return {
+        ...state,
+        dashboard: action.payload,
+      };
     default:
       return state;
   }
