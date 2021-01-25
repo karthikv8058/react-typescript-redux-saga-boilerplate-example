@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef,createRef } from "react";
 import { connect, useDispatch } from "react-redux";
 import { withRouter, useHistory } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -12,21 +12,57 @@ import {
 } from "./action";
 
 import * as Yup from "yup";
+import { setTimeout } from "timers";
+
+let setFieldValueGlobalnfcCode:any = null;
+let setFieldValueGlobalserialNumber:any = null;
 
 const CreateAmoulet = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [showNote, setShowNote] = useState(false);
-  const [modeOfPurchase, setModeOfPurchase] = useState('');
+  const [isNfcExits, setIsNfcExits] = useState(null);
+  const [isSerialExits, setIsSerialExits] = useState(null);
+  const [nfcORserialNumber, setNfcORserialNumber] = useState('');
+  const [receiverCodeState, setReceiverCodeState] = useState(null);
+  const [giverCodeState, setGiverCodeState] = useState(null);
 
   let accessParams: object = {
     accessToken: props.accessToken,
     tokenType: props.tokenType,
     refresh_token: props.refreshToken,
   };
+  
+   
+  useEffect(() => {
+    // setting the status of nfc code RFID
+    if(props.validateCode.data === 'nfcCode'){
+      setIsNfcExits(props.validateCode.isExists);
+      setNfcORserialNumber(props.validateCode.data);
+      if(props.validateCode.isExists){
+        setFieldValueGlobalnfcCode && setFieldValueGlobalnfcCode('nfcCode', '');
+      }
+    }
+    // setting the status of nfc code serialNumber
+    if(props.validateCode.data==='serialNumber'){
+      setIsSerialExits(props.validateCode.isExists);
+      setNfcORserialNumber(props.validateCode.data);
+      if(props.validateCode.isExists){
+        setFieldValueGlobalserialNumber && setFieldValueGlobalserialNumber('serialNumber', '');
+      }
+    }
+   }, [props.validateCode.data, props.validateCode.isExists]);
 
-  useEffect(() => { }, []);
+   // setting the status of nfc code giverCode.uuid
+   useEffect(() => {
+      setGiverCodeState(props.giverCode.uuid);
+   },[props.giverCode]);
 
+   // setting the status of nfc code receiverCode.uuid
+   useEffect(() => {
+    setReceiverCodeState(props.receiverCode.uuid);
+ },[props.receiverCode]);
+  
   //handle givercode
   const handleGiverCode = (e: any) => {
     e.preventDefault();
@@ -67,14 +103,12 @@ const CreateAmoulet = (props: any) => {
     dispatch(amouletValidateRequestAction(finalParams));
   };
 
+  // to show note field based on type [online / offline]
   const handleOnSelectChange = (e: any, setFieldValue: any) => {
     setFieldValue("isOnline", e.target.value);
-    if (e.target.value == "false") {
-      setModeOfPurchase("Offline");
+    if (e.target.value === "false") {
       setShowNote(true);
-      console.log('showNote=>', showNote);
     } else {
-      setModeOfPurchase("Online");
       setShowNote(false);
     }
   }
@@ -102,14 +136,12 @@ const CreateAmoulet = (props: any) => {
             nfcCode: Yup.string().required("Required"),
             serialNumber: Yup.string().required("Required"),
             isOnline: Yup.boolean().required("Required"),
-            note: Yup.string().matches(/^[a-z][a-z\s]*$/, "Accept only alphabets and space"),
+            note: Yup.string(),
           })}
 
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, { setSubmitting,resetForm }) => {
             setTimeout(() => {
-              console.log("values :", values);
-              console.log("showNote :", showNote);
-
+              // replacing form values with custom values
               let amouletParams: object = {
                 ...values,
                 tag: "tag1",
@@ -124,6 +156,7 @@ const CreateAmoulet = (props: any) => {
                 accessParams,
               };
 
+              //popup error message for passphrase validation
               if (props.giverCodeUUID == "" || props.receiverCodeUUID == "") {
                 Swal.fire({
                   icon: "error",
@@ -138,33 +171,28 @@ const CreateAmoulet = (props: any) => {
                   showConfirmButton: false,
                   timer: 1500,
                 }).then((res) => {
-                  console.log("res:", res);
                   dispatch(amouletCreateRequestAction(finalParams));
-                  setSubmitting(false);
-
-                  setTimeout(() => {
-                    history.go(0);
-                  }, 500);
+                    setSubmitting(false);
+                    setReceiverCodeState(null);
+                    setGiverCodeState(null);
+                    setIsSerialExits(null);
+                    setIsNfcExits(null);
+                    resetForm({});
                 });
               }
-              console.log("finalParams :", finalParams);
-              setSubmitting(false);
+              setSubmitting(true);
             }, 1000);
           }}
 
         >
           {({
             values,
-            touched,
-            handleBlur,
-            handleChange,
             setFieldValue,
             setFieldTouched,
             handleSubmit,
             handleReset,
+            isSubmitting
           }) => {
-            console.log('handleChange from form:', values);
-
             return (
               <form onSubmit={handleSubmit} className="w-75 mx-auto">
                 <div className="form-group row">
@@ -204,21 +232,33 @@ const CreateAmoulet = (props: any) => {
                   <label htmlFor="nfcCode" className="col-sm-4 col-form-label">
                     NFC Code
                   </label>
-                  <div className="col-sm-8">
+                  <div className="col-sm-8 relative">
                     <Field
                       name="nfcCode"
+                      onFocus={() => setNfcORserialNumber("nfcCode") }
                       onBlur={(e: any) => {
+                        setFieldValueGlobalnfcCode = setFieldValue;    
                         handleNfcCodeSerialNumberValidation(e, "nfcCode");
                       }}
                       type="text"
                       className={
-                        props.validateCode == "nfcCode"
-                          ? "form-control rounded-sm border border-success"
-                          : "form-control rounded-sm"
+                        isNfcExits === null ? "form-control rounded-sm" : (isNfcExits ? "form-control rounded-sm border border-danger" : "form-control rounded-sm border border-success")
                       }
                     />
+                    {props.isLoading && nfcORserialNumber === 'nfcCode' ? (
+                            <div
+                              style={{ width: "20px", height: "20px",position: "absolute",right: 15,top:10}}
+                              className="spinner-border text-dark ml-2"
+                              role="status"
+                            >
+                              <span className="sr-only"></span>
+                            </div>
+                          ) : (
+                              ""
+                            )}
                     <span className="text-danger">
                       <ErrorMessage name="nfcCode" />
+                      {isNfcExits && <span>{'Sorry, Already in use'}</span>}
                     </span>
                   </div>
                 </div>
@@ -226,7 +266,6 @@ const CreateAmoulet = (props: any) => {
                   <label htmlFor="isOnline" className="col-sm-4 col-form-label">
                     Mode of sale
                   </label>
-                  {/* (e: any) => { handleOnSelectChange(e) } */}
                   <div className="col-sm-8">
                     <select
                       value={values.isOnline}
@@ -238,13 +277,9 @@ const CreateAmoulet = (props: any) => {
                       className="form-control rounded-sm"
 
                     >
-
                       <option value="">-select-</option>
-
                       <option value="true">Online</option>
-
                       <option value="false">Offline</option>
-
                     </select>
                     <span className="text-danger">
                       <ErrorMessage name="isOnline" />
@@ -274,7 +309,7 @@ const CreateAmoulet = (props: any) => {
                     <div className="row">
                       <div className="col-auto">
                         <button
-                          disabled={props.giverCode.uuid ? true : false}
+                          disabled={giverCodeState ? true : false}
                           onClick={handleGiverCode}
                           className="btn btn-secondary rounded-sm"
                         >
@@ -291,7 +326,7 @@ const CreateAmoulet = (props: any) => {
                               ""
                             )}
                         </button>
-                        {props.giverCode.uuid ? (
+                        {giverCodeState ? (
                           <i className="fas fa-check ml-2 text-success"></i>
                         ) : (
                             ""
@@ -299,7 +334,7 @@ const CreateAmoulet = (props: any) => {
                       </div>
                       <div className="col-auto">
                         <button
-                          disabled={props.receiverCode.uuid ? true : false}
+                          disabled={receiverCodeState ? true : false}
                           onClick={handleReceiverCode}
                           className="btn btn-secondary rounded-sm"
                         >
@@ -316,7 +351,7 @@ const CreateAmoulet = (props: any) => {
                               ""
                             )}
                         </button>
-                        {props.receiverCode.uuid ? (
+                        {receiverCodeState ? (
                           <i className="fas fa-check ml-2 text-success"></i>
                         ) : (
                             ""
@@ -334,21 +369,33 @@ const CreateAmoulet = (props: any) => {
                     {" "}
                     RFID ( Serial Number )
                   </label>
-                  <div className="col-sm-8">
+                  <div className="col-sm-8 relative">
                     <Field
                       name="serialNumber"
                       type="text"
+                      onFocus={() => setNfcORserialNumber("serialNumber") }
                       onBlur={(e: any) => {
+                        setFieldValueGlobalserialNumber = setFieldValue;
                         handleNfcCodeSerialNumberValidation(e, "serialNumber");
                       }}
                       className={
-                        props.validateCode == "serialNumber"
-                          ? "form-control rounded-sm border border-success"
-                          : "form-control rounded-sm"
+                        isSerialExits === null ? "form-control rounded-sm" : (isSerialExits ? "form-control rounded-sm border border-danger" : "form-control rounded-sm border border-success")
                       }
                     />
+                    {props.isLoading && nfcORserialNumber === 'serialNumber' ? (
+                            <div
+                              style={{ width: "20px", height: "20px",position: "absolute",right: 15,top:10}}
+                              className="spinner-border text-dark ml-2"
+                              role="status"
+                            >
+                              <span className="sr-only"></span>
+                            </div>
+                          ) : (
+                              ""
+                            )}
                     <span className="text-danger">
                       <ErrorMessage name="serialNumber" />
+                      {isSerialExits && <span>{'Sorry, Already in use'}</span>}
                     </span>
                   </div>
                 </div>
@@ -357,6 +404,7 @@ const CreateAmoulet = (props: any) => {
                   <label className="col-sm-4 col-form-label"></label>
                   <div className="col-sm-8">
                     <button
+                      disabled={isSubmitting}
                       type="submit"
                       className="btn btn-success rounded-sm"
                     >
@@ -390,6 +438,7 @@ const mapStateToProps: any = (state: any) => {
     isReceiverCode: state.amouletReducer.isReceiverCode,
     giverCodeUUID: state.amouletReducer.giverCodeUUID,
     receiverCodeUUID: state.amouletReducer.receiverCodeUUID,
+    isLoading: state.amouletReducer.isLoading,
   };
 };
 

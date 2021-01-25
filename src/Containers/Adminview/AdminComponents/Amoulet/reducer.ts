@@ -10,7 +10,9 @@ export const initialState = {
     isReceiverCode:false,
     isValidateCode:false,
     giverCodeUUID:'',
-    receiverCodeUUID:''
+    receiverCodeUUID:'',
+    isExists: false,
+    isLoading: false,
 }
 const amouletReducer = (state:amouletStates = initialState, action:ContainerActions) => {
     switch(action.type) {
@@ -55,12 +57,16 @@ const amouletReducer = (state:amouletStates = initialState, action:ContainerActi
             return {
                 ...state,
                 isValidateCode:true,
+                isLoading: true,
             }
         case ActionTypes.AMOULET_VALIDATE_CODE_RESPONSE:
+            console.log('AMOULET_VALIDATE_CODE_RESPONSE;;;;;;;',action);
+            
             return {
                 ...state,
                 validateCode: action.payload,
                 isValidateCode:false,
+                isLoading: false,
             }
         default:
             return state;

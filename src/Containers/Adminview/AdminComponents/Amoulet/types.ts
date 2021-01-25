@@ -8,6 +8,7 @@ export interface amouletStates {
     isGiverCode:boolean,
     isReceiverCode:boolean,
     isValidateCode:boolean,
+    isLoading:boolean,
 }
 
 /* --- ACTIONS --- */

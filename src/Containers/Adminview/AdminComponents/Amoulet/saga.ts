@@ -60,7 +60,6 @@ export function* getReceiverCode(action:any) {
 export function* validateNFCAndSerialNumber(action :any) {
 
   console.log('validateNFCAndSerialNumber action params:',action.payload);
-  
 
   const url = ApiConstants.BASE_URL + ApiConstants.VALIDATE_NFC_SERIAL + action.payload.params.type;
   const data:object = {
@@ -70,8 +69,7 @@ export function* validateNFCAndSerialNumber(action :any) {
   try {
       const response = yield call(()=> axios.postData(url,data));
       console.log('validateNFCAndSerialNumber response:',response);
-      
-      yield put(amouletValidateResponseAction(response.data));
+      yield put(amouletValidateResponseAction(response));
     
   } catch (err) {
     
