@@ -4,18 +4,21 @@ import { Link, withRouter } from "react-router-dom";
 import { amouletListRequestAction } from "../../action";
 import MUIDataTable from "mui-datatables";
 import getMuiTheme from "../../dataTableStyle";
+
 import {
   createMuiTheme,
   MuiThemeProvider,
   withStyles,
 } from "@material-ui/core/styles";
 import "../../assets/scss/style.scss";
+import PopModalTableRowView from "../../../../Components/Modal/PopModalTableRowView";
 
 const Amouletlist = (props: any) => {
-
   const dispatch = useDispatch();
 
   const [isCreateAmoulet, setIsCreateAmoulet] = useState(false);
+  const [show, setShow] = useState(false);
+  const [rowData, setRowData] = useState([]);
 
   const handleCreateAmoulet = (e: any) => {
     e.preventDefault();
@@ -33,9 +36,15 @@ const Amouletlist = (props: any) => {
   }, []);
 
   const data = props.amouletList;
+  const handleRowData = (props: any, data: any) => {
+    console.log('PROPS FROM MUI=====>',props);
+    setRowData(props);
+    var tempRowData = [];
+  };
 
-  console.log('data=>', data);
-
+  let colOptions: any = {
+    display: false,
+  };
 
   const columns = [
     {
@@ -67,13 +76,14 @@ const Amouletlist = (props: any) => {
       label: "Mode of sale",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          return (
-            <span>
-              {value == true ? 'Online' : 'Offline'}
-            </span>
-          )
+          return <span>{value == true ? "Online" : "Offline"}</span>;
         },
-      }
+      },
+    },
+    {
+      name: "note",
+      label: "Note",
+      options: colOptions,
     },
     {
       name: "id",
@@ -81,23 +91,26 @@ const Amouletlist = (props: any) => {
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
           return (
-            <div className="d-flex">
+            <div className="d-flex justify-content-center">
               <Link
                 className="d-inline-block"
                 style={{ textDecoration: "none" }}
+                onClick={() => {
+                  setShow(true);
+                }}
                 // to={`/user/${tableMeta.rowData[6]}`}
                 to={`#`}
               >
                 <i className="d-inline-block fas fa-eye fa-1x text-success"></i>
               </Link>
-              <Link
+              {/* <Link
                 className="d-inline-block ml-3"
                 style={{ textDecoration: "none" }}
                 // to={`/user/${tableMeta.rowData[6]}`}
                 to={`#`}
               >
                 <i className="d-inline-block fas fa-edit fa-1x text-warning"></i>
-              </Link>
+              </Link> */}
             </div>
           );
         },
@@ -116,10 +129,20 @@ const Amouletlist = (props: any) => {
     setTableProps: () => ({
       className: "table table-bordered border border-success",
     }),
+    onRowClick: (rowData: any, rowMeta: any) => handleRowData(rowData, rowMeta),
+  };
+
+  const handleOnHide = () => {
+    setShow(false);
   };
 
   return (
     <section className="amoulet p-0">
+      <PopModalTableRowView
+        rowData={rowData}
+        show={show}
+        handleOnHide={handleOnHide}
+      />
       <div>
         <div>{/* <h3>{props.title}</h3> */}</div>
         <div className="d-flex mb-3">
@@ -130,6 +153,7 @@ const Amouletlist = (props: any) => {
             Create Amoulet
           </Link>
         </div>
+
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
             title={"Amoulet List"}
