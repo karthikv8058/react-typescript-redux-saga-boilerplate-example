@@ -6,6 +6,7 @@ import amouletPageSaga from "./Containers/Adminview/AdminComponents/Amoulet/saga
 import storyPageSaga from "./Containers/Adminview/AdminComponents/Stories/saga";
 import descriptionPageSaga from "./Containers/Adminview/AdminComponents/Descriptions/saga";
 import userlistPageSaga from "./Containers/Adminview/AdminComponents/Userlist/saga";
+import orderDetailsPageSaga from "./Containers/Adminview/AdminComponents/OrderDetails/saga";
 
 export default function* startForman() {
   yield fork(testpageSaga);
@@ -15,4 +16,5 @@ export default function* startForman() {
   yield fork(storyPageSaga);
   yield fork(descriptionPageSaga);
   yield fork(userlistPageSaga);
+  yield fork(orderDetailsPageSaga);
 }

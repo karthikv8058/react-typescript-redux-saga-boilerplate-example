@@ -7,9 +7,11 @@ const ApiConstants = {
 
   BASE_URL: `http://demo.mypits.org:${DEV}/`,
   //BASE_URL: 'http://localhost:81/', // LOCAL
+  // /api/1.0/admin/get-order-details
 
   AUTH_LOGIN: apiVersion + "user/auth_login",
   USER_LIST: apiVersion + "user/list",
+  ORDER_DETAILS: apiVersion + "admin/get-order-details",
   AMOULET_LIST: apiVersion + "admin/amoulet/list",
   GEN_CONFIG: apiVersion + "general/configuration",
   CREATE_AMOULET: apiVersion + "admin/amoulet/new",

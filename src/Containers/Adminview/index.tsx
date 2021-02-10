@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 
-import { Switch, Route, Link, withRouter } from "react-router-dom";
+import { Switch, Route, Link, withRouter, useHistory } from "react-router-dom";
 
 import profile_pic from "./assets/img/img_avatar.png";
 import "./assets/css/sb-admin-2.min.css";
@@ -15,11 +15,33 @@ import Loader from "../../Components/Loader";
 import { routes } from "./Routes";
 import { logoutAllTabsEventListener } from "../../utils/logOutAll";
 import axios from "axios";
+import IdleTimer from "react-idle-timer";
 
 import { refreshTokenRequestAction } from "../Loginview/action";
 
 const Adminview = (props: any) => {
   const dispatch = useDispatch();
+
+  const history = useHistory();
+  let idleRef: any = null;
+
+  const onAction = (e: any) => {
+    // console.log("user did something", e);
+  };
+
+  const onActive = (e: any) => {
+    // console.log("user is active", e);
+    // console.log("time remaining", this.idleTimer.getRemainingTime());
+  };
+
+  const onIdle = (e: any) => {
+    console.log("user is idle", e);
+    console.log("last active", idleRef);
+    history.push("/");
+  };
+  // useEffect(()=>{
+  //   logoutAllTabsEventListener();
+  // },[]);
 
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [isMenuBarActive, setIsMenuBarActive] = useState(false);
@@ -40,6 +62,17 @@ const Adminview = (props: any) => {
 
   return (
     <div className="d-flex relative" style={{ height: "100vh" }}>
+      <IdleTimer
+        ref={(ref) => {
+          idleRef = ref;
+        }}
+        element={document}
+        onActive={onActive}
+        onIdle={onIdle}
+        onAction={onAction}
+        debounce={0}
+        timeout={1000 * 60 * 30}
+      />
       {props.isloading && <Loader color="text-primary" />}
       <div
         className={
