@@ -8,17 +8,23 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { getOrderDetailsRequestAction } from "./action";
 
 import "../../assets/scss/style.scss";
+import PopModalForOrderTable from "../../../../Components/Modal/PopModalForOrderTable";
 
 const OrderDetails = (props: any) => {
   const dispatch = useDispatch();
   const [orderDetailsArray, setOrderDetailsArray] = useState([]);
-  console.log("PROPS FROM ORDER_DETAILS====>", props);
+  const [show, setShow] = useState(false);
+  const [rowData, setRowData] = useState({});
 
   useEffect(() => {
     dispatch(getOrderDetailsRequestAction());
     props.orderDetails && setOrderDetailsArray(props.orderDetails);
-    // console.log("PROPS FROM ORDER_DETAILS====>", props);
   }, []);
+
+  const handleOnEditRowData = (rowDataItem: any) => {
+    setShow(true);
+    setRowData(rowDataItem);
+  };
 
   var itemval: any = "";
   var itemvalstatus: any = "";
@@ -33,16 +39,12 @@ const OrderDetails = (props: any) => {
       label: "Order Status",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          console.log("values from table ::::::", value);
           itemvalstatus =
             value.length > 0 &&
             value.map((item: any) => {
               return (
                 <table className="w-100">
                   <tr>
-                    {/* <td className="border border-dark p-3 w-50">
-                  {item.customerEmail}
-                </td> */}
                     <td className="w-100 justify-content-between d-flex my-2">
                       <span className="d-inline-block">{item}</span>
                     </td>
@@ -59,16 +61,12 @@ const OrderDetails = (props: any) => {
       label: "Customer Email",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          console.log("values from table ::::::", value);
           itemvalstatus =
             value.length > 0 &&
             value.map((item: any) => {
               return (
                 <table className="w-100">
                   <tr>
-                    {/* <td className="border border-dark p-3 w-50">
-                  {item.customerEmail}
-                </td> */}
                     <td className="w-100 justify-content-between d-flex my-2">
                       <span className="d-inline-block">{item}</span>
                     </td>
@@ -85,38 +83,26 @@ const OrderDetails = (props: any) => {
       label: "Amoulet Name",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          // console.log("values from table ::::::", value);
           itemval =
             value.length > 0 &&
             value.map((item: any) => {
-              console.log("item:::::", item.customerEmail);
               return (
                 <table className="w-100">
                   <tr>
-                    {/* <td className="border border-dark p-3 w-50">
-                      {item.customerEmail}
-                    </td> */}
                     <td className="w-100 justify-content-between d-flex my-2">
                       <div className="d-flex justify-content-between w-50">
                         <span className="d-inline-block">{item.jewelName}</span>
-                        {/* <span className="d-inline-block text-left">
-                          {item.customerEmail}
-                        </span> */}
                       </div>
                       <Link
-                        to={null}
+                        onClick={() => handleOnEditRowData(item)}
+                        to="#"
                         className="pl-5 d-inline-block w-50 text-right"
                       >
-                        {/* Edit */}
                         <i className="d-inline-block fas fa-edit fa-1x text-warning"></i>
                       </Link>
                     </td>
                   </tr>
                 </table>
-                // <span className="d-block">
-                //   {item.customerEmail}
-                //   {item.jewelName}
-                // </span>
               );
             });
           return <span>{itemval}</span>;
@@ -135,8 +121,17 @@ const OrderDetails = (props: any) => {
     viewColumns: false,
   };
 
+  const handleOnHide = () => {
+    setShow(false);
+  };
+
   return (
     <section className="userlist p-0">
+      <PopModalForOrderTable
+        rowData={rowData}
+        show={show}
+        handleOnHide={handleOnHide}
+      />
       <div>
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
