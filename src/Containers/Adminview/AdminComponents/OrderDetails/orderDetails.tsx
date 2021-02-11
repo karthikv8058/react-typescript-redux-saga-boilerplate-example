@@ -21,6 +21,7 @@ const OrderDetails = (props: any) => {
   }, []);
 
   var itemval: any = "";
+  var itemvalstatus: any = "";
 
   const columns = [
     {
@@ -28,11 +29,63 @@ const OrderDetails = (props: any) => {
       label: "Order ID",
     },
     {
-      name: "amoulets",
-      label: "Amoulet Details",
+      name: "status",
+      label: "Order Status",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
           console.log("values from table ::::::", value);
+          itemvalstatus =
+            value.length > 0 &&
+            value.map((item: any) => {
+              return (
+                <table className="w-100">
+                  <tr>
+                    {/* <td className="border border-dark p-3 w-50">
+                  {item.customerEmail}
+                </td> */}
+                    <td className="w-100 justify-content-between d-flex my-2">
+                      <span className="d-inline-block">{item}</span>
+                    </td>
+                  </tr>
+                </table>
+              );
+            });
+          return itemvalstatus;
+        },
+      },
+    },
+    {
+      name: "email",
+      label: "Customer Email",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          console.log("values from table ::::::", value);
+          itemvalstatus =
+            value.length > 0 &&
+            value.map((item: any) => {
+              return (
+                <table className="w-100">
+                  <tr>
+                    {/* <td className="border border-dark p-3 w-50">
+                  {item.customerEmail}
+                </td> */}
+                    <td className="w-100 justify-content-between d-flex my-2">
+                      <span className="d-inline-block">{item}</span>
+                    </td>
+                  </tr>
+                </table>
+              );
+            });
+          return itemvalstatus;
+        },
+      },
+    },
+    {
+      name: "amoulets",
+      label: "Amoulet Name",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          // console.log("values from table ::::::", value);
           itemval =
             value.length > 0 &&
             value.map((item: any) => {
@@ -44,8 +97,16 @@ const OrderDetails = (props: any) => {
                       {item.customerEmail}
                     </td> */}
                     <td className="w-100 justify-content-between d-flex my-2">
-                      <span className="d-inline-block">{item.jewelName}</span>
-                      <Link to={null} className="pl-5 d-inline-block">
+                      <div className="d-flex justify-content-between w-50">
+                        <span className="d-inline-block">{item.jewelName}</span>
+                        {/* <span className="d-inline-block text-left">
+                          {item.customerEmail}
+                        </span> */}
+                      </div>
+                      <Link
+                        to={null}
+                        className="pl-5 d-inline-block w-50 text-right"
+                      >
                         {/* Edit */}
                         <i className="d-inline-block fas fa-edit fa-1x text-warning"></i>
                       </Link>
