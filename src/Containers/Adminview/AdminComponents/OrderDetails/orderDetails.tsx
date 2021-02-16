@@ -152,7 +152,7 @@ const OrderDetails = (props: any) => {
       <div>
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
-            title={"User List"}
+            title={"Order details"}
             data={data}
             columns={columns}
             options={options}
