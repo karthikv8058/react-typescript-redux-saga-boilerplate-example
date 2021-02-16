@@ -17,6 +17,7 @@ const OrderDetails = (props: any) => {
   const [show, setShow] = useState(false);
   const [rowData, setRowData] = useState({});
   const [rfidStatus, setRfidStatus] = useState("");
+  const [isEditPressed, setIsEditPressed] = useState(false);
 
   useEffect(() => {
     dispatch(getOrderDetailsRequestAction());
@@ -29,6 +30,7 @@ const OrderDetails = (props: any) => {
   }, [props.isLinkError]);
 
   const handleOnEditRowData = (rowDataItem: any) => {
+    setIsEditPressed(true);
     setRfidStatus(rowDataItem.rfId);
     setShow(true);
     setRowData(rowDataItem);
@@ -138,6 +140,7 @@ const OrderDetails = (props: any) => {
 
   const handleOnHide = () => {
     setShow(false);
+    setIsEditPressed(false);
   };
 
   return (
@@ -148,6 +151,7 @@ const OrderDetails = (props: any) => {
         value={rfidStatus}
         handleOnChange={setRfidStatus}
         handleOnHide={handleOnHide}
+        isEditPressed={isEditPressed}
       />
       <div>
         <MuiThemeProvider theme={getMuiTheme()}>

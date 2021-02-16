@@ -21,7 +21,15 @@ const PopModalForOrderTable = (props: any) => {
   const uuid: any = props.rowData.uuid;
 
   useEffect(() => {
-    if (props.isLinkError) {
+    if (props.errorMsg === "invalid_rfid") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Invalid RFID",
+      });
+    }
+
+    if (props.errorMsg === "jewel_already_exist") {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -30,7 +38,10 @@ const PopModalForOrderTable = (props: any) => {
     }
   }, [props.isLinkError]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("props.isEditPressed:::::", props.isEditPressed);
+    props.isEditPressed && setIsError(false);
+  }, [props.isEditPressed]);
 
   const handleOnUpdate = () => {
     if (rfidRef?.current?.value === "") {
@@ -104,7 +115,13 @@ const PopModalForOrderTable = (props: any) => {
                 <label className="col-sm-6 col-form-label">RFID</label>
                 <div className="col-sm-6">
                   <input
-                    onChange={props.handleOnChange()}
+                    onChange={(e) => {
+                      e.target.value === ""
+                        ? setIsError(true)
+                        : setIsError(false);
+                      props.handleOnChange();
+                    }}
+                    // defaultValue={props.rowData.rfId}
                     value={props.value}
                     type="text"
                     className="form-control"
@@ -167,6 +184,7 @@ const PopModalForOrderTable = (props: any) => {
 const mapStateToProps: any = (state: any) => {
   return {
     isLinkError: state.orderDetailsReducer.isLinkError,
+    errorMsg: state.orderDetailsReducer.errorMsg,
   };
 };
 
