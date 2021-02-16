@@ -80,6 +80,18 @@ const Sidebar = (props: any) => {
             Amoulet list
           </Link>
         </li>
+        <li className="my-2 my-md-3">
+          <Link
+            to="/admin/orderdetails"
+            className="d-inline-block w-100 font-weight-bold link-text"
+            onClick={(e) => {
+              onLinkClick(e);
+            }}
+          >
+            <i className="fas fa-gem d-inline-block mr-2 text-dark"></i>
+            Order Details
+          </Link>
+        </li>
         {/* <li className="my-2 my-md-3">
                   <Accordion>
                   <Accordion.Toggle eventKey="0" className="d-inline-block font-weight-bold link-text border-0 bg-transparent px-0">

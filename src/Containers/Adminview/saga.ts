@@ -17,6 +17,8 @@ export function* getUserlist(action: any) {
   try {
     const response = yield call(() => axios.getData(url));
     yield put(userListResponseAction(response));
+    console.log('getUserlist:::::::', response);
+    
   } catch (error) { }
 }
 
