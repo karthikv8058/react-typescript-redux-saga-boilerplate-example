@@ -73,7 +73,9 @@ const Adminview = (props: any) => {
         debounce={0}
         timeout={1000 * 60 * 30}
       />
-      {props.isloading && <Loader color="text-primary" />}
+      {(props.isloading || props.isloadingOrderDetailsReducer) && (
+        <Loader color="text-primary" />
+      )}
       <div
         className={
           isMenuActive ? "bg-white admin-menu active" : "bg-white admin-menu"
@@ -117,6 +119,7 @@ const mapStateToProps: any = (state: any) => {
     loginStatus: state.loginReducer.loginStatus,
     refreshToken: state.loginReducer.refreshToken,
     isloading: state.adminReducer.isloading,
+    isloadingOrderDetailsReducer: state.orderDetailsReducer.isloading,
     expiresIn: state.loginReducer.expiresIn,
   };
 };

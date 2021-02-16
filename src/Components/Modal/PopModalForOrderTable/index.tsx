@@ -1,8 +1,56 @@
-import React from "react";
+import React, { useState, createRef, useEffect } from "react";
 import { Modal } from "react-bootstrap";
+import { connect, useDispatch } from "react-redux";
+import { withRouter, useHistory } from "react-router-dom";
+import Swal from "sweetalert2";
 
-export default function PopModalForOrderTable(props: any) {
-  console.log("PopModalForOrderTable:", props);
+import { linkAmouletRequestAction } from "../../../Containers/Adminview/AdminComponents/OrderDetails/action";
+
+const PopModalForOrderTable = (props: any) => {
+  console.log("PopModalForOrderTable:", props, props.rowData.rfId);
+
+  const rfidRef: React.RefObject<HTMLInputElement> = createRef();
+  const orderStatusRef: React.RefObject<HTMLSelectElement> = createRef();
+
+  const [isError, setIsError] = useState(false);
+  const [linkingError, setLinkingError] = useState(props.isLinkError);
+  const [rfidStatus, setRfidStatus] = useState(props.rowData.rfId);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const uuid: any = props.rowData.uuid;
+
+  useEffect(() => {
+    if (props.isLinkError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "RFID already in use",
+      });
+    }
+  }, [props.isLinkError]);
+
+  useEffect(() => {}, []);
+
+  const handleOnUpdate = () => {
+    if (rfidRef?.current?.value === "") {
+      setIsError(true);
+    } else {
+      let params = {
+        rfid: rfidRef?.current?.value,
+        orderDetails: uuid,
+        orderStatus: orderStatusRef?.current?.value,
+      };
+      dispatch(linkAmouletRequestAction(params));
+      // setRfidStatus("");
+    }
+  };
+
+  const handleOnChange = (e: any) => {
+    e.target.value === "" ? setIsError(true) : setIsError(false);
+    setRfidStatus(e.target.value);
+    console.log("e.target.value::::", e.target.value);
+  };
   return (
     <div>
       <Modal
@@ -53,16 +101,60 @@ export default function PopModalForOrderTable(props: any) {
                 </div>
               </div>
               <div className="form-group row">
-                <label className="col-sm-6 col-form-label">NFC</label>
+                <label className="col-sm-6 col-form-label">RFID</label>
                 <div className="col-sm-6">
                   <input
+                    onChange={props.handleOnChange()}
+                    value={props.value}
                     type="text"
                     className="form-control"
                     id="nfcCode"
                     name="nfcCode"
-                    placeholder="NFC"
+                    placeholder="RFID"
+                    ref={rfidRef}
                   />
+                  {isError && (
+                    <span className="text-danger">Field is required</span>
+                  )}
                 </div>
+              </div>
+              <div className="form-group row">
+                <label className="col-sm-6 col-form-label">Order Status</label>
+                <div className="col-sm-6">
+                  <select
+                    className="form-control"
+                    name="orderStatus"
+                    ref={orderStatusRef}
+                  >
+                    <option
+                      value="SHIPPED"
+                      selected={
+                        props.rowData.orderStatus === "SHIPPED" ? true : false
+                      }
+                    >
+                      SHIPPED
+                    </option>
+                    <option
+                      value="IN_PROGRESS"
+                      selected={
+                        props.rowData.orderStatus === "IN_PROGRESS"
+                          ? true
+                          : false
+                      }
+                    >
+                      IN_PROGRESS
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <button
+                  disabled={isError}
+                  onClick={handleOnUpdate}
+                  className="btn btn-success"
+                >
+                  Update
+                </button>
               </div>
             </div>
           </div>
@@ -70,4 +162,12 @@ export default function PopModalForOrderTable(props: any) {
       </Modal>
     </div>
   );
-}
+};
+
+const mapStateToProps: any = (state: any) => {
+  return {
+    isLinkError: state.orderDetailsReducer.isLinkError,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(PopModalForOrderTable));

@@ -6,6 +6,7 @@ import getMuiTheme from "../../dataTableStyle";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import { getOrderDetailsRequestAction } from "./action";
+import Swal from "sweetalert2";
 
 import "../../assets/scss/style.scss";
 import PopModalForOrderTable from "../../../../Components/Modal/PopModalForOrderTable";
@@ -15,19 +16,30 @@ const OrderDetails = (props: any) => {
   const [orderDetailsArray, setOrderDetailsArray] = useState([]);
   const [show, setShow] = useState(false);
   const [rowData, setRowData] = useState({});
+  const [rfidStatus, setRfidStatus] = useState("");
 
   useEffect(() => {
     dispatch(getOrderDetailsRequestAction());
     props.orderDetails && setOrderDetailsArray(props.orderDetails);
   }, []);
 
+  useEffect(() => {
+    props.isLinkError === false && setShow(false);
+    !props.isLinkError && dispatch(getOrderDetailsRequestAction());
+  }, [props.isLinkError]);
+
   const handleOnEditRowData = (rowDataItem: any) => {
+    setRfidStatus(rowDataItem.rfId);
     setShow(true);
     setRowData(rowDataItem);
+    console.log("rowDataItem", rowDataItem.rfId);
   };
+
+  const data = props.orderDetails && props.orderDetails;
 
   var itemval: any = "";
   var itemvalstatus: any = "";
+  var itemvalemail: any = "";
 
   const columns = [
     {
@@ -40,6 +52,7 @@ const OrderDetails = (props: any) => {
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
           itemvalstatus =
+            value !== undefined &&
             value.length > 0 &&
             value.map((item: any) => {
               return (
@@ -61,7 +74,8 @@ const OrderDetails = (props: any) => {
       label: "Customer Email",
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
-          itemvalstatus =
+          itemvalemail =
+            value !== undefined &&
             value.length > 0 &&
             value.map((item: any) => {
               return (
@@ -74,7 +88,7 @@ const OrderDetails = (props: any) => {
                 </table>
               );
             });
-          return itemvalstatus;
+          return itemvalemail;
         },
       },
     },
@@ -84,6 +98,7 @@ const OrderDetails = (props: any) => {
       options: {
         customBodyRender: (value: any, tableMeta: any) => {
           itemval =
+            value !== undefined &&
             value.length > 0 &&
             value.map((item: any) => {
               return (
@@ -130,13 +145,15 @@ const OrderDetails = (props: any) => {
       <PopModalForOrderTable
         rowData={rowData}
         show={show}
+        value={rfidStatus}
+        handleOnChange={setRfidStatus}
         handleOnHide={handleOnHide}
       />
       <div>
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
             title={"User List"}
-            data={orderDetailsArray}
+            data={data}
             columns={columns}
             options={options}
           />
@@ -149,6 +166,7 @@ const OrderDetails = (props: any) => {
 const mapStateToProps: any = (state: any) => {
   return {
     orderDetails: state.orderDetailsReducer.orderDetails,
+    isLinkError: state.orderDetailsReducer.isLinkError,
   };
 };
 

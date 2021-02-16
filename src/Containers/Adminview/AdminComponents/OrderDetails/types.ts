@@ -3,6 +3,8 @@ import * as actions from './action';
 
 export interface orderDetailsStates {
     orderDetails: any,
+    isloading:boolean,
+    isLinkError:any,
 }
 
 /* --- ACTIONS --- */

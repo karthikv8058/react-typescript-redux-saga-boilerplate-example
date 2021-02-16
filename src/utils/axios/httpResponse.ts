@@ -14,7 +14,9 @@ export const processHTTPJSONResponseBy = (response: any, statusData?: boolean): 
 
                 if (resp.error) {
                     reject(resp.message);
-                } else {
+                } else if(resp.data.data === 'No data provided'){
+                    resolve(resp.data);
+                }else {
                     resolve(resp.data.data);
                 }
 

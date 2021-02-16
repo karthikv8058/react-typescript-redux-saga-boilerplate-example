@@ -22,5 +22,6 @@ const ApiConstants = {
   LIST_DESCRIPTIONS: apiVersion + "admin/list-descriptions",
   DASHBOARD: apiVersion + "admin/dashboard",
   LINK_UNLINK: apiVersion + "admin/amoulet/link-unlink",
-};
+  LINK_AMOULET: apiVersion + "admin/order/link-amoulet",
+}; 
 export default ApiConstants;
