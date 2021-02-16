@@ -5,6 +5,7 @@ export const initialState = {
     orderDetails: [''],
     isloading: false,
     isLinkError:null,
+    errorMsg:'',
 }
 const orderDetailsReducer = (state: orderDetailsStates = initialState, action: ContainerActions) => {
     switch (action.type) {
@@ -32,7 +33,8 @@ const orderDetailsReducer = (state: orderDetailsStates = initialState, action: C
                     console.log('LINK_AMOULET_RESPONSE',action);
                     return {
                         ...state,
-                        isLinkError:action.payload.error
+                        isLinkError:action.payload.error,
+                        errorMsg: action.payload.message.en
                     }
         default:
             return state;

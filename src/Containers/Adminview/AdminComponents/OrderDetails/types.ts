@@ -5,6 +5,7 @@ export interface orderDetailsStates {
     orderDetails: any,
     isloading:boolean,
     isLinkError:any,
+    errorMsg:string,
 }
 
 /* --- ACTIONS --- */
