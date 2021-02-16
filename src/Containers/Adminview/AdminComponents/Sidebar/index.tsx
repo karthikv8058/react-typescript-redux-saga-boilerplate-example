@@ -89,7 +89,7 @@ const Sidebar = (props: any) => {
             }}
           >
             <i className="fas fa-gem d-inline-block mr-2 text-dark"></i>
-            Order Details
+            Order Management
           </Link>
         </li>
         {/* <li className="my-2 my-md-3">
