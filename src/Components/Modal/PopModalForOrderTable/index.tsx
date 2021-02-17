@@ -36,7 +36,7 @@ const PopModalForOrderTable = (props: any) => {
         text: "RFID already in use",
       });
     }
-  }, [props.isLinkError]);
+  }, [props.errorMsg]);
 
   useEffect(() => {
     console.log("props.isEditPressed:::::", props.isEditPressed);
@@ -53,7 +53,6 @@ const PopModalForOrderTable = (props: any) => {
         orderStatus: orderStatusRef?.current?.value,
       };
       dispatch(linkAmouletRequestAction(params));
-      // setRfidStatus("");
     }
   };
 
