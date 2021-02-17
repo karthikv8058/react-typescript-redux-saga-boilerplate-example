@@ -42,6 +42,7 @@ const OrderDetails = (props: any) => {
   var itemval: any = "";
   var itemvalstatus: any = "";
   var itemvalemail: any = "";
+  var itemvalRFID: any = "";
 
   const columns = [
     {
@@ -68,6 +69,29 @@ const OrderDetails = (props: any) => {
               );
             });
           return itemvalstatus;
+        },
+      },
+    },
+    {
+      name: "rfid",
+      label: "RFID",
+      options: {
+        customBodyRender: (value: any, tableMeta: any) => {
+          itemvalRFID =
+            value !== undefined &&
+            value.length > 0 &&
+            value.map((item: any) => {
+              return (
+                <table className="w-100">
+                  <tr>
+                    <td className="w-100 justify-content-between d-flex my-2">
+                      <span className="d-inline-block">{item}</span>
+                    </td>
+                  </tr>
+                </table>
+              );
+            });
+          return itemvalRFID;
         },
       },
     },
@@ -156,7 +180,7 @@ const OrderDetails = (props: any) => {
       <div>
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
-            title={"Order details"}
+            title={"Order list"}
             data={data}
             columns={columns}
             options={options}
