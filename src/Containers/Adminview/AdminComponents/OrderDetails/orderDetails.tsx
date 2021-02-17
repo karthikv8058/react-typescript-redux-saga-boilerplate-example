@@ -81,11 +81,19 @@ const OrderDetails = (props: any) => {
             value !== undefined &&
             value.length > 0 &&
             value.map((item: any) => {
+              console.log("item RFID : ", item);
+
               return (
                 <table className="w-100">
                   <tr>
                     <td className="w-100 justify-content-between d-flex my-2">
-                      <span className="d-inline-block">{item}</span>
+                      <span className="d-inline-block">
+                        {item === "" ? (
+                          <span className="text-danger">not defined</span>
+                        ) : (
+                          item
+                        )}
+                      </span>
                     </td>
                   </tr>
                 </table>
