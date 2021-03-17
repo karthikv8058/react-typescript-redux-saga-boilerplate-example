@@ -1,9 +1,9 @@
 {
-    "name": "amouler-super-admin",
+    "name": "react-typescript-redux-saga-boilerplate-example",
     "version": "0.1.0",
-    "author": "PITS",
+    "author": "Karthik V",
     "private": true,
-    "homepage": "http://demo.mypits.org:15053/",
+    "homepage": "",
     "dependencies": {
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
