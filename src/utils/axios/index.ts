@@ -1,8 +1,5 @@
 import { processHTTPJSONResponseBy } from "./httpResponse";
 import instance from "./config";
-
-
-
 class Axios {
 
     public getData(url: any) {
