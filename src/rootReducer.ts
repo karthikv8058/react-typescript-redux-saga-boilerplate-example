@@ -1,10 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import itemReducer from "./Containers/Newitems/reducer";
+import mailVerificationReducer from "./Containers/EmailVerification/reducer";
 
 
 const rootReducer = combineReducers({
-  itemReducer,
+  mailVerificationReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

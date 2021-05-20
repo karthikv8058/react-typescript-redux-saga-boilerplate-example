@@ -1,8 +1,8 @@
 import { fork } from "redux-saga/effects";
-import testpageSaga from "./Containers/Newitems/saga";
+import mailVerificationSaga from "./Containers/EmailVerification/saga";
 
 
 export default function* startForman() {
-  yield fork(testpageSaga);
-  
+  yield fork(mailVerificationSaga);
+
 }

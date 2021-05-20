@@ -24,6 +24,9 @@ instance.interceptors.response.use((response) => {
     
 },
     async (error) => {
+        console.log('ERRRRRROR======>',error.response);
+        return error.response;
+        
         // const originalRequest = error.config;
         // console.log('NETWORK ERROR',error); 
         // if(error=='Error: Network Error'){
