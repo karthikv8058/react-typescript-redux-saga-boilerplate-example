@@ -8,7 +8,6 @@ import {
 } from './action';
 
 export function* handleTokenVerification(action:any) {
-  console.log('handleTokenVerification=====>',action);
   
     let url = ApiConstants.BASE_URL + ApiConstants.VERIFY_TOKEN;
   let data = action.payload;
